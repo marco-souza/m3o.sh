@@ -7,7 +7,7 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["./**/*.{ts,tsx,astro,json,jsonc,svg}"]
+    "includes": ["./**/*.{ts,tsx,astro,json,jsonc,svg}", "!**/*.d.ts"]
   },
   "formatter": {
     "enabled": true,
@@ -32,5 +32,22 @@
         "organizeImports": "on"
       }
     }
-  }
+  },
+  "overrides": [
+    {
+      "includes": ["**/*.svelte", "**/*.astro", "**/*.vue"],
+      "linter": {
+        "rules": {
+          "style": {
+            "useConst": "off",
+            "useImportType": "off"
+          },
+          "correctness": {
+            "noUnusedVariables": "off",
+            "noUnusedImports": "off"
+          }
+        }
+      }
+    }
+  ]
 }
