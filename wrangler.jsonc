@@ -1,20 +1,28 @@
 {
-  "compatibility_date": "2026-05-18",
-  "compatibility_flags": ["global_fetch_strictly_public"],
   "name": "m3o",
   "main": "@astrojs/cloudflare/entrypoints/server",
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS"
   },
+  "compatibility_date": "2026-05-18",
+  "compatibility_flags": [
+    "global_fetch_strictly_public",
+    "nodejs_compat"
+  ],
   "observability": {
-    "enabled": true,
+    "enabled": false,
     "head_sampling_rate": 1,
     "logs": {
       "enabled": true,
       "head_sampling_rate": 1,
       "persist": true,
       "invocation_logs": true
+    },
+    "traces": {
+      "enabled": false,
+      "head_sampling_rate": 1,
+      "persist": true,
     }
   }
 }
