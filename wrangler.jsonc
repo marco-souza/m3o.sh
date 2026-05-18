@@ -6,10 +6,7 @@
     "binding": "ASSETS"
   },
   "compatibility_date": "2026-05-18",
-  "compatibility_flags": [
-    "global_fetch_strictly_public",
-    "nodejs_compat"
-  ],
+  "compatibility_flags": ["global_fetch_strictly_public", "nodejs_compat"],
   "observability": {
     "enabled": false,
     "head_sampling_rate": 1,
@@ -22,7 +19,7 @@
     "traces": {
       "enabled": false,
       "head_sampling_rate": 1,
-      "persist": true,
+      "persist": true
     }
   }
 }
