@@ -30,12 +30,20 @@ const worker = new cloudflare.Worker("m3o-worker", {
   subdomain: { enabled: true, previewsEnabled: true },
 
   observability: {
-    enabled: true,
+    enabled: false,
     headSamplingRate: 1.0,
 
     logs: {
       enabled: true,
       headSamplingRate: 1.0,
+      persist: true,
+      invocationLogs: true,
+    },
+
+    traces: {
+      enabled: false,
+      persist: true,
+      headSamplingRate: 1,
     },
   },
 });
