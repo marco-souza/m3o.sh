@@ -1,8 +1,6 @@
 {
   "compatibility_date": "2026-05-18",
-  "compatibility_flags": [
-    "global_fetch_strictly_public"
-  ],
+  "compatibility_flags": ["global_fetch_strictly_public"],
   "name": "m3o",
   "main": "@astrojs/cloudflare/entrypoints/server",
   "assets": {
@@ -16,7 +14,7 @@
       "enabled": true,
       "head_sampling_rate": 1,
       "persist": true,
-      "invocation_logs": true,
+      "invocation_logs": true
     }
   }
 }
