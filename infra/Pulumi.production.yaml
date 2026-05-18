@@ -1,0 +1,5 @@
+config:
+  m3o:accountId: b0a2804a399607a0f277e3d712983a00
+  m3o:zoneId: 41191539f72c9a9d8b1596a71199c0ad
+  m3o:environment: production
+encryptionsalt: v1:iYqEeVVSP14=:v1:obQjSgTEEw9d8SxX:w4n+V2URB4TIoK2kIdSFvwDGSMJ4TQ==
