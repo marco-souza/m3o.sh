@@ -1,0 +1,21 @@
+---
+import astroLogo from "@/assets/astro.svg";
+
+type Props = {
+  width?: number;
+  height?: number;
+  alt?: string;
+  url?: string;
+};
+
+const site = Astro.site ?? "/";
+const {
+  width = 115,
+  height = 48,
+  alt = "Astro Logo",
+  url = site,
+} = Astro.props;
+---
+<a href={url}>
+  <img src={astroLogo.src} width={width} height={height} alt={alt} />
+</a>
