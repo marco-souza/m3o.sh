@@ -2,9 +2,10 @@
 import { navLinks, serviceLinks } from "@/config/links";
 
 import Logo from "./Logo.astro";
+import MenuButton from "./MenuButton.astro";
 ---
 
-<nav class="flex flex-row gap-4 p-2 px-4 items-center shadow-sm sticky top-0 bg-base-100 z-10 rounded-lg">
+<nav class="flex flex-row gap-4 p-2 m-[-0.5rem] items-center shadow-sm sticky top-0 bg-base-100 z-10 rounded-lg">
   <Logo wordmark />
 
   <div class="nav-links hidden md:flex md:flex-row gap-4">
@@ -20,10 +21,12 @@ import Logo from "./Logo.astro";
   <div class="service-links hidden md:flex md:flex-row gap-4">
     {serviceLinks.map(({ label, url }, idx) => (
     <a href={url} class={`btn ${
-       (idx == serviceLinks.length - 1) ? "btn-primary" : "btn-outline"}`
+       (idx == serviceLinks.length - 1) ? "btn-primary" : "btn-ghost"}`
       }>
         {label}
       </a>
     ))}
   </div>
+
+  <MenuButton />
 </nav>

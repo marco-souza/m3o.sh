@@ -3,6 +3,8 @@
 WIP:
 
 - [ ] [mobile] drawer
+  - [ ] create hamburger menu buttonf
+  - [ ] create drawer component
 
 ## Groundwork
 

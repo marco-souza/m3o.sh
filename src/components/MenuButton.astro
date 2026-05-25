@@ -1,0 +1,12 @@
+---
+interface Props {
+  alt?: string;
+}
+
+const { alt = "Menu" } = Astro.props;
+---
+<button class="btn btn-outline rounded-lg border-gray-400 px-2 md:hidden" aria-label={alt}>
+  <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="var(--color-gray-400)">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+  </svg>
+</button>
