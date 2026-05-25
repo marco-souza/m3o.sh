@@ -1,46 +1,84 @@
-# Astro Starter Kit: Basics
+# m3o.sh
 
-```sh
-bun create astro@latest -- --template basics
-```
+Personal website and app hub built with [Astro](https://astro.build), deployed to [Cloudflare Pages](https://pages.cloudflare.com).
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Stack
 
-## 🚀 Project Structure
+| Layer          | Tool                                                                                          |
+| -------------- | --------------------------------------------------------------------------------------------- |
+| Framework      | [Astro](https://astro.build) v6                                                               |
+| Styling        | [Tailwind CSS](https://tailwindcss.com) v4 + [DaisyUI](https://daisyui.com)                   |
+| Fonts          | [Fontsource](https://fontsource.org) (Roboto, Fira Mono)                                      |
+| Runtime        | [Bun](https://bun.sh)                                                                         |
+| Deploy         | [Cloudflare Pages](https://pages.cloudflare.com) via `@astrojs/cloudflare`                    |
+| Infra          | [Pulumi](https://pulumi.com) + [Wrangler](https://developers.cloudflare.com/workers/wrangler) |
+| Lint / Format  | [Biome](https://biomejs.dev)                                                                  |
+| Git hooks      | [Lefthook](https://github.com/evilmartians/lefthook)                                          |
+| Env management | [mise](https://mise.jdx.dev)                                                                  |
 
-Inside of your Astro project, you'll see the following folders and files:
+## Project Structure
 
 ```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+├── infra/           # Pulumi infrastructure (Cloudflare)
+├── packages/i18n/   # Shared i18n utilities
+├── public/          # Static assets
+├── src/
+│   ├── components/  # Astro components
+│   ├── config/      # Site links & config
+│   ├── i18n/        # Translation strings
+│   ├── layouts/     # Page layouts
+│   ├── lib/         # Shared utilities
+│   ├── pages/       # Routes
+│   └── styles/      # Global CSS
+├── docs/            # Design docs
+├── astro.config.ts
+├── wrangler.jsonc
+└── Pulumi.yaml
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## Getting Started
 
-## 🧞 Commands
+Requirements: [mise](https://mise.jdx.dev) (or Node 22+ & Bun manually)
 
-All commands are run from the root of the project, from a terminal:
+```sh
+# Install tools
+mise install
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `bun install`             | Installs dependencies                            |
-| `bun dev`             | Starts local dev server at `localhost:4321`      |
-| `bun build`           | Build your production site to `./dist/`          |
-| `bun preview`         | Preview your build locally, before deploying     |
-| `bun astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `bun astro -- --help` | Get help using the Astro CLI                     |
+# Install dependencies
+bun install
 
-## 👀 Want to learn more?
+# Start dev server
+bun dev
+```
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## Commands
+
+| Command          | Action                                    |
+| ---------------- | ----------------------------------------- |
+| `bun dev`        | Start local dev server (`localhost:4321`) |
+| `bun build`      | Production build to `./dist/`             |
+| `bun preview`    | Preview production build locally          |
+| `bun test`       | Run tests                                 |
+| `bun run lint`   | Check with Biome                          |
+| `bun run format` | Format and fix with Biome                 |
+| `bun astro ...`  | Astro CLI commands                        |
+
+## Secrets
+
+Encrypt `.env` before committing:
+
+```sh
+mise run encrypt   # gpg -c .env
+mise run decrypt   # gpg -d .env.gpg > .env
+```
+
+## Roadmap
+
+- [ ] Homepage, About, Blog
+- [ ] Lab / experiments page
+- [ ] Mock Interview service
+- [ ] Work with Me page
+- [ ] App Center: Open TV, Link Shortener, RSS Feed, Web Clip
+- [ ] Interactive cat tamagotchi
+
+See [TODO.md](./TODO.md) for full task list.

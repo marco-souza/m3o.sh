@@ -1,16 +1,31 @@
 ---
 import { Font } from "astro:assets";
+import { getLangFromUrl, useTranslations } from "@/i18n/ui";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width" />
 
-<Font cssVariable="--font-roboto" preload />
-<Font cssVariable="--font-fira-mono" preload />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" href="/favicon.svg" />
 
-<style is:global>
-  body {
-    font-family: var(--font-roboto);
-  }
+  <meta name="generator" content={Astro.generator} />
 
-  code, .monospace {
-    font-family: var(--font-fira-mono);
-  }
-</style>
+  <title>{t("layout.title")}</title>
+
+  <Font cssVariable="--font-roboto" preload />
+  <Font cssVariable="--font-fira-mono" preload />
+
+  <style is:global>
+    body {
+      font-family: var(--font-roboto);
+    }
+
+    code, .monospace {
+      font-family: var(--font-fira-mono);
+    }
+  </style>
+</head>
