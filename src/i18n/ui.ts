@@ -6,7 +6,9 @@ export const defaultLang = "en";
 
 export const ui = {
   en: {
-    "layout.title": "m3o.sh",
+    "layout.title": "m3o.sh - Marco's home",
+    "layout.description":
+      "I've been building different products in finances, healthcare, e-commerce, and leading development in the last two decade. I've failed more times than I can remember, so I know what pitfalls to avoid. If you need an interim CTO, I can help you.",
 
     "nav.home": "Home",
     "nav.about": "About",

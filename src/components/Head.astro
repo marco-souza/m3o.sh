@@ -6,13 +6,12 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 ---
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width" />
-
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="icon" href="/favicon.svg" />
 
-  <meta name="generator" content={Astro.generator} />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width" />
+  <meta name="description" content={t("layout.description")} />
 
   <title>{t("layout.title")}</title>
 
@@ -28,4 +27,6 @@ const t = useTranslations(lang);
       font-family: var(--font-fira-mono);
     }
   </style>
+
+  <meta name="generator" content={Astro.generator} />
 </head>
