@@ -1,9 +1,12 @@
 ---
 import NavBar from "@/components/NavBar.astro";
+import { getLangFromUrl } from "@/i18n/ui";
 import "@/styles/global.css";
+
+const lang = getLangFromUrl(Astro.url);
 ---
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />

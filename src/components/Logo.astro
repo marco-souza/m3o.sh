@@ -9,13 +9,17 @@ type Props = {
 };
 
 const site = Astro.site ?? "/";
-const {
-  width = 115,
-  height = 48,
-  alt = "Astro Logo",
-  url = site,
-} = Astro.props;
+const { width = 115, height = 48, alt = "m3o logo", url = site } = Astro.props;
 ---
 <a href={url}>
-  <img src={astroLogo.src} width={width} height={height} alt={alt} />
+  <img class="logo" src={astroLogo.src} width={width} height={height} alt={alt} />
 </a>
+
+<style>
+  @media (prefers-color-scheme: dark) {
+  .logo {
+    /* Inverts the black logo to white when dark mode is active */
+    filter: invert(1);
+  }
+}
+</style>

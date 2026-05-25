@@ -1,21 +1,7 @@
 ---
+import { navLinks, serviceLinks } from "@/config/links";
+
 import Logo from "./Logo.astro";
-
-type Link = {
-  url: string;
-  label: string;
-};
-
-const navLinks: Link[] = [
-  { url: "/", label: "Home" },
-  { url: "/about", label: "About" },
-  { url: "/contact", label: "Contact" },
-];
-
-const serviceLinks: Link[] = [
-  { url: "/mock-interviews", label: "Mock Interviews" },
-  { url: "/work-with-me", label: "Work with Me" },
-];
 ---
 
 <nav class="flex flex-row gap-4 p-2 px-4 items-center shadow-sm sticky top-0 bg-base-100 z-10 rounded-lg">
@@ -23,7 +9,7 @@ const serviceLinks: Link[] = [
 
   <div class="nav-links hidden md:flex md:flex-row gap-4">
     {navLinks.map(({ label, url }) => (
-      <a href={url} class="btn btn-ghost hover:btn-outline btn-sm">
+      <a href={url} class="btn btn-ghost hover:btn-outline btn-xs">
         {label}
       </a>
     ))}
@@ -33,7 +19,7 @@ const serviceLinks: Link[] = [
 
   <div class="service-links hidden md:flex md:flex-row gap-4">
     {serviceLinks.map(({ label, url }, idx) => (
-    <a href={url} class={`btn btn-sm ${
+    <a href={url} class={`btn ${
        (idx == serviceLinks.length - 1) ? "btn-primary" : "btn-outline"}`
       }>
         {label}
