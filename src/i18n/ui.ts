@@ -6,6 +6,8 @@ export const defaultLang = "en";
 
 export const ui = {
   en: {
+    "layout.title": "m3o.sh",
+
     "nav.home": "Home",
     "nav.about": "About",
     "nav.blog": "Blog",

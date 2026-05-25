@@ -1,25 +1,47 @@
 ---
-import astroLogo from "@/assets/astro.svg";
-
 type Props = {
   width?: number;
   height?: number;
   alt?: string;
   url?: string;
+  wordmark?: boolean;
 };
 
 const site = Astro.site ?? "/";
-const { width = 115, height = 48, alt = "m3o logo", url = site } = Astro.props;
+const { width = 28, alt = "m3o", url = site, wordmark = false } = Astro.props;
 ---
-<a href={url}>
-  <img class="logo" src={astroLogo.src} width={width} height={height} alt={alt} />
-</a>
+<a href={url} aria-label={alt} class="inline-flex items-center gap-2">
+  <svg
+    width={width}
+    height={width}
+    viewBox="0 0 48 48"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    role="img"
+    aria-label={alt}
+    class="border border-primary rounded-sm p-1"
+    stroke="var(--color-primary, currentColor)"
+  >
+    <!-- Terminal prompt >_ -->
+    <path
+      d="M6 14L18 24L6 34"
+      stroke-width="3.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <line
+      x1="22"
+      y1="34"
+      x2="32"
+      y2="34"
+      stroke-width="3.5"
+      stroke-linecap="round"
+    />
+  </svg>
 
-<style>
-  @media (prefers-color-scheme: dark) {
-  .logo {
-    /* Inverts the black logo to white when dark mode is active */
-    filter: invert(1);
-  }
-}
-</style>
+  <code class={`flex flex-row italic ${wordmark ? "" : "hidden"}`}>
+    <span class="text-primary font-fira-mono font-bold">m3o</span>
+    <span>.sh</span>
+    <span class="animate-pulse">_</span>
+  </code>
+</a>

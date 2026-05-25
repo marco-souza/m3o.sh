@@ -1,9 +1,10 @@
 ---
 import NavBar from "@/components/NavBar.astro";
-import { getLangFromUrl } from "@/i18n/ui";
+import { getLangFromUrl, useTranslations } from "@/i18n/ui";
 import "@/styles/global.css";
 
 const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 <!doctype html>
 <html lang={lang}>
@@ -14,8 +15,7 @@ const lang = getLangFromUrl(Astro.url);
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
 
-
-    <title>Astro Basics</title>
+    <title>{t("layout.title")}</title>
   </head>
 
   <body class="p-4">
