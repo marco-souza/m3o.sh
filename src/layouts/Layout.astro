@@ -1,6 +1,5 @@
 ---
 import Head from "@/components/Head.astro";
-import NavBar from "@/components/NavBar.astro";
 import { getLangFromUrl } from "@/i18n/ui";
 import "@/styles/global.css";
 
@@ -10,9 +9,7 @@ const lang = getLangFromUrl(Astro.url);
 <html lang={lang}>
   <Head />
 
-  <body class="p-4 max-w-4xl mx-auto gap-4">
-    <NavBar />
-
+  <body class="p-4 max-w-2xl mx-auto gap-4 font-mono">
     <slot />
   </body>
 </html>

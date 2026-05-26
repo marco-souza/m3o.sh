@@ -1,19 +1,16 @@
 ---
 import Background from "./Background.astro";
-import Logo from "./Logo.astro";
+import Hero from "./Hero.astro";
+import NavBar from "./NavBar.astro";
 ---
 
 <Background />
 
-<main>
-  <section id="hero" class="flex flex-col items-center gap-4 py-8 md:py-32">
-    <div class="inline-flex gap-4 items-center text-2xl">
-      <Logo width={48} />
-      <h1 class="text-4xl font-bold">Welcome to <code>m3o.sh</code></h1>
-    </div>
+<main class="py-8 md:py-32 gap-4 flex flex-col">
+  <Hero
+    title="Marco Souza"
+    subtitle="Solutions Architect in Brazil 🇧🇷"
+  />
 
-    <h1>
-      To get started, open the <code class="inline-flex"><pre>src/pages</pre></code> directory in your project.
-    </h1>
-  </section>
+  <NavBar />
 </main>

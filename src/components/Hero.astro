@@ -1,0 +1,20 @@
+---
+import { m3o } from "@/config/links";
+
+type Props = {
+  title: string;
+  subtitle: string;
+};
+
+const { title, subtitle } = Astro.props;
+---
+<section id="hero" class="flex flex-col md:flex-row items-center gap-4 w-ful px-8">
+  <div class="flex flex-col gap-2 items-center md:items-start">
+    <h1 class="text-5xl">{title}</h1>
+    <h2 class="text-2xl text-gray-400">{subtitle}</h2>
+  </div>
+
+  <a href={m3o.github} target="_blank">
+    <img src={m3o.avatar} alt="It's me!" class="rounded-full shadow-lg hover:animate-pulse" width="200" height="200" />
+  </a>
+</head>

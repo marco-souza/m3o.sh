@@ -8,7 +8,7 @@ type Props = {
 };
 
 const site = Astro.site ?? "/";
-const { width = 28, alt = "m3o", url = site, wordmark = false } = Astro.props;
+const { width = 24, alt = "m3o", url = site, wordmark = false } = Astro.props;
 ---
 <a href={url} aria-label={alt} class="inline-flex items-center gap-2">
   <svg
