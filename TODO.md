@@ -2,9 +2,7 @@
 
 WIP:
 
-- [ ] [mobile] drawer
-  - [ ] create hamburger menu buttonf
-  - [ ] create drawer component
+- [ ] [ui] Hello World (presentation)
 
 ## Groundwork
 
@@ -12,7 +10,13 @@ WIP:
 - [x] [ui] logo
   - [x] invert colors when dark mode is on
   - [x] use custom logo
-- [ ] [ui] footer
+- [C] [mobile] drawer
+  - [C] create hamburger menu buttonf
+  - [C] create drawer component
+- [ ] [ui] recent posts or random
+- [ ] [ui] \*Subscribe
+- [ ] [ui] Post Tags
+- [ ] [ui] Footer
 
 ## Public Pages
 
