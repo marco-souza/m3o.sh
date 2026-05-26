@@ -24,8 +24,7 @@
 
 ### Typography
 
-- **Logo font:** `var(--font-fira-mono)` via Astro's font system
-- **Body font:** `var(--font-roboto)` via Astro's font system
+- **Font:** `var(--font-fira-mono)` via Astro's font system
 - **Rationale:** Reinforces the terminal/dev aesthetic. Astro handles font file preloading and CSS-variable injection at build time, eliminating layout shift and extra requests.
 
 ---
@@ -104,7 +103,6 @@ Astro's built-in font system (`astro:assets` `<Font>` component) loads Roboto an
 
 | Font      | CSS Variable       | Usage                     |
 | --------- | ------------------ | ------------------------- |
-| Roboto    | `--font-roboto`    | Base body text            |
 | Fira Mono | `--font-fira-mono` | Code, logos, monospace UI |
 
 ### Current Language Support

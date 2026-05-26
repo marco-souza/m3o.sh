@@ -7,13 +7,6 @@ export default defineConfig({
   adapter: cloudflare(),
 
   fonts: [
-    {
-      name: "Roboto",
-      cssVariable: "--font-roboto",
-      provider: fontProviders.fontsource(),
-      weights: [400, 500, 600, 700],
-      styles: ["normal", "italic"],
-    },
     // monospace
     {
       name: "Fira Mono",

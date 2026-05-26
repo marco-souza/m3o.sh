@@ -2,6 +2,5 @@
 @plugin "daisyui";
 
 @theme inline {
-  --font-sans: var(--font-roboto);
   --font-mono: var(--font-fira-mono);
 }
