@@ -115,6 +115,56 @@ const customDomain = new cloudflare.WorkersCustomDomain(
   { dependsOn: [worker, workerDeployment] },
 );
 
+// email routing setup
+const emailRouting = new cloudflare.EmailRoutingSettings("m3o-email-routing", {
+  zoneId: config.zoneId,
+  enabled: true,
+});
+
+const emailRoutingRule = new cloudflare.EmailRoutingRule(
+  "m3o-email-routing-rule",
+  {
+    zoneId: config.zoneId,
+    enabled: true,
+    name: "me@m3o.sh to personal",
+    matchers: [
+      {
+        type: "literal",
+        field: "to",
+        value: "me@m3o.sh",
+      },
+    ],
+    actions: [
+      {
+        type: "forward",
+        values: [config.emailMe],
+      },
+    ],
+  },
+  { dependsOn: [emailRouting] },
+);
+
+const emailRoutingCatchAll = new cloudflare.EmailRoutingCatchAll(
+  "m3o-email-routing-catch-all",
+  {
+    zoneId: config.zoneId,
+    enabled: true,
+    name: "catch-all to proton",
+    matchers: [
+      {
+        type: "all",
+      },
+    ],
+    actions: [
+      {
+        type: "forward",
+        values: [config.emailCatchAll],
+      },
+    ],
+  },
+  { dependsOn: [emailRouting] },
+);
+
 // output
 export const workerOutput = {
   id: worker.id,
@@ -124,3 +174,9 @@ export const workerOutput = {
 };
 
 export const domain = pulumi.interpolate`https://${customDomain.hostname}`;
+
+export const emailRoutingOutput = {
+  enabled: emailRouting.enabled,
+  ruleId: emailRoutingRule.id,
+  catchAllId: emailRoutingCatchAll.id,
+};

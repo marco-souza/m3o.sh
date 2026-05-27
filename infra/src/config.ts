@@ -7,6 +7,9 @@ export const zoneId = config.require("zoneId");
 export const environment = config.require("environment");
 export const isProd = environment === "production";
 
+export const emailMe = config.require("emailMe");
+export const emailCatchAll = config.require("emailCatchAll");
+
 export const domain = isProd
   ? pulumi.interpolate`m3o.sh`
   : pulumi.interpolate`dev.m3o.sh`;
