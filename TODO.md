@@ -10,6 +10,9 @@ WIP:
 - [x] [ui] logo
   - [x] invert colors when dark mode is on
   - [x] use custom logo
+- [x] [infra] email routing
+  - [x] email me
+  - [x] email catch all
 - [C] [mobile] drawer
   - [C] create hamburger menu buttonf
   - [C] create drawer component

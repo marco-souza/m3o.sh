@@ -115,12 +115,58 @@ const customDomain = new cloudflare.WorkersCustomDomain(
   { dependsOn: [worker, workerDeployment] },
 );
 
-// output
-export const workerOutput = {
+type InfraOutput = {
+  id: pulumi.Output<string>;
+  name: pulumi.Output<string>;
+  versionId: pulumi.Output<string>;
+  deploymentId: pulumi.Output<string>;
+  emailRules: pulumi.Output<string>[];
+};
+
+export const output: InfraOutput = {
   id: worker.id,
   name: worker.name,
   versionId: workerVersion.id,
   deploymentId: workerDeployment.id,
+  emailRules: [],
 };
+
+const emailRouting = new cloudflare.EmailRoutingSettings(
+  `m3o-email-routing`,
+  { zoneId: config.zoneId },
+  { dependsOn: [customDomain] },
+);
+
+if (config.emailMe) {
+  const emailMeRule = new cloudflare.EmailRoutingRule(
+    `m3o-email-me`,
+    {
+      zoneId: config.zoneId,
+      enabled: true,
+      matchers: [{ type: "literal", field: "to", value: "me@m3o.sh" }],
+      actions: [{ type: "forward", values: [config.emailMe] }],
+    },
+    { dependsOn: [emailRouting], replacementTrigger: [config.emailMe] },
+  );
+
+  output.emailRules.push(emailMeRule.id);
+}
+
+if (config.emailCatchAll) {
+  const emailMeRule = new cloudflare.EmailRoutingCatchAll(
+    `m3o-email-catch-all`,
+    {
+      zoneId: config.zoneId,
+      enabled: true,
+      matchers: [{ type: "all" }],
+      actions: [{ type: "forward", values: [config.emailCatchAll] }],
+    },
+    { dependsOn: [emailRouting], replacementTrigger: [config.emailCatchAll] },
+  );
+
+  output.emailRules.push(emailMeRule.id);
+}
+
+// output
 
 export const domain = pulumi.interpolate`https://${customDomain.hostname}`;
