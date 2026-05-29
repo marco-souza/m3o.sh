@@ -4,9 +4,10 @@ import { getLangFromUrl, useTranslations } from "@/i18n/ui";
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
+const repoUrl = "https://github.com/marco-souza/m3o.sh";
 const linksMap = {
   year: new Date().getFullYear().toString(),
-  oss: `<a class="link decoration-accent hover:link-primary" href="https://github.com/marco-souza/m3o.sh" target="_blank">Open Source</a>`,
+  oss: `<a class="link decoration-accent hover:link-accent" href="${repoUrl}" target="_blank">Open Source</a>`,
 };
 
 function replaceLinks(_match: string, key: string) {
