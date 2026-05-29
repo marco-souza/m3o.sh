@@ -2,8 +2,6 @@
 
 WIP:
 
-- [ ] [ui] Hello World (presentation)
-
 ## Groundwork
 
 - [x] [i18n] set up text constants - <https://docs.astro.build/en/recipes/i18n/>
@@ -16,10 +14,16 @@ WIP:
 - [C] [mobile] drawer
   - [C] create hamburger menu buttonf
   - [C] create drawer component
+
+- [x] [ui] Hello World (presentation)
+- [x] [ui] Footer
+
+Blog:
+
+- [ ] [ui] set blog page & content
 - [ ] [ui] recent posts or random
 - [ ] [ui] \*Subscribe
 - [ ] [ui] Post Tags
-- [ ] [ui] Footer
 
 ## Public Pages
 

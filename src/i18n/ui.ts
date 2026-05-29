@@ -22,6 +22,8 @@ export const ui = {
     "home.presentation.description":
       "I’m Staff Software Development Engineer at <MongoDB>! Outside of that fancy title, I’m a social startup advisor and investor, open sourcerer, and beat-maker. I enjoy DJing, playing music, hanging out with my family and friends, and teaching at <PodCodar> in my free time.",
     "home.presentation.subscribe": "You should subscribe to my <newsletter>!",
+
+    "footer.built-by": "© <year> Marco Souza. This site is <oss>! <3",
   },
 } as const;
 

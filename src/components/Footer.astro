@@ -1,0 +1,18 @@
+---
+import { getLangFromUrl, useTranslations } from "@/i18n/ui";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const linksMap = {
+  year: new Date().getFullYear().toString(),
+  oss: `<a class="link decoration-accent hover:link-primary" href="https://github.com/marco-souza/m3o.sh" target="_blank">Open Source</a>`,
+};
+
+function replaceLinks(_match: string, key: string) {
+  return linksMap[key as keyof typeof linksMap] ?? key;
+}
+---
+<footer id="footer" class="text-center">
+  <Fragment set:html={t('footer.built-by').replace(/\<(\w+)\>/g, replaceLinks)} />
+</footer>
