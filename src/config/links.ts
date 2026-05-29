@@ -9,7 +9,7 @@ const t = useTranslations(defaultLang);
 
 export const navLinks: Link[] = [
   { url: "/", label: t("nav.home") },
-  { url: "/about", label: t("nav.about") },
+  { url: "/newsletter", label: t("nav.newsletter") },
   { url: "/blog", label: t("nav.blog") },
 ];
 

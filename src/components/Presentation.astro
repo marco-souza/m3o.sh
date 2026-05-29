@@ -1,0 +1,28 @@
+---
+import { getLangFromUrl, useTranslations } from "@/i18n/ui";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const linksMap = {
+  MongoDB: "https://mongodb.com",
+  PodCodar: "https://podcodar.org",
+  newsletter: "https://m3o.sh/newsletter",
+};
+
+function replaceLinks(_match, key: string) {
+  const link = linksMap[key as keyof typeof linksMap];
+  if (!link) {
+    return key;
+  }
+
+  return `<a class="link decoration-primary hover:link-primary" href="${link}" target="_blank">${key}</a>`;
+}
+---
+<section id="presentation" class="grid gap-4">
+  <p>{t('home.presentation.title')}</p>
+
+  <p set:html={t('home.presentation.description').replace(/\<(\w+)\>/g, replaceLinks)} />
+
+  <p set:html={t('home.presentation.subscribe').replace(/\<(\w+)\>/g, replaceLinks)} />
+</section>

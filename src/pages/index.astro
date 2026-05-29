@@ -1,7 +1,21 @@
 ---
-import Welcome from "../components/Welcome.astro";
-import Layout from "../layouts/Layout.astro";
+import Background from "@/components/Background.astro";
+import Hero from "@/components/Hero.astro";
+import NavBar from "@/components/NavBar.astro";
+import Presentation from "@/components/Presentation.astro";
+import Layout from "@/layouts/Layout.astro";
 ---
 <Layout>
-	<Welcome />
+  <Background />
+
+  <main class="py-8 md:py-32 gap-8 flex flex-col">
+    <Hero
+      title="Marco Souza"
+      subtitle="Solutions Architect in Brazil 🇧🇷"
+    />
+
+    <NavBar />
+
+    <Presentation />
+  </main>
 </Layout>
