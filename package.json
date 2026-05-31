@@ -18,6 +18,7 @@
     "generate-types": "wrangler types"
   },
   "dependencies": {
+    "@astrojs/check": "^0.9.9",
     "@astrojs/cloudflare": "^13.6.0",
     "@astrojs/mdx": "^6.0.1",
     "@pulumi/pulumi": "^3.244.0",
@@ -34,7 +35,7 @@
     "@types/node": "^18.19.130",
     "daisyui": "^5.5.20",
     "lefthook": "^2.1.9",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.3"
   },
   "overrides": {
     "vite": "^7"
