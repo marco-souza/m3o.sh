@@ -2,6 +2,8 @@ config:
   m3o:accountId: b0a2804a399607a0f277e3d712983a00
   m3o:zoneId: 41191539f72c9a9d8b1596a71199c0ad
   m3o:environment: production
+  m3o:contact-email: me@m3o.sh
+  m3o:resume-url: https://github.com/marco-souza/resume/blob/main/RESUME_PDF.md
   # email
   m3o:emailMe: ma.souza.junior@gmail.com
   m3o:emailCatchAll: souza.marco@proton.me

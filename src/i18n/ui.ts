@@ -29,7 +29,7 @@ export const ui = {
     "footer.built-by": "© <year> Marco Souza. This site is <oss>! <3",
 
     "work-with-me.meta.title": "Work with Me — Marco Souza",
-    "work-with-me.meta.description": "a tech lead for you",
+    "work-with-me.meta.description": "a tech lead that understands you",
 
     "work-with-me.fte.heading": "Full-Time Roles",
     "work-with-me.fte.elevator-pitch":

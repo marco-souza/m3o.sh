@@ -17,6 +17,8 @@ const builder = new command.local.Command("m3o-builder", {
   update: workerBuilderCommand,
   environment: {
     NODE_ENV: "production",
+    CONTACT_EMAIL: config.contactEmail,
+    RESUME_URL: config.resumeUrl,
   },
   triggers: [gitCommitHash],
 });
@@ -77,6 +79,18 @@ const workerVersion = new cloudflare.WorkerVersion(
         name: "BASE_URL",
         type: "plain_text",
         text: pulumi.interpolate`https://${config.domain}`,
+      },
+
+      {
+        name: "CONTACT_EMAIL",
+        type: "plain_text",
+        text: config.contactEmail,
+      },
+
+      {
+        name: "RESUME_URL",
+        type: "plain_text",
+        text: config.resumeUrl,
       },
     ],
 

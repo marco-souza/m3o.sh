@@ -8,6 +8,10 @@ export const environment = config.require("environment");
 export const emailMe = config.get("emailMe");
 export const emailCatchAll = config.get("emailCatchAll");
 
+// website env vars
+export const contactEmail = config.require("contact-email");
+export const resumeUrl = config.require("resume-url");
+
 export const isProd = environment === "production";
 export const domain = isProd
   ? pulumi.interpolate`m3o.sh`
