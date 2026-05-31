@@ -14,6 +14,6 @@ function replaceLinks(_match: string, key: string) {
   return linksMap[key as keyof typeof linksMap] ?? key;
 }
 ---
-<footer id="footer" class="text-center">
+<footer id="footer" class="text-center text-sm">
   <Fragment set:html={t('footer.built-by').replace(/\<(\w+)\>/g, replaceLinks)} />
 </footer>

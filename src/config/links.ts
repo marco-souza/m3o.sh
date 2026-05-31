@@ -8,9 +8,9 @@ export type Link = {
 const t = useTranslations(defaultLang);
 
 export const navLinks: Link[] = [
-  { url: "/", label: t("nav.home") },
-  { url: "/newsletter", label: t("nav.newsletter") },
-  { url: "/blog", label: t("nav.blog") },
+  // { url: "/newsletter", label: t("nav.newsletter") },
+  // { url: "/blog", label: t("nav.blog") },
+  { url: "/lab", label: t("nav.lab") },
 ];
 
 export const serviceLinks: Link[] = [
@@ -23,3 +23,8 @@ export const m3o = {
   github: "https://github.com/marco-souza",
   avatar: "https://github.com/marco-souza.png",
 };
+
+export const socialLinks: Link[] = [
+  { url: m3o.github, label: t("social.github") },
+  { url: m3o.linkedin, label: t("social.linkedin") },
+];

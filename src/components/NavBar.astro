@@ -1,5 +1,5 @@
 ---
-import { navLinks, serviceLinks } from "@/config/links";
+import { navLinks, serviceLinks, socialLinks } from "@/config/links";
 
 import Logo from "./Logo.astro";
 ---
@@ -10,6 +10,11 @@ import Logo from "./Logo.astro";
   <div class="nav-links flex flex-row gap-4">
     {navLinks.map(({ label, url }) => (
       <a href={url} class="btn btn-ghost hover:btn-outline btn-xs">
+        {label}
+      </a>
+    ))}
+    {socialLinks.map(({ label, url }) => (
+      <a href={url} class="btn btn-ghost hover:btn-outline btn-xs" target="_blank">
         {label}
       </a>
     ))}
