@@ -24,7 +24,7 @@ export const ui = {
       "Hi! I’m Marco, and I like to make CLI tools for humans.",
     "home.presentation.description":
       "I’m Senior Software Development Engineer at <MongoDB>! Outside of that fancy title, I’m a social startup advisor and investor, open sourcerer, and beat-maker. I enjoy DJing, playing music, hanging out with my family and friends, and teaching at <PodCodar> in my free time.",
-    "home.presentation.subscribe": "You should subscribe to my <newsletter>!",
+    "home.presentation.subscribe": "You should check my <lab>!",
 
     "footer.built-by": "© <year> Marco Souza. This site is <oss>! <3",
 
@@ -93,6 +93,17 @@ export const ui = {
     "mock-interview.pricing.podcodar-note":
       "PodCodar students receive a special discount - mention PodCodar when booking so we can check the available discount for you!",
     "mock-interview.cta.book": "Book a Session",
+
+    "lab.meta.title": "Lab - Marco Souza",
+    "lab.meta.description": "Side projects and experiments by Marco Souza",
+    "lab.heading": "Lab",
+    "lab.counter": "{count} experiments on the bench",
+    "lab.counter-filtered": "{count} experiments tagged with {tag}",
+    "lab.wip": "Work in progress",
+    "lab.wip-banner": "This project is a work in progress. Expect rough edges.",
+    "lab.view-project": "View Project",
+    "lab.view-repo": "View Repository",
+    "lab.back": "Back to Lab",
   },
 } as const;
 

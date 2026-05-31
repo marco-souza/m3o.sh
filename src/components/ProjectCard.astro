@@ -1,0 +1,131 @@
+---
+import type { Project } from "@/config/lab";
+import { getTagColor } from "@/config/tag-colors";
+import { getLangFromUrl, useTranslations } from "@/i18n/ui";
+import { slugify } from "@/lib/formatters";
+
+interface Props {
+  project: Project;
+  variant?: "default" | "featured";
+  filterTag?: string;
+}
+
+const { project, variant = "default", filterTag } = Astro.props;
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const slug = slugify(project.title);
+const isWip = project.status === "wip";
+const isFeatured = variant === "featured";
+const hasThumbnail = !!project.thumbnail;
+const hasRepo = !!project.repo;
+---
+<div
+  class:list={[
+    "card card-bordered card-compact bg-base-100",
+    { "opacity-70": isWip },
+    { "col-span-2": isFeatured },
+  ]}
+>
+  <a href={`${Astro.url}/${slug}`} >
+    {hasThumbnail && (
+      <figure>
+        <img src={project.thumbnail} alt={project.title} />
+      </figure>
+    )}
+
+    <div class="card-body">
+      {
+        isWip ? (
+          <div>
+            <h2
+              class:list={[
+                "card-title",
+                isFeatured ? "text-xl" : "text-lg",
+              ]}
+            >
+              {project.title}
+              <span class="text-xs text-base-content/50 font-normal">
+                · wip
+              </span>
+            </h2>
+            <p
+              class:list={[
+                "text-sm",
+                !isFeatured && "line-clamp-2",
+              ]}
+            >
+              {project.description}
+            </p>
+          </div>
+        ) : (
+          <a
+            href={`/lab/${slug}`}
+            class="block no-underline text-current"
+          >
+            <h2
+              class:list={[
+                "card-title",
+                isFeatured ? "text-xl" : "text-lg",
+              ]}
+            >
+              {project.title}
+            </h2>
+            <p
+              class:list={[
+                "text-sm",
+                !isFeatured && "line-clamp-2",
+              ]}
+            >
+              {project.description}
+            </p>
+          </a>
+        )
+      }
+
+      <div class="flex flex-wrap gap-1">
+        {project.tags.map((tag) => {
+          const tagSlug = slugify(tag);
+          const isActive = filterTag === tagSlug;
+
+          return (
+            <a
+              href={`/lab?tag=${tagSlug}`}
+              class:list={[
+                "badge",
+                isActive ? "badge-primary" : "badge-outline",
+                "badge-sm",
+                "gap-1",
+              ]}
+            >
+              <span
+                class="inline-block w-2 h-2 rounded-full"
+                style={`background-color: ${getTagColor(tag.toLowerCase())}`}
+              />
+              {tag}
+            </a>
+          );
+        })}
+      </div>
+
+      <div class="card-actions justify-end gap-2">
+        {hasRepo && (
+          <a
+            href={project.repo}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-ghost btn-xs"
+          >
+            {t("lab.view-repo")}
+          </a>
+        )}
+        {!isWip && (
+          <a href={`/lab/${slug}`} class="btn btn-ghost btn-xs">
+            {t("lab.view-project")}
+          </a>
+        )}
+      </div>
+    </div>
+  </a>
+</div>

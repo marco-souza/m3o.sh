@@ -21,12 +21,12 @@ WIP:
 ## Public Pages
 
 - [x] Homepage
-- [ ] Lab
-  - [ ] Title
-  - [ ] List projects
-  - [ ] Lab > sub pages
-- [ ] Mock Interview
-  - [ ] Lading page Mock
+- [x] Lab
+  - [x] Title
+  - [x] List projects
+  - [x] Lab > sub pages
+- [x] Mock Interview
+  - [x] Lading page Mock
 - [x] Work with me
   - [x] Who am I?
   - [c] Relevant Exp?

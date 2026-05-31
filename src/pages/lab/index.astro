@@ -1,0 +1,130 @@
+---
+import ProjectCard from "@/components/ProjectCard.astro";
+import TagFilterBar from "@/components/TagFilterBar.astro";
+import { ProjectSchema, QuerySchema } from "@/config/lab";
+import { getLangFromUrl, useTranslations } from "@/i18n/ui";
+import Layout from "@/layouts/Layout.astro";
+import { slugify } from "@/lib/formatters";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+// Load all MDX project files at build time (Astro 6: Astro.glob removed, use import.meta.glob)
+const rawProjects = Object.values(
+  import.meta.glob<{ frontmatter: Record<string, unknown>; file: string }>(
+    "./*.mdx",
+    { eager: true },
+  ),
+);
+
+// Parse and validate frontmatter
+const allProjects = rawProjects.map((p) => {
+  const result = ProjectSchema.safeParse(p.frontmatter);
+  if (!result.success) {
+    throw new Error(
+      `Invalid frontmatter in ${p.file}: ${result.error.message}`,
+    );
+  }
+  return result.data;
+});
+
+// Parse ?tag= query param
+const queryResult = QuerySchema.safeParse(
+  Object.fromEntries(Astro.url.searchParams),
+);
+const filterTag = queryResult.success ? queryResult.data.tag : undefined;
+
+const filteredProjects = filterTag
+  ? allProjects.filter((p) =>
+      p.tags.some((tag: string) => slugify(tag) === slugify(filterTag)),
+    )
+  : allProjects;
+
+// Featured project (first with featured:true matching filter)
+const featuredProject = filteredProjects.find((p) => p.featured);
+
+// Remaining projects (excluding the featured one)
+const remainingProjects = featuredProject
+  ? filteredProjects.filter((p) => p !== featuredProject)
+  : filteredProjects;
+
+const projectCount = filteredProjects.length;
+
+const counterText = filterTag
+  ? t("lab.counter-filtered")
+      .replace("{count}", String(projectCount))
+      .replace("{tag}", filterTag)
+  : t("lab.counter").replace("{count}", String(projectCount));
+---
+
+<Layout
+  title={t("lab.meta.title")}
+  subtitle={t("lab.meta.description")}
+>
+  <main class="gap-12 flex flex-col">
+    <!-- Heading section -->
+    <section>
+      <h2 class="text-2xl font-bold">{t("lab.heading")}</h2>
+      <p class="text-sm text-base-content/60 mt-1">
+        {counterText}
+      </p>
+    </section>
+
+    {filterTag && projectCount > 0 && (
+      <section>
+        <TagFilterBar filterTag={filterTag} />
+      </section>
+    )}
+
+    {projectCount === 0 && (
+      <section>
+        <div class="alert alert-info">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            class="stroke-current shrink-0 w-6 h-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <span
+            >No projects found for tag "<strong>{filterTag}</strong>".
+            <a href="/lab" class="underline ml-2">Clear filter</a>
+          </span>
+        </div>
+      </section>
+    )}
+
+    {featuredProject && (
+      <section>
+        <ProjectCard
+          project={featuredProject}
+          variant="featured"
+          filterTag={filterTag}
+        />
+      </section>
+    )}
+
+    {remainingProjects.length > 0 && (
+      <>
+        {featuredProject && <div class="divider" />}
+        <section>
+          <div class="grid gap-4 sm:grid-cols-2">
+            {remainingProjects.map((project) => (
+              <ProjectCard
+                project={project}
+                variant="default"
+                filterTag={filterTag}
+              />
+            ))}
+          </div>
+        </section>
+      </>
+    )}
+  </main>
+</Layout>

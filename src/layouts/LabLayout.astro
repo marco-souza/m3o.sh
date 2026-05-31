@@ -1,0 +1,19 @@
+---
+import BackButton from "@/components/BackButton.astro";
+import WipBanner from "@/components/WipBanner.astro";
+import Layout from "@/layouts/Layout.astro";
+
+interface Props {
+  title: string;
+  subtitle: string;
+  status?: "wip" | "live";
+}
+
+const { title, subtitle, status = "wip" } = Astro.props;
+---
+
+<Layout {title} {subtitle}>
+  <BackButton />
+  {status === "wip" && <WipBanner />}
+  <slot />
+</Layout>
