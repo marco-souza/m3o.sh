@@ -14,7 +14,7 @@ export const ui = {
     "nav.blog": "Blog",
     "nav.lab": "Lab",
 
-    "nav.mock-interview": "Mock Interviews",
+    "nav.mock-interview": "Mock Interview",
     "nav.work-with-me": "Work with Me",
 
     "social.github": "GitHub",
@@ -28,7 +28,7 @@ export const ui = {
 
     "footer.built-by": "© <year> Marco Souza. This site is <oss>! <3",
 
-    "work-with-me.meta.title": "Work with Me — Marco Souza",
+    "work-with-me.meta.title": "Work with Me - Marco Souza",
     "work-with-me.meta.description": "a tech lead that understands you",
 
     "work-with-me.fte.heading": "Full-Time Roles",
@@ -53,8 +53,8 @@ export const ui = {
     "work-with-me.consulting.services.advisory.title": "1:1 Advisory",
     "work-with-me.consulting.services.advisory.description":
       "Weekly or bi-weekly sessions to unblock hard technical decisions and accelerate your growth.",
-    "work-with-me.consulting.services.mock-interviews.title": "Mock Interviews",
-    "work-with-me.consulting.services.mock-interviews.description":
+    "work-with-me.consulting.services.mock-interview.title": "Mock Interview",
+    "work-with-me.consulting.services.mock-interview.description":
       "Practice coding and system design interviews with detailed feedback. Book a session.",
     "work-with-me.consulting.cta.book-call": "Book a Call",
     "work-with-me.consulting.cta.linkedin": "View LinkedIn",
@@ -63,6 +63,36 @@ export const ui = {
     "work-with-me.contact.email": "Email",
     "work-with-me.contact.linkedin": "LinkedIn",
     "work-with-me.contact.github": "GitHub",
+
+    "mock-interview.meta.title": "Mock Interview - Marco Souza",
+    "mock-interview.meta.description":
+      "Practice for tech interview ith feedback",
+    "mock-interview.intro.heading": "Mock Interview",
+    "mock-interview.intro.text":
+      "Get actionable feedback on your interview performance. We run realistic simulations, then review what went well and what to improve.",
+    "mock-interview.types.heading": "What We Cover",
+    "mock-interview.types.coding.title": "Coding",
+    "mock-interview.types.coding.description":
+      "Algorithms, data structures, and problem-solving under time pressure. Questions drawn from real Big Tech interviews.",
+    "mock-interview.types.system-design.title": "System Design",
+    "mock-interview.types.system-design.description":
+      "Design scalable distributed systems. We'll map out architecture, discuss trade-offs, and stress-test your decisions.",
+    "mock-interview.types.behavioral.title": "Behavioral",
+    "mock-interview.types.behavioral.description":
+      "STAR-method stories, leadership principles, and communication clarity. Polish how you present your impact.",
+    "mock-interview.process.heading": "How It Works",
+    "mock-interview.process.step1": "Book a 60-minute session",
+    "mock-interview.process.step2":
+      "Pick your focus: coding, system design, or behavioral",
+    "mock-interview.process.step3": "Run a realistic interview simulation",
+    "mock-interview.process.step4":
+      "Receive detailed feedback + an action plan",
+    "mock-interview.pricing.heading": "Pricing",
+    "mock-interview.pricing.text":
+      "$150 per 60-minute session. Package discounts available for 3+ sessions.",
+    "mock-interview.pricing.podcodar-note":
+      "PodCodar students receive a special discount - mention PodCodar when booking so we can check the available discount for you!",
+    "mock-interview.cta.book": "Book a Session",
   },
 } as const;
 

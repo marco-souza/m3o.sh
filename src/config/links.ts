@@ -15,7 +15,7 @@ export const navLinks: Link[] = [
 ];
 
 export const serviceLinks: Link[] = [
-  { url: "/mock-interviews", label: t("nav.mock-interview") },
+  { url: "/mock-interview", label: t("nav.mock-interview") },
   { url: "/work-with-me", label: t("nav.work-with-me") },
 ];
 

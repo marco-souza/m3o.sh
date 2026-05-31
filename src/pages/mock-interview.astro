@@ -1,0 +1,113 @@
+---
+import { links } from "@/config/links";
+import { getLangFromUrl, useTranslations } from "@/i18n/ui";
+import Layout from "@/layouts/Layout.astro";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const title = t("mock-interview.meta.title");
+const description = t("mock-interview.meta.description");
+---
+
+<Layout title={title} subtitle={description}>
+  <main class="gap-12 flex flex-col">
+    <!-- Intro Section -->
+    <section id="intro" class="flex flex-col gap-6">
+      <h2 class="text-2xl font-bold">{t("mock-interview.intro.heading")}</h2>
+      <p>{t("mock-interview.intro.text")}</p>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Interview Types Section -->
+    <section id="types" class="flex flex-col gap-4">
+      <h2 class="text-2xl font-bold">{t("mock-interview.types.heading")}</h2>
+
+      <div class="grid gap-4 sm:grid-cols-2">
+        <div class="card card-bordered card-compact bg-base-100">
+          <div class="card-body">
+            <h3 class="card-title text-lg">
+              {t("mock-interview.types.coding.title")}
+            </h3>
+            <p class="text-sm">
+              {t("mock-interview.types.coding.description")}
+            </p>
+          </div>
+        </div>
+
+        <div class="card card-bordered card-compact bg-base-100">
+          <div class="card-body">
+            <h3 class="card-title text-lg">
+              {t("mock-interview.types.system-design.title")}
+            </h3>
+            <p class="text-sm">
+              {t("mock-interview.types.system-design.description")}
+            </p>
+          </div>
+        </div>
+
+        <div class="card card-bordered card-compact bg-base-100 col-span-2">
+          <div class="card-body">
+            <h3 class="card-title text-lg">
+              {t("mock-interview.types.behavioral.title")}
+            </h3>
+            <p class="text-sm">
+              {t("mock-interview.types.behavioral.description")}
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Process Section -->
+    <section id="process" class="flex flex-col gap-4">
+      <h2 class="text-2xl font-bold">{t("mock-interview.process.heading")}</h2>
+
+      <ol class="list-decimal list-inside flex flex-col gap-2">
+        <li>{t("mock-interview.process.step1")}</li>
+        <li>{t("mock-interview.process.step2")}</li>
+        <li>{t("mock-interview.process.step3")}</li>
+        <li>{t("mock-interview.process.step4")}</li>
+      </ol>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="flex flex-col gap-4">
+      <h2 class="text-2xl font-bold">{t("mock-interview.pricing.heading")}</h2>
+      <p>{t("mock-interview.pricing.text")}</p>
+      <div class="alert alert-info">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          class="h-6 w-6 shrink-0 stroke-current"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          ></path>
+        </svg>
+        <span>{t("mock-interview.pricing.podcodar-note")}</span>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- CTA Section -->
+    <section id="cta" class="flex flex-col gap-4">
+      <a
+        href={`mailto:${links.contactEmail}?subject=Mock%20Interview%20Booking`}
+        class="btn btn-primary btn-sm"
+      >
+        {t("mock-interview.cta.book")}
+      </a>
+    </section>
+  </main>
+</Layout>
