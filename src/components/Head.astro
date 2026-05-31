@@ -1,9 +1,22 @@
 ---
 import { Font } from "astro:assets";
+import OpenGraph from "@/components/OpenGraph.astro";
 import { getLangFromUrl, useTranslations } from "@/i18n/ui";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+}
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+
+const {
+  image,
+  title = t("layout.title"),
+  description = t("layout.description"),
+} = Astro.props;
 ---
 <head>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -11,9 +24,11 @@ const t = useTranslations(lang);
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width" />
-  <meta name="description" content={t("layout.description")} />
+  <meta name="description" content={description} />
 
-  <title>{t("layout.title")}</title>
+  <title>{title}</title>
+
+  <OpenGraph title={title} description={description} image={image} />
 
   <Font cssVariable="--font-fira-mono" preload />
 

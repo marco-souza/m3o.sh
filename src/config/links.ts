@@ -1,3 +1,4 @@
+import { z } from "astro/zod";
 import { defaultLang, useTranslations } from "@/i18n/ui";
 
 export type Link = {
@@ -28,3 +29,15 @@ export const socialLinks: Link[] = [
   { url: m3o.github, label: t("social.github") },
   { url: m3o.linkedin, label: t("social.linkedin") },
 ];
+
+const EnvSchema = z.object({
+  CONTACT_EMAIL: z.string().default("me@m3o.sh"),
+  RESUME_URL: z.string().default("/resume"),
+});
+
+const env = EnvSchema.parse(import.meta.env);
+
+export const links = {
+  contactEmail: env.CONTACT_EMAIL,
+  resumeUrl: env.RESUME_URL,
+};

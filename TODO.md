@@ -27,12 +27,12 @@ WIP:
   - [ ] Lab > sub pages
 - [ ] Mock Interview
   - [ ] Lading page Mock
-- [ ] Work with me
-  - [ ] Who am I?
-  - [ ] Relevant Exp?
-  - [ ] Skills (#tag)
-  - [ ] Check my Linkedin // Download resume
-  - [ ] Get it Touch!
+- [x] Work with me
+  - [x] Who am I?
+  - [c] Relevant Exp?
+  - [c] Skills (#tag)
+  - [x] Check my Linkedin // View resume
+  - [x] Get it Touch!
 
 Next steps
 

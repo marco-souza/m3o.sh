@@ -1,0 +1,143 @@
+---
+import { links, m3o } from "@/config/links";
+import { getLangFromUrl, useTranslations } from "@/i18n/ui";
+import Layout from "@/layouts/Layout.astro";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const title = t("work-with-me.meta.title");
+const description = t("work-with-me.meta.description");
+---
+
+<Layout title={title} subtitle={description}>
+  <main class="gap-12 flex flex-col">
+    <!-- FTE Section -->
+    <section id="fte" class="flex flex-col gap-6">
+      <h2 class="text-2xl font-bold">{t("work-with-me.fte.heading")}</h2>
+      <p>{t("work-with-me.fte.elevator-pitch")}</p>
+
+      <div class="flex flex-wrap gap-2">
+        <a
+          href={links.resumeUrl}
+          target="_blank"
+          class="btn btn-primary btn-sm"
+        >
+          {t("work-with-me.fte.cta.resume")}
+        </a>
+        <a
+          href={m3o.linkedin}
+          target="_blank"
+          class="btn btn-outline btn-sm"
+        >
+          {t("work-with-me.fte.cta.linkedin")}
+        </a>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Consulting Section -->
+    <section id="consulting" class="flex flex-col gap-4">
+      <h2 class="text-2xl font-bold">{t("work-with-me.consulting.heading")}</h2>
+      <p>{t("work-with-me.consulting.intro")}</p>
+
+      <div class="grid gap-4 sm:grid-cols-2">
+        <div class="card card-bordered card-compact bg-base-100">
+          <div class="card-body">
+            <h3 class="card-title text-lg">
+              {t("work-with-me.consulting.services.interim-cto.title")}
+            </h3>
+            <p class="text-sm">
+              {t("work-with-me.consulting.services.interim-cto.description")}
+            </p>
+          </div>
+        </div>
+
+        <div class="card card-bordered card-compact bg-base-100">
+          <div class="card-body">
+            <h3 class="card-title text-lg">
+              {t("work-with-me.consulting.services.architecture-review.title")}
+            </h3>
+            <p class="text-sm">
+              {t("work-with-me.consulting.services.architecture-review.description")}
+            </p>
+          </div>
+        </div>
+
+        <div class="card card-bordered card-compact bg-base-100">
+          <div class="card-body">
+            <h3 class="card-title text-lg">
+              {t("work-with-me.consulting.services.team-coaching.title")}
+            </h3>
+            <p class="text-sm">
+              {t("work-with-me.consulting.services.team-coaching.description")}
+            </p>
+          </div>
+        </div>
+
+        <div class="card card-bordered card-compact bg-base-100">
+          <div class="card-body">
+            <h3 class="card-title text-lg">
+              {t("work-with-me.consulting.services.advisory.title")}
+            </h3>
+            <p class="text-sm">
+              {t("work-with-me.consulting.services.advisory.description")}
+            </p>
+          </div>
+        </div>
+
+        <div class="card card-bordered card-compact bg-base-100 sm:col-span-2">
+          <div class="card-body">
+            <h3 class="card-title text-lg">
+              {t("work-with-me.consulting.services.mock-interviews.title")}
+            </h3>
+            <p class="text-sm">
+              {t("work-with-me.consulting.services.mock-interviews.description")}
+            </p>
+            <div class="card-actions justify-end">
+              <a href="/mock-interviews" class="btn btn-primary btn-sm">
+                {t("work-with-me.consulting.services.mock-interviews.title")}
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap gap-2">
+        <a
+          href={`mailto:${links.contactEmail}?subject=Consulting%20inquiry`}
+          class="btn btn-primary btn-sm"
+        >
+          {t("work-with-me.consulting.cta.book-call")}
+        </a>
+        <a
+          href={m3o.linkedin}
+          target="_blank"
+          class="btn btn-outline btn-sm"
+        >
+          {t("work-with-me.consulting.cta.linkedin")}
+        </a>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Contact Section -->
+    <section id="contact" class="flex flex-col gap-4">
+      <h2 class="text-2xl font-bold">{t("work-with-me.contact.heading")}</h2>
+      <p>
+        <span>{t("work-with-me.contact.email")}: </span>
+        <a href={`mailto:${links.contactEmail}`} class="link">{links.contactEmail}</a>
+      </p>
+      <p>
+        <span>{t("work-with-me.contact.github")}: </span>
+        <a href={m3o.github} target="_blank" class="link">{m3o.github}</a>
+      </p>
+      <p>
+        <span>{t("work-with-me.contact.linkedin")}: </span>
+        <a href={m3o.linkedin} target="_blank" class="link">{m3o.linkedin}</a>
+      </p>
+    </section>
+  </main>
+</Layout>

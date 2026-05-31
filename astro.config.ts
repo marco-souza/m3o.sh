@@ -1,4 +1,5 @@
 import cloudflare from "@astrojs/cloudflare";
+import mdx from "@astrojs/mdx";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig, fontProviders } from "astro/config";
 
@@ -6,6 +7,7 @@ import { defineConfig, fontProviders } from "astro/config";
 export default defineConfig({
   output: "server",
   adapter: cloudflare(),
+  integrations: [mdx()],
 
   fonts: [
     // monospace

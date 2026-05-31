@@ -1,16 +1,37 @@
 ---
+import Background from "@/components/Background.astro";
 import Footer from "@/components/Footer.astro";
 import Head from "@/components/Head.astro";
+import Hero from "@/components/Hero.astro";
+import NavBar from "@/components/NavBar.astro";
 import { getLangFromUrl } from "@/i18n/ui";
 import "@/styles/global.css";
 
+interface Props {
+  title?: string;
+  subtitle?: string;
+  image?: string;
+}
+
 const lang = getLangFromUrl(Astro.url);
+
+const {
+  image,
+  title = "Marco Souza ",
+  subtitle = "Solutions Architect in Brazil 🇧🇷",
+} = Astro.props;
 ---
 <!doctype html>
 <html lang={lang}>
-  <Head />
+  <Head title={title} description={subtitle} image={image} />
 
   <body class="p-4 max-w-2xl mx-auto gap-8 font-mono py-8 grid md:py-32">
+    <Background />
+
+    <Hero title="Marco Souza" subtitle={subtitle} />
+
+    <NavBar />
+
     <slot />
 
     <Footer />
