@@ -18,21 +18,29 @@ WIP:
 - [x] [ui] Hello World (presentation)
 - [x] [ui] Footer
 
-Blog:
-
-- [ ] [ui] set blog page & content
-- [ ] [ui] recent posts or random
-- [ ] [ui] \*Subscribe
-- [ ] [ui] Post Tags
-
 ## Public Pages
 
-- [ ] Homepage
-- [ ] About
-- [ ] Blog
+- [x] Homepage
 - [ ] Lab
+  - [ ] Title
+  - [ ] List projects
+  - [ ] Lab > sub pages
 - [ ] Mock Interview
+  - [ ] Lading page Mock
 - [ ] Work with me
+  - [ ] Who am I?
+  - [ ] Relevant Exp?
+  - [ ] Skills (#tag)
+  - [ ] Check my Linkedin // Download resume
+  - [ ] Get it Touch!
+
+Next steps
+
+- [ ] Blog
+  - [ ] [ui] Set blog page & content
+  - [ ] [ui] Recent posts or random
+  - [ ] [ui] Newsletter
+  - [ ] [ui] Post Tags
 
 ## Feature: App Center
 
