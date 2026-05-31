@@ -66,7 +66,7 @@ export const ui = {
 
     "mock-interview.meta.title": "Mock Interview - Marco Souza",
     "mock-interview.meta.description":
-      "Practice for tech interview ith feedback",
+      "practice for tech interview with feedback",
     "mock-interview.intro.heading": "Mock Interview",
     "mock-interview.intro.text":
       "Get actionable feedback on your interview performance. We run realistic simulations, then review what went well and what to improve.",
@@ -95,7 +95,7 @@ export const ui = {
     "mock-interview.cta.book": "Book a Session",
 
     "lab.meta.title": "Lab - Marco Souza",
-    "lab.meta.description": "Side projects and experiments by Marco Souza",
+    "lab.meta.description": "side projects, tools, and experiments",
     "lab.heading": "Lab",
     "lab.counter": "{count} experiments on the bench",
     "lab.counter-filtered": "{count} experiments tagged with {tag}",
