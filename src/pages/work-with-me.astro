@@ -132,11 +132,11 @@ const description = t("work-with-me.meta.description");
       </p>
       <p>
         <span>{t("work-with-me.contact.github")}: </span>
-        <a href={m3o.github} target="_blank" class="link">{m3o.github}</a>
+        <a href={m3o.github} target="_blank" class="link">{m3o.github.replace("https://", "")}</a>
       </p>
       <p>
         <span>{t("work-with-me.contact.linkedin")}: </span>
-        <a href={m3o.linkedin} target="_blank" class="link">{m3o.linkedin}</a>
+        <a href={m3o.linkedin} target="_blank" class="link">{m3o.linkedin.replace("https://", "")}</a>
       </p>
     </section>
   </main>
