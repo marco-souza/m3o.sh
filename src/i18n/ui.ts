@@ -29,7 +29,7 @@ export const ui = {
     "footer.built-by": "© <year> Marco Souza. This site is <oss>! <3",
 
     "work-with-me.meta.title": "Work with Me - Marco Souza",
-    "work-with-me.meta.description": "a tech lead that understands you",
+    "work-with-me.meta.description": "tech lead that understands you",
 
     "work-with-me.fte.heading": "Full-Time Roles",
     "work-with-me.fte.elevator-pitch":
@@ -65,8 +65,7 @@ export const ui = {
     "work-with-me.contact.github": "GitHub",
 
     "mock-interview.meta.title": "Mock Interview - Marco Souza",
-    "mock-interview.meta.description":
-      "practice for tech interview with feedback",
+    "mock-interview.meta.description": "interview practices with feedback",
     "mock-interview.intro.heading": "Mock Interview",
     "mock-interview.intro.text":
       "Get actionable feedback on your interview performance. We run realistic simulations, then review what went well and what to improve.",
