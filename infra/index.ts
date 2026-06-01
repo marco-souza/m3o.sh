@@ -24,31 +24,35 @@ const builder = new command.local.Command("m3o-builder", {
 });
 
 // worker setup
-const worker = new cloudflare.Worker("m3o-worker", {
-  accountId: config.accountId,
-  name: `m3o-${config.environment}`,
-  tags: ["m3o", config.environment],
+const worker = new cloudflare.Worker(
+  "m3o-worker",
+  {
+    accountId: config.accountId,
+    name: `m3o-${config.environment}`,
+    tags: ["m3o", config.environment],
 
-  subdomain: { enabled: true, previewsEnabled: true },
+    subdomain: { enabled: true, previewsEnabled: true },
 
-  observability: {
-    enabled: false,
-    headSamplingRate: 1.0,
-
-    logs: {
-      enabled: true,
-      headSamplingRate: 1.0,
-      persist: true,
-      invocationLogs: true,
-    },
-
-    traces: {
+    observability: {
       enabled: false,
-      persist: true,
-      headSamplingRate: 1,
+      headSamplingRate: 1.0,
+
+      logs: {
+        enabled: true,
+        headSamplingRate: 1.0,
+        persist: true,
+        invocationLogs: true,
+      },
+
+      traces: {
+        enabled: false,
+        persist: true,
+        headSamplingRate: 1,
+      },
     },
   },
-});
+  { dependsOn: [builder] },
+);
 
 const distFolder = pulumi.interpolate`${absolutePath("../dist")}`;
 
