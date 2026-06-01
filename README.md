@@ -7,8 +7,8 @@
 | Layer          | Tool                                                                                          |
 | -------------- | --------------------------------------------------------------------------------------------- |
 | Framework      | [Astro](https://astro.build) v6                                                               |
-| Styling        | [Tailwind CSS](https://tailwindcss.com) v4 + [DaisyUI](https://daisyui.com)                   |
-| Fonts          | [Fontsource](https://fontsource.org) (Roboto, Fira Mono)                                      |
+| Styling        | [Tailwind CSS](https://tailwindcss.com) v4 + [DaisyUI](https://daisyui.com) v5                |
+| Fonts          | [Fontsource](https://fontsource.org) (Fira Mono)                                              |
 | Runtime        | [Bun](https://bun.sh)                                                                         |
 | Deploy         | [Cloudflare Pages](https://pages.cloudflare.com) via `@astrojs/cloudflare`                    |
 | Infra          | [Pulumi](https://pulumi.com) + [Wrangler](https://developers.cloudflare.com/workers/wrangler) |
@@ -20,16 +20,16 @@
 
 ```text
 ├── infra/           # Pulumi infrastructure (Cloudflare)
-├── packages/i18n/   # Shared i18n utilities
-├── public/          # Static assets
+├── public/          # Static assets (favicon, etc.)
 ├── src/
+│   ├── assets/      # Images, SVGs
 │   ├── components/  # Astro components
-│   ├── config/      # Site links & config
+│   ├── config/      # Site links, lab schema, tag colors
 │   ├── i18n/        # Translation strings
-│   ├── layouts/     # Page layouts
-│   ├── lib/         # Shared utilities
-│   ├── pages/       # Routes
-│   └── styles/      # Global CSS
+│   ├── layouts/     # Page layouts (default, lab)
+│   ├── lib/         # Shared utilities (formatters, tests)
+│   ├── pages/       # Routes (home, lab, work-with-me, mock-interview)
+│   └── styles/      # Global CSS (Tailwind + DaisyUI)
 ├── docs/            # Design docs
 ├── astro.config.ts
 ├── wrangler.jsonc
@@ -72,14 +72,7 @@ mise run encrypt   # gpg -c .env
 mise run decrypt   # gpg -d .env.gpg > .env
 ```
 
-## Roadmap
-
-- [ ] Homepage, About, Blog
-- [ ] Lab / experiments page
-- [ ] Mock Interview service
-- [ ] Work with Me page
-- [ ] App Center: Open TV, Link Shortener, RSS Feed, Web Clip
-- [ ] Interactive cat tamagotchi
+## What's Built
 
 See [TODO.md](./TODO.md) for full task list.
 
