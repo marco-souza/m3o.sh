@@ -3,7 +3,8 @@ name: Release Workflow
 on:
   push:
     tags:
-      - "v*.*.*"
+      - "*.*.*"
+      - "*.*.*-rc"
 
 permissions:
   contents: write
