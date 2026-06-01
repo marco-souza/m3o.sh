@@ -1,6 +1,6 @@
 # m3o.sh
 
-Personal website and app hub built with [Astro](https://astro.build), deployed to [Cloudflare Pages](https://pages.cloudflare.com).
+> Personal website and app hub built with [Astro](https://astro.build), deployed to [Cloudflare Pages](https://pages.cloudflare.com).
 
 ## Stack
 
@@ -82,3 +82,7 @@ mise run decrypt   # gpg -d .env.gpg > .env
 - [ ] Interactive cat tamagotchi
 
 See [TODO.md](./TODO.md) for full task list.
+
+## License
+
+[GNU GPL v3](./LICENSE) © 2026 Marco Souza
