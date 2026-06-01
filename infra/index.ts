@@ -20,7 +20,7 @@ const builder = new command.local.Command("m3o-builder", {
     CONTACT_EMAIL: config.contactEmail,
     RESUME_URL: config.resumeUrl,
   },
-  triggers: [gitCommitHash],
+  triggers: [gitCommitHash(process.env.FORCE === "true")],
 });
 
 // worker setup
@@ -54,8 +54,6 @@ const worker = new cloudflare.Worker(
   { dependsOn: [builder] },
 );
 
-const distFolder = pulumi.interpolate`${absolutePath("../dist")}`;
-
 const workerVersion = new cloudflare.WorkerVersion(
   `m3o-worker-version`,
   {
@@ -67,7 +65,7 @@ const workerVersion = new cloudflare.WorkerVersion(
     compatibilityFlags: ["global_fetch_strictly_public", "nodejs_compat"],
 
     assets: {
-      directory: pulumi.interpolate`${distFolder}/client/`,
+      directory: builder.id.apply(() => `${absolutePath("../dist")}/client/`),
       config: {
         runWorkerFirst: false,
       },
@@ -98,11 +96,11 @@ const workerVersion = new cloudflare.WorkerVersion(
       },
     ],
 
-    modules: pulumi.interpolate`${distFolder}/server/`.apply((destination) =>
-      discoverWorkerModules(destination),
+    modules: builder.id.apply(() =>
+      discoverWorkerModules(absolutePath("../dist/server/")),
     ),
   },
-  { dependsOn: [worker, builder] },
+  { dependsOn: [worker] },
 );
 
 const workerDeployment = new cloudflare.WorkersDeployment(

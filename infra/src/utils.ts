@@ -4,9 +4,12 @@ import * as path from "node:path";
 
 export const today = () => new Date().toISOString().split("T")[0];
 
-export const gitCommitHash = child_process
-  .execSync("git rev-parse HEAD", { encoding: "utf-8" })
-  .trim();
+export const gitCommitHash = (force = false) =>
+  force
+    ? Date.now()
+    : child_process
+        .execSync("git rev-parse HEAD", { encoding: "utf-8" })
+        .trim();
 
 export const absolutePath = (relativePath: string) =>
   new URL(`../${relativePath}`, import.meta.url).pathname;
