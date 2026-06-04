@@ -177,7 +177,6 @@ function IptvAppView(props: IptvAppProps) {
       >
         <IptvPlayer
           streamSource={store.streamSource()}
-          disableKeyboard={store.state.isBrowsing}
           showControls={store.state.showChrome}
           onError={(msg) => console.error("Player error:", msg)}
           onRetry={() => {

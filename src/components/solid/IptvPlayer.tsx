@@ -25,10 +25,8 @@ export interface IptvPlayerProps {
   streamSource: StreamSource | null;
   /** Callback when hls.js emits a fatal error */
   onError?: (message: string) => void;
-  /** Callback when the user clicks retry (or Space on the error overlay) */
+  /** Callback when the user clicks retry */
   onRetry?: () => void;
-  /** When true, the video element is removed from the tab order (e.g. overlay open) */
-  disableKeyboard?: boolean;
   /** When true, show player controls (play/pause, mute, fullscreen). When false, hide them for a clean view. */
   showControls?: boolean;
 }
@@ -213,42 +211,6 @@ export default function IptvPlayer(props: IptvPlayerProps): JSX.Element {
     destroyHls();
   });
 
-  // ---- Keyboard: playback shortcuts when video has focus ----
-  function handleKeyDown(e: KeyboardEvent) {
-    const video = videoRef;
-    if (!video) return;
-
-    // Space: toggle play/pause
-    if (e.key === " " || e.key === "Spacebar") {
-      e.preventDefault();
-      if (video.paused) {
-        video.play().then(() => setIsPlaying(true));
-      } else {
-        video.pause();
-        setIsPlaying(false);
-      }
-      return;
-    }
-
-    // M: toggle mute
-    if (e.key === "m" || e.key === "M") {
-      e.preventDefault();
-      video.muted = !video.muted;
-      return;
-    }
-
-    // F: toggle fullscreen
-    if (e.key === "f" || e.key === "F") {
-      e.preventDefault();
-      if (document.fullscreenElement) {
-        document.exitFullscreen().catch(() => {});
-      } else {
-        video.requestFullscreen().catch(() => {});
-      }
-      return;
-    }
-  }
-
   // ---- Event handlers for native video events ----
   function handlePlay() {
     setIsPlaying(true);
@@ -376,8 +338,6 @@ export default function IptvPlayer(props: IptvPlayerProps): JSX.Element {
         playsinline
         controls={false}
         aria-label="Video player"
-        tabIndex={props.disableKeyboard ? -1 : 0}
-        onKeyDown={handleKeyDown}
         onPlay={handlePlay}
         onPause={handlePause}
       />
