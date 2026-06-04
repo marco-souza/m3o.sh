@@ -1,17 +1,18 @@
 ---
 title: "Open TV"
-description: "An open-source IPTV solution built with Go and HTMX."
-tags: ["go", "htmx", "typescript"]
+description: "Browse and watch Brazilian live TV channels — built with Astro, SolidJS, and hls.js."
+tags: ["iptv", "tv", "solidjs", "streaming", "hls"]
 status: "wip"
 featured: true
 ---
 
 import LabLayout from "@/layouts/LabLayout.astro";
+import OpenTvContent from "@/components/OpenTvContent.astro";
 
 <LabLayout
   title="Open TV"
-  subtitle="An open-source IPTV solution built with Go and HTMX."
+  subtitle="Browse and watch Brazilian live TV channels — built with Astro, SolidJS, and hls.js."
   status="wip"
 >
-  An open-source IPTV solution that lets you stream and manage live TV channels.
+  <OpenTvContent />
 </LabLayout>

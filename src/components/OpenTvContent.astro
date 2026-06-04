@@ -1,0 +1,15 @@
+---
+import { getLiveCollection } from "astro:content";
+import IptvApp from "@/components/solid/IptvApp.tsx";
+import type { IptvChannel } from "@/lib/iptv/live-loader";
+
+const result = await getLiveCollection("channels");
+// eslint-disable-next-line suspicious/noExplicitAny -- Astro live collection entry types are untyped
+const channels =
+  result.entries?.map((entry) => entry.data as IptvChannel) ?? [];
+const serverError = result.error?.message ?? null;
+---
+
+<div class="w-full mx-auto" style="height: 420px; max-width: 720px;">
+  <IptvApp channels={channels} serverError={serverError} client:load />
+</div>
