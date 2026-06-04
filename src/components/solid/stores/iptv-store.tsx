@@ -198,6 +198,33 @@ export function useIptvStore(): IptvStore {
 const LS_LAST_CHANNEL_KEY = "m3o-open-tv-last-channel";
 
 // ---------------------------------------------------------------------------
+// URL helpers
+// ---------------------------------------------------------------------------
+
+function getChannelFromQuery(): string | null {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("channel");
+  } catch {
+    return null;
+  }
+}
+
+function setChannelQuery(id: string | null) {
+  try {
+    const url = new URL(window.location.href);
+    if (id) {
+      url.searchParams.set("channel", id);
+    } else {
+      url.searchParams.delete("channel");
+    }
+    history.replaceState(null, "", url.toString());
+  } catch {
+    // ignore
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Provider
 // ---------------------------------------------------------------------------
 
@@ -272,6 +299,7 @@ export function IptvProvider(props: IptvProviderProps) {
       } catch {
         // localStorage unavailable — silently ignore
       }
+      setChannelQuery(id);
     },
 
     toggleBrowser() {
@@ -293,14 +321,19 @@ export function IptvProvider(props: IptvProviderProps) {
     },
 
     hydrate() {
-      // Restore last-watched channel from localStorage before hydration
-      // completes so the player renders with the correct source immediately.
+      // URL query param takes priority over localStorage so shared links work.
       try {
-        const savedId = localStorage.getItem(LS_LAST_CHANNEL_KEY);
-        if (savedId && channelMap().has(savedId)) {
-          setState("activeChannelId", savedId);
-        } else if (savedId) {
-          localStorage.removeItem(LS_LAST_CHANNEL_KEY);
+        const queryId = getChannelFromQuery();
+        if (queryId && channelMap().has(queryId)) {
+          setState("activeChannelId", queryId);
+        } else {
+          const savedId = localStorage.getItem(LS_LAST_CHANNEL_KEY);
+          if (savedId && channelMap().has(savedId)) {
+            setState("activeChannelId", savedId);
+            setChannelQuery(savedId);
+          } else if (savedId) {
+            localStorage.removeItem(LS_LAST_CHANNEL_KEY);
+          }
         }
       } catch {
         // localStorage unavailable
@@ -352,6 +385,7 @@ export function IptvProvider(props: IptvProviderProps) {
         const currentId = state.activeChannelId;
         if (currentId && !newChannels.some((c) => c.id === currentId)) {
           setState("activeChannelId", null);
+          setChannelQuery(null);
           try {
             localStorage.removeItem(LS_LAST_CHANNEL_KEY);
           } catch {
