@@ -4,9 +4,6 @@
  * Fetches channel/stream/feed data from https://iptv-org.github.io/api/,
  * filters to BR channels with working streams, and enriches each channel
  * with resolved categories, logos, and stream metadata.
- *
- * Uses module-level in-memory caching: data is fetched once per Worker
- * instance and reused across subsequent requests.
  */
 
 import type { LiveLoader } from "astro/loaders";
@@ -98,14 +95,6 @@ export interface IptvChannel {
 }
 
 // ---------------------------------------------------------------------------
-// Module-level cache
-// ---------------------------------------------------------------------------
-
-let cachedEntries: Array<{ id: string; data: IptvChannel }> | null = null;
-let cachedCategories: Map<string, string> | null = null;
-let cacheError: string | null = null;
-
-// ---------------------------------------------------------------------------
 // Constants
 // ---------------------------------------------------------------------------
 
@@ -156,10 +145,7 @@ async function fetchJson<T>(url: string, signal?: AbortSignal): Promise<T> {
 
 async function getCategoryMap(
   signal?: AbortSignal,
-  skipCache = false,
 ): Promise<Map<string, string>> {
-  if (!skipCache && cachedCategories) return cachedCategories;
-
   const categories = await fetchJson<RawCategory[]>(
     `${API_BASE}/categories.json`,
     signal,
@@ -170,7 +156,6 @@ async function getCategoryMap(
     map.set(cat.id, cat.name);
   }
 
-  cachedCategories = map;
   return map;
 }
 
@@ -188,14 +173,7 @@ function getLogoUrl(channelId: string): string {
 
 export async function fetchAndEnrichChannels(
   signal?: AbortSignal,
-  skipCache = false,
 ): Promise<Array<{ id: string; data: IptvChannel }>> {
-  if (skipCache) {
-    cachedCategories = null;
-    cachedEntries = null;
-    cacheError = null;
-  }
-
   // Fetch all required data in parallel
   const [rawChannels, rawStreams, rawFeeds, rawBlocklist, categoryMap] =
     await Promise.all([
@@ -203,7 +181,7 @@ export async function fetchAndEnrichChannels(
       fetchJson<RawStream[]>(`${API_BASE}/streams.json`, signal),
       fetchJson<RawFeed[]>(`${API_BASE}/feeds.json`, signal),
       fetchJson<RawBlocklistEntry[]>(`${API_BASE}/blocklist.json`, signal),
-      getCategoryMap(signal, skipCache),
+      getCategoryMap(signal),
     ]);
 
   // Build lookup structures
@@ -293,8 +271,7 @@ export async function fetchAndEnrichChannels(
  * Creates an Astro LiveLoader that fetches Brazilian IPTV channels
  * from https://iptv-org.github.io/api/.
  *
- * The loader uses module-level in-memory caching: data is fetched once
- * per Worker instance and reused across subsequent requests.
+ * Fetches fresh data on every request.
  *
  * @returns A LiveLoader object compatible with `defineLiveCollection()`.
  */
@@ -303,57 +280,31 @@ export function createIptvLoader(): LiveLoader<IptvChannel, { id: string }> {
     name: "iptv-loader",
 
     async loadCollection() {
-      // If we previously had an error, return it (stale error cache)
-      if (cacheError) {
-        return { error: new Error(cacheError) };
-      }
-
-      // Return cached entries if available (warm request)
-      if (cachedEntries) {
-        return { entries: cachedEntries };
-      }
-
-      // Cold start: fetch and cache
       try {
         const entries = await fetchAndEnrichChannels();
-        cachedEntries = entries;
         return { entries };
       } catch (err) {
         const message =
           err instanceof Error
             ? err.message
             : "Unknown error fetching IPTV data";
-        cacheError = message;
         return { error: new Error(message) };
       }
     },
 
     async loadEntry({ filter }) {
-      // Ensure collection is loaded (uses cache if available)
-      if (cacheError) {
-        return { error: new Error(cacheError) };
+      try {
+        const entries = await fetchAndEnrichChannels();
+        const entry = entries.find((e) => e.id === filter.id);
+        if (!entry) return undefined;
+        return entry;
+      } catch (err) {
+        const message =
+          err instanceof Error
+            ? err.message
+            : "Unknown error fetching IPTV data";
+        return { error: new Error(message) };
       }
-
-      let entries = cachedEntries;
-
-      if (!entries) {
-        try {
-          entries = await fetchAndEnrichChannels();
-          cachedEntries = entries;
-        } catch (err) {
-          const message =
-            err instanceof Error
-              ? err.message
-              : "Unknown error fetching IPTV data";
-          cacheError = message;
-          return { error: new Error(message) };
-        }
-      }
-
-      const entry = entries.find((e) => e.id === filter.id);
-      if (!entry) return undefined;
-
-      return entry;
     },
   };
 }
