@@ -21,14 +21,14 @@ export const ui = {
     "social.linkedin": "LinkedIn",
 
     "home.presentation.title":
-      "Hi! I’m Marco, and I like to make CLI tools for humans.",
+      "Hi! I’m Marco, and I like to make software for humans - sometimes LLMs tools are involved.",
     "home.presentation.description":
       "I’m Senior Software Development Engineer at <MongoDB>! Outside of that fancy title, I’m a social startup advisor and investor, open sourcerer, and beat-maker. I enjoy DJing, playing music, hanging out with my family and friends, and teaching at <PodCodar> in my free time.",
     "home.presentation.subscribe": "You should check my <lab>!",
 
     "footer.built-by": "© <year> Marco Souza. This site is <oss>! <3",
 
-    "work-with-me.meta.title": "Work with Me - Marco Souza",
+    "work-with-me.meta.title": "Work with Me",
     "work-with-me.meta.description": "tech lead that understands you",
 
     "work-with-me.fte.heading": "Full-Time Roles",
@@ -64,7 +64,7 @@ export const ui = {
     "work-with-me.contact.linkedin": "LinkedIn",
     "work-with-me.contact.github": "GitHub",
 
-    "mock-interview.meta.title": "Mock Interview - Marco Souza",
+    "mock-interview.meta.title": "Marco Souza",
     "mock-interview.meta.description": "interview practices with feedback",
     "mock-interview.intro.heading": "Mock Interview",
     "mock-interview.intro.text":
@@ -93,7 +93,7 @@ export const ui = {
       "PodCodar students receive a special discount - mention PodCodar when booking so we can check the available discount for you!",
     "mock-interview.cta.book": "Book a Session",
 
-    "lab.meta.title": "Lab - Marco Souza",
+    "lab.meta.title": "Marco's Lab",
     "lab.meta.description": "side projects, tools, and experiments",
     "lab.heading": "Lab",
     "lab.counter": "{count} experiments on the bench",

@@ -8,11 +8,13 @@ featured: true
 
 import LabLayout from "@/layouts/LabLayout.astro";
 import OpenTvContent from "@/components/OpenTvContent.astro";
+import openTvLogo from "@/assets/opentv-logo.svg";
 
 <LabLayout
   title="Open TV"
   subtitle="Browse and watch Brazilian live TV channels — built with Astro, SolidJS, and hls.js."
   status="wip"
+  image={openTvLogo.src}
 >
   <OpenTvContent />
 </LabLayout>

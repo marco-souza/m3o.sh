@@ -7,12 +7,13 @@ interface Props {
   title: string;
   subtitle: string;
   status?: "wip" | "live";
+  image?: string;
 }
 
-const { title, subtitle, status = "wip" } = Astro.props;
+const { title, subtitle, status = "wip", image } = Astro.props;
 ---
 
-<Layout {title} {subtitle}>
+<Layout {title} {subtitle} {image}>
   <BackButton />
   {status === "wip" && <WipBanner />}
   <slot />

@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <style>
+    .body { fill: #605dff; }
+    .screen { fill: #1a1a2e; }
+    .accent { stroke: #eee; }
+    .knob { fill: #eee; }
+
+    @media (prefers-color-scheme: dark) {
+      .body { fill: #eee; }
+      .accent { stroke: #605dff; }
+      .knob { fill: #605dff; }
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .animate-blink {
+      animation: blink 1.5s infinite;
+    }
+  </style>
+
+  <!-- TV body -->
+  <rect x="4" y="10" width="40" height="30" rx="4" class="body"/>
+
+  <!-- Screen -->
+  <rect x="8" y="14" width="28" height="22" rx="2" class="screen"/>
+
+  <!-- Terminal prompt >_ inside screen -->
+  <path d="M14 22L18 25L14 28" class="accent" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <line x1="21" y1="28" x2="24" y2="28" stroke-width="1.5" stroke-linecap="round" class="accent animate-blink"/>
+
+  <!-- Control knobs -->
+  <circle cx="39" cy="19" r="1.5" class="knob"/>
+  <circle cx="39" cy="25" r="1.5" class="knob"/>
+
+  <!-- Antenna -->
+  <line x1="18" y1="10" x2="14" y2="4" class="accent" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="30" y1="10" x2="34" y2="4" class="accent" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
