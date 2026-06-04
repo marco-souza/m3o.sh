@@ -156,8 +156,9 @@ async function fetchJson<T>(url: string, signal?: AbortSignal): Promise<T> {
 
 async function getCategoryMap(
   signal?: AbortSignal,
+  skipCache = false,
 ): Promise<Map<string, string>> {
-  if (cachedCategories) return cachedCategories;
+  if (!skipCache && cachedCategories) return cachedCategories;
 
   const categories = await fetchJson<RawCategory[]>(
     `${API_BASE}/categories.json`,
@@ -185,9 +186,16 @@ function getLogoUrl(channelId: string): string {
 // Core enrichment: fetch all data, filter, join, and return enriched channels
 // ---------------------------------------------------------------------------
 
-async function fetchAndEnrichChannels(
+export async function fetchAndEnrichChannels(
   signal?: AbortSignal,
+  skipCache = false,
 ): Promise<Array<{ id: string; data: IptvChannel }>> {
+  if (skipCache) {
+    cachedCategories = null;
+    cachedEntries = null;
+    cacheError = null;
+  }
+
   // Fetch all required data in parallel
   const [rawChannels, rawStreams, rawFeeds, rawBlocklist, categoryMap] =
     await Promise.all([
@@ -195,7 +203,7 @@ async function fetchAndEnrichChannels(
       fetchJson<RawStream[]>(`${API_BASE}/streams.json`, signal),
       fetchJson<RawFeed[]>(`${API_BASE}/feeds.json`, signal),
       fetchJson<RawBlocklistEntry[]>(`${API_BASE}/blocklist.json`, signal),
-      getCategoryMap(signal),
+      getCategoryMap(signal, skipCache),
     ]);
 
   // Build lookup structures

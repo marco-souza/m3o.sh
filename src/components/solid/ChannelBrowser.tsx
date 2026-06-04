@@ -208,15 +208,45 @@ export default function ChannelBrowser(props: ChannelBrowserProps) {
               {filter.filteredCount() !== 1 ? "s" : ""}
             </span>
           </div>
-          <button
-            type="button"
-            class="btn btn-ghost btn-sm btn-circle focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-            aria-label="Close channel browser"
-            onClick={props.onClose}
-          >
-            ✕
-          </button>
+          <div class="flex items-center gap-2">
+            <button
+              type="button"
+              class="btn btn-ghost btn-sm btn-circle focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              onClick={() => store.actions.refreshChannels()}
+              disabled={store.state.isRefreshing}
+              aria-label="Refresh channels"
+              title="Refresh channels"
+            >
+              <svg
+                class={`h-4 w-4 ${store.state.isRefreshing ? "animate-spin" : ""}`}
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              class="btn btn-ghost btn-sm btn-circle focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              aria-label="Close channel browser"
+              onClick={props.onClose}
+            >
+              ✕
+            </button>
+          </div>
         </div>
+
+        {/* Refresh error */}
+        <Show when={store.state.refreshError}>
+          <div class="shrink-0 border-b border-error/20 bg-error/10 px-4 sm:px-6 py-2 text-xs text-error">
+            {store.state.refreshError}
+          </div>
+        </Show>
 
         {/* Toolbar: search + clear filters */}
         <div class="flex shrink-0 flex-wrap items-center gap-2 sm:gap-3 border-b border-base-300 px-4 sm:px-6 py-2.5 sm:py-3">

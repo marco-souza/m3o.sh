@@ -14,6 +14,7 @@ import {
   createContext,
   createEffect,
   createMemo,
+  createSignal,
   type JSX,
   onCleanup,
   useContext,
@@ -114,6 +115,10 @@ export interface IptvState {
   copyToast: boolean;
   /** Fallback URL when Clipboard API is unavailable */
   copyFallbackUrl: string | null;
+  /** Channel list is being refreshed */
+  isRefreshing: boolean;
+  /** Error message from the last refresh attempt */
+  refreshError: string | null;
 }
 
 const INITIAL_STATE: IptvState = {
@@ -123,6 +128,8 @@ const INITIAL_STATE: IptvState = {
   isHydrated: false,
   copyToast: false,
   copyFallbackUrl: null,
+  isRefreshing: false,
+  refreshError: null,
 };
 
 // ---------------------------------------------------------------------------
@@ -146,6 +153,8 @@ export interface IptvActions {
   copyStreamUrl: () => Promise<void>;
   /** Dismiss the fallback URL input. */
   dismissFallback: () => void;
+  /** Re-fetch the channel list from the server. */
+  refreshChannels: () => Promise<void>;
 }
 
 // ---------------------------------------------------------------------------
@@ -201,6 +210,9 @@ export interface IptvProviderProps {
 export function IptvProvider(props: IptvProviderProps) {
   const [state, setState] = createStore<IptvState>({ ...INITIAL_STATE });
 
+  // ---- Reactive channel list (can be refreshed from client) ----
+  const [channels, setChannels] = createSignal<IptvChannel[]>(props.channels);
+
   // ---- Managed timers (outside reactive graph — manual cleanup) ----
   let chromeTimer: ReturnType<typeof setTimeout> | null = null;
   let copyToastTimer: ReturnType<typeof setTimeout> | null = null;
@@ -209,7 +221,7 @@ export function IptvProvider(props: IptvProviderProps) {
 
   const channelMap = createMemo(() => {
     const map = new Map<string, IptvChannel>();
-    for (const ch of props.channels) {
+    for (const ch of channels()) {
       map.set(ch.id, ch);
     }
     return map;
@@ -223,7 +235,7 @@ export function IptvProvider(props: IptvProviderProps) {
   });
 
   const channelDTOs = createMemo<ChannelDTO[]>(() =>
-    props.channels.map(toChannelDTO),
+    channels().map(toChannelDTO),
   );
 
   const activeChannelMeta = createMemo(() => {
@@ -319,6 +331,39 @@ export function IptvProvider(props: IptvProviderProps) {
 
     dismissFallback() {
       setState("copyFallbackUrl", null);
+    },
+
+    async refreshChannels() {
+      setState("isRefreshing", true);
+      setState("refreshError", null);
+      try {
+        const res = await fetch("/api/channels");
+        if (!res.ok) {
+          throw new Error(`Failed to refresh: ${res.status} ${res.statusText}`);
+        }
+        const data = await res.json();
+        if (!Array.isArray(data.channels)) {
+          throw new Error("Invalid response from server");
+        }
+        const newChannels = data.channels as IptvChannel[];
+        setChannels(newChannels);
+
+        // If the active channel disappeared, clear it
+        const currentId = state.activeChannelId;
+        if (currentId && !newChannels.some((c) => c.id === currentId)) {
+          setState("activeChannelId", null);
+          try {
+            localStorage.removeItem(LS_LAST_CHANNEL_KEY);
+          } catch {
+            // localStorage unavailable
+          }
+        }
+      } catch (err) {
+        const message = err instanceof Error ? err.message : "Refresh failed";
+        setState("refreshError", message);
+      } finally {
+        setState("isRefreshing", false);
+      }
     },
   };
 
