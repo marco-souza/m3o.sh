@@ -83,10 +83,8 @@ function IptvAppView(props: IptvAppProps) {
       {/* Loading skeleton (SSR cold-start) */}
       <Show when={app.isLoading()}>
         <div class="flex h-full flex-col items-center gap-4 sm:gap-6 overflow-y-auto px-3 sm:px-4 py-4 sm:py-6">
-          <div class="grid w-full max-w-5xl grid-cols-[repeat(auto-fill,minmax(120px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(160px,1fr))] gap-2 sm:gap-3">
-            <For each={Array.from({ length: 12 })}>
-              {() => <SkeletonCard />}
-            </For>
+          <div class="grid w-full max-w-5xl grid-cols-3 gap-2 sm:gap-3">
+            <For each={Array.from({ length: 9 })}>{() => <SkeletonCard />}</For>
           </div>
           <p class="text-xs sm:text-sm text-base-content/40">
             Loading channels…
