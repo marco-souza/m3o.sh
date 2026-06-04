@@ -10,6 +10,6 @@ const channels =
 const serverError = result.error?.message ?? null;
 ---
 
-<div class="w-full mx-auto" style="height: 420px; max-width: 720px;">
+<div class="w-full mx-auto">
   <IptvApp channels={channels} serverError={serverError} client:load />
 </div>
