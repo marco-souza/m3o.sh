@@ -38,22 +38,22 @@ export default function ChannelOverlay(
       }`}
       aria-hidden="true"
     >
-      <div class="flex items-start justify-center pt-4 px-6">
-        <div class="flex flex-wrap items-center gap-3">
-          <h2 class="text-xl font-bold text-white drop-shadow-lg">
+      <div class="flex items-start justify-center pt-3 sm:pt-4 px-4 sm:px-6">
+        <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+          <h2 class="text-base sm:text-xl font-bold text-white drop-shadow-lg">
             {props.name}
           </h2>
 
           {props.category && (
             <span
-              class={`rounded-full px-3 py-0.5 text-xs font-semibold uppercase leading-tight shadow-md ${categoryColor(props.category)}`}
+              class={`rounded-full px-2 sm:px-3 py-0.5 text-[10px] sm:text-xs font-semibold uppercase leading-tight shadow-md ${categoryColor(props.category)}`}
             >
               {props.category}
             </span>
           )}
 
           <span
-            class={`rounded-full px-2.5 py-0.5 text-xs font-semibold uppercase leading-tight shadow-md ${
+            class={`rounded-full px-2 sm:px-2.5 py-0.5 text-[10px] sm:text-xs font-semibold uppercase leading-tight shadow-md ${
               badge() === "HD"
                 ? "bg-green-600 text-green-100"
                 : "bg-gray-500 text-gray-100"

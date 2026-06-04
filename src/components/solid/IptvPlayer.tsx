@@ -395,7 +395,7 @@ export default function IptvPlayer(props: IptvPlayerProps): JSX.Element {
           {!isPlaying() && (
             <button
               type="button"
-              class="absolute inset-0 m-auto flex h-20 w-20 items-center justify-center rounded-full bg-white/20 backdrop-blur transition hover:bg-white/30 hover:scale-110 focus-visible:outline-2 focus-visible:outline-white"
+              class="absolute inset-0 m-auto flex h-14 w-14 sm:h-20 sm:w-20 items-center justify-center rounded-full bg-white/20 backdrop-blur transition hover:bg-white/30 hover:scale-110 focus-visible:outline-2 focus-visible:outline-white"
               onClick={togglePlayPause}
               aria-label="Play"
             >
@@ -411,7 +411,7 @@ export default function IptvPlayer(props: IptvPlayerProps): JSX.Element {
           )}
 
           {/* Bottom gradient + control bar */}
-          <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent px-4 pb-3 pt-10">
+          <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent px-3 sm:px-4 pb-2 sm:pb-3 pt-8 sm:pt-10">
             <div class="flex items-center justify-between">
               {/* Left: Play/Pause + Mute */}
               <div class="flex items-center gap-1">

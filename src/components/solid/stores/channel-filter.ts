@@ -1,7 +1,7 @@
 /**
  * Channel browser filter state — a custom reactive primitive.
  *
- * Encapsulates search, category, and NSFW filtering with localStorage
+ * Encapsulates search and category filtering with localStorage
  * persistence.  Returned as a plain object of signals, memos, and actions
  * (not a context) because filter state is local to ChannelBrowser.
  *
@@ -21,7 +21,6 @@ import type { ChannelDTO } from "./iptv-store";
 
 const LS_SEARCH_KEY = "m3o-open-tv-search";
 const LS_CATEGORIES_KEY = "m3o-open-tv-categories";
-const LS_NSFW_KEY = "m3o-open-tv-nsfw";
 
 // ---------------------------------------------------------------------------
 // Debounced signal hook
@@ -52,7 +51,6 @@ function useDebounced<T>(source: () => T, ms: number) {
 function loadPersistedFilter(): {
   search: string;
   category: string | null;
-  nsfw: boolean;
 } {
   try {
     const raw = localStorage.getItem(LS_CATEGORIES_KEY);
@@ -60,18 +58,16 @@ function loadPersistedFilter(): {
     return {
       search: localStorage.getItem(LS_SEARCH_KEY) ?? "",
       category,
-      nsfw: localStorage.getItem(LS_NSFW_KEY) === "true",
     };
   } catch {
-    return { search: "", category: null, nsfw: false };
+    return { search: "", category: null };
   }
 }
 
-function persistFilter(search: string, category: string | null, nsfw: boolean) {
+function persistFilter(search: string, category: string | null) {
   try {
     localStorage.setItem(LS_SEARCH_KEY, search);
     localStorage.setItem(LS_CATEGORIES_KEY, category ?? "");
-    localStorage.setItem(LS_NSFW_KEY, String(nsfw));
   } catch {
     // localStorage unavailable
   }
@@ -86,7 +82,6 @@ export interface ChannelFilter {
   search: () => string;
   searchTerm: () => string; // debounced
   selectedCategory: () => string | null;
-  showNsfw: () => boolean;
 
   // ---- Derived (read) ----
   availableCategories: () => string[];
@@ -97,8 +92,6 @@ export interface ChannelFilter {
   // ---- Actions ----
   setSearch: (value: string) => void;
   toggleCategory: (cat: string) => void;
-  toggleNsfw: () => void;
-  setNsfw: (value: boolean) => void;
   clearFilters: () => void;
 }
 
@@ -121,12 +114,11 @@ export function createChannelFilter(
   const [selectedCategory, setSelectedCategory] = createSignal<string | null>(
     saved.category,
   );
-  const [showNsfw, setShowNsfw] = createSignal(saved.nsfw);
   const searchTerm = useDebounced(search, 150);
 
   // ---- Persist on change ----
   createEffect(() => {
-    persistFilter(search(), selectedCategory(), showNsfw());
+    persistFilter(search(), selectedCategory());
   });
 
   // ---- Derived: categories sorted by frequency ----
@@ -144,10 +136,8 @@ export function createChannelFilter(
   const filteredChannels = createMemo(() => {
     const term = searchTerm().trim().toLowerCase();
     const cat = selectedCategory();
-    const nsfw = showNsfw();
 
     return channels().filter((ch) => {
-      if (ch.is_nsfw && !nsfw) return false;
       if (cat && !ch.categories.includes(cat)) return false;
       if (term.length > 0) {
         const haystack = [ch.name, ...(ch.alt_names ?? []), ch.network ?? ""]
@@ -163,7 +153,7 @@ export function createChannelFilter(
   const filteredCount = () => filteredChannels().length;
 
   const hasActiveFilters = () =>
-    search().length > 0 || selectedCategory() !== null || showNsfw();
+    search().length > 0 || selectedCategory() !== null;
 
   // ---- Actions ----
 
@@ -171,33 +161,21 @@ export function createChannelFilter(
     setSelectedCategory((prev) => (prev === cat ? null : cat));
   }
 
-  function toggleNsfw() {
-    setShowNsfw((prev) => !prev);
-  }
-
-  function setNsfw(value: boolean) {
-    setShowNsfw(value);
-  }
-
   function clearFilters() {
     setSearch("");
     setSelectedCategory(null);
-    setShowNsfw(false);
   }
 
   return {
     search,
     searchTerm,
     selectedCategory,
-    showNsfw,
     availableCategories,
     filteredChannels,
     filteredCount,
     hasActiveFilters,
     setSearch,
     toggleCategory,
-    toggleNsfw,
-    setNsfw,
     clearFilters,
   };
 }

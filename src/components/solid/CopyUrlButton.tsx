@@ -42,7 +42,7 @@ export default function CopyUrlButton(props: CopyUrlButtonProps) {
       {/* Button visible when a stream is playing (fades with chrome) */}
       <Show when={store.streamSource()}>
         <div
-          class={`absolute top-4 right-4 z-20 transition-opacity duration-500 ease-out ${
+          class={`absolute top-2 sm:top-4 right-2 sm:right-4 z-20 transition-opacity duration-500 ease-out ${
             props.visible
               ? "opacity-100 pointer-events-auto"
               : "opacity-0 pointer-events-none"

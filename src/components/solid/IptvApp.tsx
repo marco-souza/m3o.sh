@@ -82,13 +82,15 @@ function IptvAppView(props: IptvAppProps) {
     <div ref={containerRef} class="relative h-full w-full">
       {/* Loading skeleton (SSR cold-start) */}
       <Show when={app.isLoading()}>
-        <div class="flex h-full flex-col items-center gap-6 overflow-y-auto px-4 py-6">
-          <div class="grid w-full max-w-5xl grid-cols-[repeat(auto-fill,minmax(160px,1fr))] gap-3">
+        <div class="flex h-full flex-col items-center gap-4 sm:gap-6 overflow-y-auto px-3 sm:px-4 py-4 sm:py-6">
+          <div class="grid w-full max-w-5xl grid-cols-[repeat(auto-fill,minmax(120px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(160px,1fr))] gap-2 sm:gap-3">
             <For each={Array.from({ length: 12 })}>
               {() => <SkeletonCard />}
             </For>
           </div>
-          <p class="text-sm text-base-content/40">Loading channels…</p>
+          <p class="text-xs sm:text-sm text-base-content/40">
+            Loading channels…
+          </p>
         </div>
       </Show>
 
@@ -198,7 +200,7 @@ function IptvAppView(props: IptvAppProps) {
         {/* ---- Toolbar: Browse / Close toggle (fades with chrome) ---- */}
         <div
           class={chromeClass(
-            "absolute top-4 left-4 z-20 flex items-center gap-2",
+            "absolute top-2 sm:top-4 left-2 sm:left-4 z-20 flex items-center gap-2",
             chromeVisible(),
           )}
         >

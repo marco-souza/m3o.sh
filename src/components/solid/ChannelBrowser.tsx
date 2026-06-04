@@ -2,7 +2,7 @@
  * Channel browser — full-screen overlay for browsing, searching, and
  * filtering available channels.
  *
- * Filter state (search, category, NSFW) is managed by `createChannelFilter`
+ * Filter state (search, category) is managed by `createChannelFilter`
  * from `channel-filter.ts`, persisted to localStorage.
  * Playback state comes from the IPTV store context.
  * Keyboard navigation and focus management are local to this component.
@@ -31,12 +31,21 @@ export interface ChannelBrowserProps {
 }
 
 // ---------------------------------------------------------------------------
+// How many category pills to show before collapsing
+// ---------------------------------------------------------------------------
+
+const VISIBLE_CATEGORIES = 6;
+
+// ---------------------------------------------------------------------------
 // Component
 // ---------------------------------------------------------------------------
 
 export default function ChannelBrowser(props: ChannelBrowserProps) {
   const store = useIptvStore();
   const filter = createChannelFilter(() => store.channelDTOs());
+
+  // ---- Category collapse state (starts collapsed on mobile) ----
+  const [categoriesExpanded, setCategoriesExpanded] = createSignal(false);
 
   // ---- Grid keyboard navigation ----
   const [gridFocusedIndex, setGridFocusedIndex] = createSignal(-1);
@@ -189,9 +198,9 @@ export default function ChannelBrowser(props: ChannelBrowserProps) {
       role="dialog"
       aria-label="Channel browser"
     >
-      <div class="mt-8 flex h-[calc(100vh-4rem)] w-full max-w-7xl flex-col rounded-t-2xl bg-base-100 shadow-2xl">
+      <div class="mt-2 sm:mt-8 flex h-[calc(100dvh-0.5rem)] sm:h-[calc(100dvh-4rem)] w-full max-w-7xl flex-col rounded-t-xl sm:rounded-t-2xl bg-base-100 shadow-2xl">
         {/* Header */}
-        <div class="flex shrink-0 items-center justify-between border-b border-base-300 px-6 py-4">
+        <div class="flex shrink-0 items-center justify-between border-b border-base-300 px-4 sm:px-6 py-3 sm:py-4">
           <div class="flex items-center gap-4">
             <h2 class="text-xl font-bold text-base-content">Channels</h2>
             <span class="text-sm text-base-content/60" aria-live="polite">
@@ -209,8 +218,8 @@ export default function ChannelBrowser(props: ChannelBrowserProps) {
           </button>
         </div>
 
-        {/* Toolbar: search + NSFW toggle */}
-        <div class="flex shrink-0 flex-wrap items-center gap-3 border-b border-base-300 px-6 py-3">
+        {/* Toolbar: search + clear filters */}
+        <div class="flex shrink-0 flex-wrap items-center gap-2 sm:gap-3 border-b border-base-300 px-4 sm:px-6 py-2.5 sm:py-3">
           <div class="flex flex-1 items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -233,31 +242,10 @@ export default function ChannelBrowser(props: ChannelBrowserProps) {
               placeholder="Search channels…"
               value={filter.search()}
               onInput={(e) => filter.setSearch(e.currentTarget.value)}
-              class="input input-bordered input-sm w-full max-w-md focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1"
+              class="input input-bordered input-sm min-w-0 flex-1 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1"
               aria-label="Search channels"
             />
-            <Show when={filter.search().length > 0}>
-              <button
-                type="button"
-                class="btn btn-ghost btn-xs focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1"
-                onClick={() => filter.setSearch("")}
-                aria-label="Clear search"
-              >
-                Clear
-              </button>
-            </Show>
           </div>
-
-          <label class="flex cursor-pointer items-center gap-2 rounded text-sm focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2">
-            <span class="select-none text-base-content/70">Show 18+</span>
-            <input
-              type="checkbox"
-              class="toggle toggle-sm"
-              checked={filter.showNsfw()}
-              onChange={(e) => filter.setNsfw(e.currentTarget.checked)}
-              aria-label="Show adult channels"
-            />
-          </label>
 
           <Show when={filter.hasActiveFilters()}>
             <button
@@ -270,33 +258,55 @@ export default function ChannelBrowser(props: ChannelBrowserProps) {
           </Show>
         </div>
 
-        {/* Category pills */}
+        {/* Category pills — collapsible on mobile */}
         <Show when={filter.availableCategories().length > 0}>
-          <div class="flex shrink-0 flex-wrap gap-2 border-b border-base-300 px-6 py-3">
-            <For each={filter.availableCategories()}>
-              {(cat) => {
-                const isActive = () => filter.selectedCategory() === cat;
-                return (
-                  <button
-                    type="button"
-                    class={`rounded-full px-3 py-1 text-xs font-semibold uppercase transition-colors outline-none ${
-                      isActive()
-                        ? "bg-primary text-primary-content"
-                        : "bg-base-200 text-base-content/70 hover:bg-base-300"
-                    } focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2`}
-                    onClick={() => filter.toggleCategory(cat)}
-                    aria-pressed={isActive()}
-                  >
-                    {cat}
-                  </button>
-                );
-              }}
-            </For>
+          <div class="shrink-0 border-b border-base-300 px-4 sm:px-6 py-2.5 sm:py-3">
+            <div class="flex flex-wrap gap-1.5 sm:gap-2">
+              <For
+                each={
+                  categoriesExpanded() ||
+                  filter.availableCategories().length <= VISIBLE_CATEGORIES
+                    ? filter.availableCategories()
+                    : filter.availableCategories().slice(0, VISIBLE_CATEGORIES)
+                }
+              >
+                {(cat) => {
+                  const isActive = () => filter.selectedCategory() === cat;
+                  return (
+                    <button
+                      type="button"
+                      class={`rounded-full px-2.5 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs font-semibold uppercase transition-colors outline-none ${
+                        isActive()
+                          ? "bg-primary text-primary-content"
+                          : "bg-base-200 text-base-content/70 hover:bg-base-300"
+                      } focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2`}
+                      onClick={() => filter.toggleCategory(cat)}
+                      aria-pressed={isActive()}
+                    >
+                      {cat}
+                    </button>
+                  );
+                }}
+              </For>
+              <Show
+                when={filter.availableCategories().length > VISIBLE_CATEGORIES}
+              >
+                <button
+                  type="button"
+                  class="rounded-full px-2.5 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs font-semibold uppercase bg-base-200 text-base-content/70 hover:bg-base-300 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                  onClick={() => setCategoriesExpanded((prev) => !prev)}
+                >
+                  {categoriesExpanded()
+                    ? "Less"
+                    : `+${filter.availableCategories().length - VISIBLE_CATEGORIES} more`}
+                </button>
+              </Show>
+            </div>
           </div>
         </Show>
 
         {/* Channel grid / empty state */}
-        <div class="flex-1 overflow-y-auto px-6 py-4">
+        <div class="flex-1 overflow-y-auto px-3 sm:px-6 py-3 sm:py-4">
           <Show
             when={filter.filteredChannels().length > 0}
             fallback={
@@ -334,7 +344,7 @@ export default function ChannelBrowser(props: ChannelBrowserProps) {
           >
             <div
               ref={gridRef}
-              class="grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] gap-3"
+              class="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(160px,1fr))] gap-2 sm:gap-3"
               onKeyDown={handleGridKeyDown}
               role="listbox"
               aria-label="Channel list"
