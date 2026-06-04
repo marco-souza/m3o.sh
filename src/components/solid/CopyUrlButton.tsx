@@ -39,15 +39,37 @@ export default function CopyUrlButton(props: CopyUrlButtonProps) {
 
   return (
     <>
-      {/* Button visible when a stream is playing (fades with chrome) */}
-      <Show when={store.streamSource()}>
-        <div
-          class={`absolute top-2 sm:top-4 right-2 sm:right-4 z-20 transition-opacity duration-500 ease-out ${
-            props.visible
-              ? "opacity-100 pointer-events-auto"
-              : "opacity-0 pointer-events-none"
-          }`}
+      {/* Toolbar: Refresh + Copy (fades with chrome) */}
+      <div
+        class={`absolute top-2 sm:top-4 right-2 sm:right-4 z-20 flex items-center gap-2 transition-opacity duration-500 ease-out ${
+          props.visible
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
+        }`}
+      >
+        <button
+          type="button"
+          class="btn btn-ghost btn-sm btn-circle text-white/80 hover:text-white hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+          onClick={() => store.actions.refreshChannels()}
+          disabled={store.state.isRefreshing}
+          aria-label="Refresh channels"
+          title="Refresh channels"
         >
+          <svg
+            class={`h-4 w-4 ${store.state.isRefreshing ? "animate-spin" : ""}`}
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2" />
+          </svg>
+        </button>
+
+        <Show when={store.streamSource()}>
           <div class="relative">
             <button
               type="button"
@@ -83,8 +105,8 @@ export default function CopyUrlButton(props: CopyUrlButtonProps) {
               </div>
             </Show>
           </div>
-        </div>
-      </Show>
+        </Show>
+      </div>
 
       {/* Fallback: readonly input — always interactive (not tied to chrome visibility) */}
       <Show when={store.state.copyFallbackUrl}>
