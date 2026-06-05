@@ -1,5 +1,12 @@
 import Hls, { type ErrorData, Events } from "hls.js";
-import { createEffect, createSignal, type JSX, onCleanup } from "solid-js";
+import {
+  createEffect,
+  createMemo,
+  createSignal,
+  type JSX,
+  onCleanup,
+  Show,
+} from "solid-js";
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -97,6 +104,167 @@ function classifyError(data: ErrorData): PlayerError {
 }
 
 // ---------------------------------------------------------------------------
+// Static icon components (compiled once, reused across renders)
+// ---------------------------------------------------------------------------
+
+function TvIcon() {
+  return (
+    <svg
+      class="h-20 w-20 opacity-40"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <rect x="2" y="3" width="20" height="15" rx="2" ry="2" />
+      <polyline points="17 21 12 17 7 21" />
+    </svg>
+  );
+}
+
+function PlayIcon() {
+  return (
+    <svg
+      class="h-5 w-5"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <polygon points="5,3 19,12 5,21" />
+    </svg>
+  );
+}
+
+function LargePlayIcon() {
+  return (
+    <svg
+      class="ml-1 h-10 w-10 text-white"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <polygon points="5,3 19,12 5,21" />
+    </svg>
+  );
+}
+
+function PauseIcon() {
+  return (
+    <svg
+      class="h-5 w-5"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <rect x="6" y="4" width="4" height="16" />
+      <rect x="14" y="4" width="4" height="16" />
+    </svg>
+  );
+}
+
+function MuteIcon() {
+  return (
+    <svg
+      class="h-5 w-5"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+      <line x1="23" y1="9" x2="17" y2="15" />
+      <line x1="17" y1="9" x2="23" y2="15" />
+    </svg>
+  );
+}
+
+function UnmuteIcon() {
+  return (
+    <svg
+      class="h-5 w-5"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+      <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" />
+    </svg>
+  );
+}
+
+function FullscreenIcon() {
+  return (
+    <svg
+      class="h-5 w-5"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <polyline points="15 3 21 3 21 9" />
+      <polyline points="9 21 3 21 3 15" />
+      <line x1="21" y1="3" x2="14" y2="10" />
+      <line x1="3" y1="21" x2="10" y2="14" />
+    </svg>
+  );
+}
+
+function WifiOffIcon() {
+  return (
+    <svg
+      class="h-12 w-12 text-amber-400"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <line x1="1" y1="1" x2="23" y2="23" />
+      <path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55" />
+      <path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39" />
+      <path d="M10.71 5.05A16 16 0 0 1 22.58 9" />
+      <path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88" />
+      <path d="M8.53 16.11a6 6 0 0 1 6.95 0" />
+      <line x1="12" y1="20" x2="12.01" y2="20" />
+    </svg>
+  );
+}
+
+function AlertCircleIcon() {
+  return (
+    <svg
+      class="h-12 w-12 text-red-400"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="8" x2="12" y2="12" />
+      <line x1="12" y1="16" x2="12.01" y2="16" />
+    </svg>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // IptvPlayer
 // ---------------------------------------------------------------------------
 
@@ -169,15 +337,10 @@ export default function IptvPlayer(props: IptvPlayerProps): JSX.Element {
 
     hlsInstance = hls;
 
-    // Attempt autoplay (muted to comply with autoplay policies)
-    video.muted = true;
-    setIsMuted(true);
-    video
-      .play()
-      .then(() => setIsPlaying(true))
-      .catch(() => {
-        // User interaction required — that's fine, they can click the video
-      });
+    // Attempt autoplay (muted via the reactive prop binding)
+    video.play().catch(() => {
+      // User interaction required — that's fine, they can click the video
+    });
   }
 
   // ---- React to streamSource changes ----
@@ -198,12 +361,9 @@ export default function IptvPlayer(props: IptvPlayerProps): JSX.Element {
       return;
     }
 
-    // Let the DOM settle (Solid batches the effect callback before DOM is
-    // updated; requestAnimationFrame guarantees the video element is in the
-    // tree after the placeholder → video swap)
-    requestAnimationFrame(() => {
-      initHls(source, video);
-    });
+    // Reset mute so autoplay policies are satisfied for the new stream
+    setIsMuted(true);
+    initHls(source, video);
   });
 
   // ---- Cleanup on unmount ----
@@ -224,18 +384,15 @@ export default function IptvPlayer(props: IptvPlayerProps): JSX.Element {
     const video = videoRef;
     if (!video) return;
     if (video.paused) {
-      video.play().then(() => setIsPlaying(true));
+      video.play().catch(() => {});
     } else {
       video.pause();
-      setIsPlaying(false);
     }
   }
 
   function toggleMute() {
-    const video = videoRef;
-    if (!video) return;
-    video.muted = !video.muted;
-    setIsMuted(video.muted);
+    if (!videoRef) return;
+    setIsMuted((m) => !m);
   }
 
   function toggleFullscreen() {
@@ -262,9 +419,8 @@ export default function IptvPlayer(props: IptvPlayerProps): JSX.Element {
     if (source && videoRef) {
       destroyHls();
       setError(null);
-      requestAnimationFrame(() => {
-        initHls(source, videoRef);
-      });
+      setIsMuted(true);
+      initHls(source, videoRef);
     }
   }
 
@@ -294,81 +450,62 @@ export default function IptvPlayer(props: IptvPlayerProps): JSX.Element {
   }
 
   /** Whether the error is permanent (max retries exceeded for this stream). */
-  const isPermanentError = () => retryCount() > MAX_RETRIES;
+  const isPermanentError = createMemo(() => retryCount() > MAX_RETRIES);
 
   /** Whether the error is caused by the user being offline. */
-  const isOffline = () => error()?.kind === "network-offline";
+  const isOffline = createMemo(() => error()?.kind === "network-offline");
 
-  // ------------------------------------------------------------------
-  // Render
-  // ------------------------------------------------------------------
+  /** Whether a stream source is currently selected. */
+  const hasSource = createMemo(() => props.streamSource !== null);
 
-  const hasSource = () => props.streamSource !== null;
+  const isVideoShowing = createMemo(() => hasSource() && !error());
 
   return (
-    <div class="relative h-full w-full overflow-hidden bg-black">
+    <div
+      class={`relative h-full w-full overflow-hidden bg-black ${!isVideoShowing() && "py-24"}`}
+    >
       {/* ---- Placeholder when no channel is selected ---- */}
-      {!hasSource() && !error() && (
+      <Show when={!hasSource() && !error()}>
         <div class="absolute inset-0 flex flex-col items-center justify-center gap-4 text-white/60 py-12">
-          {/* Brand logo placeholder: a stylised TV icon */}
-          <svg
-            class="h-20 w-20 opacity-40"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-          >
-            <rect x="2" y="3" width="20" height="15" rx="2" ry="2" />
-            <polyline points="17 21 12 17 7 21" />
-          </svg>
+          <TvIcon />
           <p class="text-lg font-medium">Select a channel to start watching</p>
         </div>
-      )}
+      </Show>
 
       {/* ---- Video element ---- */}
-      {/* biome-ignore lint/a11y/useMediaCaption: live HLS streams do not provide captions */}
       <video
         ref={videoRef}
         class={`h-full w-full object-contain outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary ${
           hasSource() && !error() ? "visible" : "invisible"
         }`}
         playsinline
+        muted={isMuted()}
         controls={false}
         aria-label="Video player"
         onPlay={handlePlay}
         onPause={handlePause}
       />
 
-      {/* ---- Player controls (fade with chrome visibility) ---- */}
-      {hasSource() && !error() && (
+      {/* ---- Player controls (always mounted, faded via opacity) ---- */}
+      <Show when={isVideoShowing()}>
         <div
-          class={`absolute inset-0 z-10 transition-opacity duration-500 ease-out ${
+          class={`absolute inset-0 z-10 transition-opacity duration-500 ease-out py-24 ${
             props.showControls !== false
               ? "opacity-100 pointer-events-auto"
               : "opacity-0 pointer-events-none"
           }`}
         >
-          {/* Center play/pause button (large, shown when paused) */}
-          {!isPlaying() && (
+          {/* Center play button (large, shown when paused) */}
+          <Show when={!isPlaying()}>
             <button
               type="button"
               class="absolute inset-0 m-auto flex h-14 w-14 sm:h-20 sm:w-20 items-center justify-center rounded-full bg-white/20 backdrop-blur transition hover:bg-white/30 hover:scale-110 focus-visible:outline-2 focus-visible:outline-white"
               onClick={togglePlayPause}
               aria-label="Play"
             >
-              <svg
-                class="ml-1 h-10 w-10 text-white"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <polygon points="5,3 19,12 5,21" />
-              </svg>
+              <LargePlayIcon />
             </button>
-          )}
+          </Show>
 
           {/* Bottom gradient + control bar */}
           <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent px-3 sm:px-4 pb-2 sm:pb-3 pt-8 sm:pt-10">
@@ -381,26 +518,9 @@ export default function IptvPlayer(props: IptvPlayerProps): JSX.Element {
                   onClick={togglePlayPause}
                   aria-label={isPlaying() ? "Pause" : "Play"}
                 >
-                  {isPlaying() ? (
-                    <svg
-                      class="h-5 w-5"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      aria-hidden="true"
-                    >
-                      <rect x="6" y="4" width="4" height="16" />
-                      <rect x="14" y="4" width="4" height="16" />
-                    </svg>
-                  ) : (
-                    <svg
-                      class="h-5 w-5"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      aria-hidden="true"
-                    >
-                      <polygon points="5,3 19,12 5,21" />
-                    </svg>
-                  )}
+                  <Show when={isPlaying()} fallback={<PlayIcon />}>
+                    <PauseIcon />
+                  </Show>
                 </button>
 
                 <button
@@ -409,36 +529,9 @@ export default function IptvPlayer(props: IptvPlayerProps): JSX.Element {
                   onClick={toggleMute}
                   aria-label={isMuted() ? "Unmute" : "Mute"}
                 >
-                  {isMuted() ? (
-                    <svg
-                      class="h-5 w-5"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      aria-hidden="true"
-                    >
-                      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
-                      <line x1="23" y1="9" x2="17" y2="15" />
-                      <line x1="17" y1="9" x2="23" y2="15" />
-                    </svg>
-                  ) : (
-                    <svg
-                      class="h-5 w-5"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      aria-hidden="true"
-                    >
-                      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
-                      <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" />
-                    </svg>
-                  )}
+                  <Show when={isMuted()} fallback={<UnmuteIcon />}>
+                    <MuteIcon />
+                  </Show>
                 </button>
               </div>
 
@@ -449,67 +542,20 @@ export default function IptvPlayer(props: IptvPlayerProps): JSX.Element {
                 onClick={toggleFullscreen}
                 aria-label="Toggle fullscreen"
               >
-                <svg
-                  class="h-5 w-5"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                >
-                  <polyline points="15 3 21 3 21 9" />
-                  <polyline points="9 21 3 21 3 15" />
-                  <line x1="21" y1="3" x2="14" y2="10" />
-                  <line x1="3" y1="21" x2="10" y2="14" />
-                </svg>
+                <FullscreenIcon />
               </button>
             </div>
           </div>
         </div>
-      )}
-      {error() && (
+      </Show>
+      <Show when={error()}>
         <div
           class="absolute inset-0 z-10 flex flex-col items-center justify-center gap-4 bg-black/80 px-6 text-white"
           role="alert"
         >
-          {/* ---- Offline icon ---- */}
-          {isOffline() ? (
-            <svg
-              class="h-12 w-12 text-amber-400"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <line x1="1" y1="1" x2="23" y2="23" />
-              <path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55" />
-              <path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39" />
-              <path d="M10.71 5.05A16 16 0 0 1 22.58 9" />
-              <path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88" />
-              <path d="M8.53 16.11a6 6 0 0 1 6.95 0" />
-              <line x1="12" y1="20" x2="12.01" y2="20" />
-            </svg>
-          ) : (
-            <svg
-              class="h-12 w-12 text-red-400"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="8" x2="12" y2="12" />
-              <line x1="12" y1="16" x2="12.01" y2="16" />
-            </svg>
-          )}
+          <Show when={isOffline()} fallback={<AlertCircleIcon />}>
+            <WifiOffIcon />
+          </Show>
 
           {/* ---- Error message ---- */}
           <p class="max-w-md text-center text-sm">{error()?.message}</p>
@@ -517,41 +563,42 @@ export default function IptvPlayer(props: IptvPlayerProps): JSX.Element {
           {/* ---- Actions: depends on retry count ---- */}
           <div class="flex flex-col items-center gap-3">
             {/* Permanent error (max retries exceeded) → Copy URL fallback */}
-            {isPermanentError() ? (
-              <>
-                <p class="max-w-md text-center text-xs text-white/50">
-                  Playback could not be recovered after {MAX_RETRIES + 1}{" "}
-                  attempts.
-                </p>
-                <button
-                  type="button"
-                  class="rounded-lg bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-                  onClick={handleCopyUrl}
-                  aria-label="Copy stream URL to clipboard"
-                >
-                  Copy stream URL
-                </button>
-              </>
-            ) : (
-              <>
-                <button
-                  type="button"
-                  class="rounded-lg bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-                  onClick={handleRetry}
-                  aria-label="Retry playback"
-                >
-                  Try Again
-                </button>
-                {retryCount() > 0 && (
-                  <p class="text-xs text-white/40">
-                    Attempt {retryCount()} of {MAX_RETRIES + 1}
-                  </p>
-                )}
-              </>
-            )}
+            <Show
+              when={isPermanentError()}
+              fallback={
+                <>
+                  <button
+                    type="button"
+                    class="rounded-lg bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                    onClick={handleRetry}
+                    aria-label="Retry playback"
+                  >
+                    Try Again
+                  </button>
+                  <Show when={retryCount() > 0}>
+                    <p class="text-xs text-white/40">
+                      Attempt {retryCount()} of {MAX_RETRIES + 1}
+                    </p>
+                  </Show>
+                </>
+              }
+            >
+              <p class="max-w-md text-center text-xs text-white/50">
+                Playback could not be recovered after {MAX_RETRIES + 1}{" "}
+                attempts.
+              </p>
+              <button
+                type="button"
+                class="rounded-lg bg-white/10 px-5 py-2 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                onClick={handleCopyUrl}
+                aria-label="Copy stream URL to clipboard"
+              >
+                Copy stream URL
+              </button>
+            </Show>
           </div>
         </div>
-      )}
+      </Show>
     </div>
   );
 }
