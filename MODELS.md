@@ -20,7 +20,7 @@ Not good for:
 
 Token Limit for "smart" thinking: 10%
 
-## MiniMax-M3
+## MiniMax-M3/Qwen3.6
 
 Good for:
 
