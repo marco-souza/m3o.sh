@@ -42,7 +42,7 @@ export default defineConfig({
     ? {}
     : {
         webServer: {
-          command: "bun run preview",
+          command: "bun run build && bun run preview",
           url: targetUrl,
           reuseExistingServer: !process.env.CI,
         },
