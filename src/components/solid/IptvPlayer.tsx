@@ -306,7 +306,7 @@ export default function IptvPlayer(props: IptvPlayerProps): JSX.Element {
   const hasSource = () => props.streamSource !== null;
 
   return (
-    <div class="relative h-full w-full overflow-hidden bg-black">
+    <div class="relative h-full w-full overflow-hidden bg-black py-12">
       {/* ---- Placeholder when no channel is selected ---- */}
       {!hasSource() && !error() && (
         <div class="absolute inset-0 flex flex-col items-center justify-center gap-4 text-white/60">
