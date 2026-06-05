@@ -5,6 +5,8 @@ description: Manage structured communication files (PLAN.md, TODO.md, SPEC.md, e
 
 # Project Communication Files
 
+> **Reminder:** After completing work, ask: "Did I learn anything new?" If yes, document it using the `learning` skill in `.agents/learned/`.
+
 Standard files for coordinating work across agents and sessions. These files serve as the single source of truth for project state.
 
 ## File Overview
