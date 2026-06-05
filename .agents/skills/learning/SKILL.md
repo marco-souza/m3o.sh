@@ -1,3 +1,11 @@
+---
+name: learning
+description: >
+  Capture key decisions, pivots, and constraints discovered during work sessions.
+  Use after architectural changes, before starting new PRDs when context has evolved,
+  or when the user says "document this decision" or "remember this".
+---
+
 # Learning — Document Decisions & Architectural Pivots
 
 > Capture key decisions, pivots, and constraints discovered during work sessions. Prevent re-asking solved questions.
