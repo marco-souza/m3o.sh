@@ -1,6 +1,6 @@
 import { defineConfig, devices } from "@playwright/test";
 
-const targetUrl = "http://localhost:4321";
+const targetUrl = process.env.E2E_BASE_URL || "http://localhost:4321";
 
 export default defineConfig({
   // Look for test files in the "e2e" directory, relative to this configuration file.
@@ -37,10 +37,14 @@ export default defineConfig({
     },
   ],
 
-  // Run your local dev server before starting the tests.
-  webServer: {
-    command: "bun run preview",
-    url: targetUrl,
-    reuseExistingServer: !process.env.CI,
-  },
+  // Run your local dev server before starting the tests (skip on CI when targeting a remote URL).
+  ...(process.env.E2E_BASE_URL
+    ? {}
+    : {
+        webServer: {
+          command: "bun run preview",
+          url: targetUrl,
+          reuseExistingServer: !process.env.CI,
+        },
+      }),
 });

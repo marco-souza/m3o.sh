@@ -48,9 +48,33 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           PULUMI_CONFIG_PASSPHRASE: ${{ secrets.PULUMI_CONFIG_PASSPHRASE }}
 
+  e2e:
+    name: E2E Tests
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Install Playwright browsers
+        run: bunx playwright install chromium
+
+      - name: Run E2E tests
+        run: CI=true bun run e2e
+        env:
+          E2E_BASE_URL: https://m3o.sh
+
   release:
     name: Create Release
-    needs: deploy
+    needs: [deploy, e2e]
     runs-on: ubuntu-latest
 
     steps:
