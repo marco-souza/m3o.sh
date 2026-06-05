@@ -69,6 +69,26 @@ test.describe("Open TV page", () => {
     await expect(page).toHaveURL(/channel=/);
   });
 
+  test("video element is visible after selecting a channel", async ({
+    page,
+  }) => {
+    await page.goto("/lab/open-tv");
+    await waitForHydration(page);
+
+    // Select a channel
+    await page
+      .getByRole("button", { name: "Browse Channels" })
+      .click({ force: true });
+    const firstCard = page.locator('[role="option"]').first();
+    await expect(firstCard).toBeVisible();
+    await firstCard.click();
+
+    // Video element should be visible (not hidden by "invisible" class)
+    const video = page.locator("video");
+    await expect(video).toBeVisible();
+    await expect(video).not.toHaveClass(/invisible/);
+  });
+
   test("channel overlay shows info after selection", async ({ page }) => {
     await page.goto("/lab/open-tv");
     await waitForHydration(page);
@@ -80,11 +100,17 @@ test.describe("Open TV page", () => {
     const firstCard = page.locator('[role="option"]').first();
     await expect(firstCard).toBeVisible();
     const ariaLabel = await firstCard.getAttribute("aria-label");
+    const channelName = ariaLabel?.split(",")[0] ?? "";
     await firstCard.click();
 
-    // After selecting, the channel name should appear somewhere in the overlay
-    // (either the channel info overlay or the browser heading)
-    await expect(page.getByText(ariaLabel?.split(",")[0] ?? "")).toBeVisible();
+    // Browser dialog should close after selection
+    await expect(
+      page.getByRole("dialog", { name: "Channel browser" }),
+    ).toHaveCount(0);
+
+    // Channel name should appear in the non-aria-hidden overlay (not in dialog)
+    // Look for the h2 with the channel name outside the dialog
+    await expect(page.locator(`h2:text-is("${channelName}")`)).toBeVisible();
   });
 
   test("close button dismisses browser overlay", async ({ page }) => {

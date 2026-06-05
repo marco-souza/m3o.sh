@@ -119,6 +119,10 @@ export interface IptvState {
   isRefreshing: boolean;
   /** Error message from the last refresh attempt */
   refreshError: string | null;
+  /** Video element is in a playing state */
+  isPlaying: boolean;
+  /** Video element is muted */
+  isMuted: boolean;
 }
 
 const INITIAL_STATE: IptvState = {
@@ -130,6 +134,8 @@ const INITIAL_STATE: IptvState = {
   copyFallbackUrl: null,
   isRefreshing: false,
   refreshError: null,
+  isPlaying: false,
+  isMuted: true,
 };
 
 // ---------------------------------------------------------------------------
@@ -155,6 +161,11 @@ export interface IptvActions {
   dismissFallback: () => void;
   /** Re-fetch the channel list from the server. */
   refreshChannels: () => Promise<void>;
+  /** Update playback state (isPlaying, isMuted) from the video element. */
+  updatePlaybackState: (partial: {
+    isPlaying?: boolean;
+    isMuted?: boolean;
+  }) => void;
 }
 
 // ---------------------------------------------------------------------------
@@ -364,6 +375,12 @@ export function IptvProvider(props: IptvProviderProps) {
 
     dismissFallback() {
       setState("copyFallbackUrl", null);
+    },
+
+    updatePlaybackState(partial) {
+      if (partial.isPlaying !== undefined)
+        setState("isPlaying", partial.isPlaying);
+      if (partial.isMuted !== undefined) setState("isMuted", partial.isMuted);
     },
 
     async refreshChannels() {

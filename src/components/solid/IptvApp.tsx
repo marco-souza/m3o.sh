@@ -13,29 +13,14 @@
 import { For, type JSX, onCleanup, onMount, Show } from "solid-js";
 import ChannelBrowser from "./ChannelBrowser";
 import { SkeletonCard } from "./ChannelCard";
-import ChannelOverlay from "./ChannelOverlay";
-import CopyUrlButton from "./CopyUrlButton";
 import IptvPlayer from "./IptvPlayer";
+import PlayerOverlay from "./IptvPlayer/Overlay";
 import {
   type IptvAppProps,
   IptvProvider,
   useAppState,
   useIptvStore,
 } from "./stores/iptv-store";
-
-// ---------------------------------------------------------------------------
-// CSS transition classes for chrome that fades in/out on pointer activity.
-// Elements stay in the DOM; only opacity and pointer-events transition.
-// ---------------------------------------------------------------------------
-
-/** Combine base position classes with the chrome visibility toggle. */
-function chromeClass(base: string, visible: boolean): string {
-  return `${base} transition-opacity duration-500 ease-out ${
-    visible
-      ? "opacity-100 pointer-events-auto"
-      : "opacity-0 pointer-events-none"
-  }`;
-}
 
 // ---------------------------------------------------------------------------
 // Inner view — uses the store context
@@ -73,18 +58,46 @@ function IptvAppView(props: IptvAppProps) {
   // ---- Retry: reload the page so the Worker re-fetches ----
   const handleRetry = () => window.location.reload();
 
-  // ---- Derived: is the chrome layer visible? ----
-  const chromeVisible = () => store.state.showChrome;
+  // ---- Player control callbacks ----
+  function handleTogglePlayPause() {
+    // Toggle is handled by IptvPlayer internally via onPlayStateChange
+    // This is just for the overlay buttons to trigger the toggle
+    const video = document.querySelector("video");
+    if (video) {
+      if (video.paused) {
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+    }
+  }
+
+  function handleToggleMute() {
+    const video = document.querySelector("video");
+    if (video) {
+      video.muted = !video.muted;
+      store.actions.updatePlaybackState({ isMuted: video.muted });
+    }
+  }
+
+  function handleToggleFullscreen() {
+    const video = document.querySelector("video");
+    if (!video) return;
+    if (document.fullscreenElement) {
+      document.exitFullscreen().catch(() => {});
+    } else {
+      video.requestFullscreen().catch(() => {});
+    }
+  }
 
   // ---- Render ----
-
   return (
     <div ref={containerRef} class="relative h-full w-full">
       {/* Loading skeleton (SSR cold-start) */}
       <Show when={app.isLoading()}>
         <div class="flex h-full flex-col items-center gap-4 sm:gap-6 overflow-y-auto px-3 sm:px-4 py-4 sm:py-6">
           <div class="grid w-full max-w-5xl grid-cols-3 gap-2 sm:gap-3">
-            <For each={Array.from({ length: 9 })}>{() => <SkeletonCard />}</For>
+            <For each={Array.from({ length: 6 })}>{() => <SkeletonCard />}</For>
           </div>
           <p class="text-xs sm:text-sm text-base-content/40">
             Loading channels…
@@ -177,47 +190,18 @@ function IptvAppView(props: IptvAppProps) {
           streamSource={store.streamSource()}
           showControls={store.state.showChrome}
           onError={(msg) => console.error("Player error:", msg)}
-          onRetry={() => {
-            // Player handles its own retry; this callback is for app-level side-effects.
-          }}
         />
 
-        {/* ---- Channel info overlay (fades with chrome) ---- */}
-        <Show when={store.activeChannelMeta()}>
-          {(meta) => (
-            <ChannelOverlay
-              name={meta().name}
-              category={meta().category}
-              quality={meta().quality}
-              visible={chromeVisible()}
-            />
-          )}
-        </Show>
-
-        {/* ---- Toolbar: Browse / Close toggle (fades with chrome) ---- */}
-        <div
-          class={chromeClass(
-            "absolute top-2 sm:top-4 left-2 sm:left-4 z-20 flex items-center gap-2",
-            chromeVisible(),
-          )}
-        >
-          <button
-            type="button"
-            class="btn btn-primary btn-sm focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-            onClick={store.actions.toggleBrowser}
-            tabIndex={store.state.isBrowsing ? -1 : 0}
-            aria-label={
-              store.state.isBrowsing
-                ? "Close channel browser"
-                : "Browse channels"
-            }
-          >
-            {store.state.isBrowsing ? "Close" : "Browse Channels"}
-          </button>
-        </div>
-
-        {/* ---- Copy URL button (fades with chrome) ---- */}
-        <CopyUrlButton visible={chromeVisible()} />
+        {/* ---- Unified player overlay (top + bottom chrome) ---- */}
+        <PlayerOverlay
+          visible={store.state.showChrome}
+          hasSource={store.streamSource() !== null}
+          isBrowsing={store.state.isBrowsing}
+          onTogglePlayPause={handleTogglePlayPause}
+          onToggleMute={handleToggleMute}
+          onToggleFullscreen={handleToggleFullscreen}
+          onToggleBrowser={store.actions.toggleBrowser}
+        />
 
         {/* ---- Browser overlay: always visible when open (does not auto-hide) ---- */}
         <Show when={store.state.isBrowsing}>
