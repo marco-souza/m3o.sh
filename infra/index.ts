@@ -66,7 +66,7 @@ const workerVersion = new cloudflare.WorkerVersion(
 
     cacheOptions: {
       enabled: true,
-      crossVersionCache: true,
+      crossVersionCache: false,
     },
 
     assets: {
