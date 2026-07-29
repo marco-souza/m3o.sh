@@ -57,15 +57,21 @@ const worker = new cloudflare.Worker(
 const workerVersion = new cloudflare.WorkerVersion(
   `m3o-worker-version`,
   {
-    workerId: worker.id,
     mainModule: "index.js",
+    workerId: worker.id,
     accountId: config.accountId,
 
     compatibilityDate: today(),
     compatibilityFlags: ["global_fetch_strictly_public", "nodejs_compat"],
 
+    cacheOptions: {
+      enabled: true,
+      crossVersionCache: true,
+    },
+
     assets: {
-      directory: builder.id.apply(() => `${absolutePath("../dist")}/client/`),
+      directory: builder.id.apply(() => absolutePath("../dist/client/")),
+
       config: {
         runWorkerFirst: false,
       },

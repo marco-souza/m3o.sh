@@ -7,4 +7,6 @@ config:
   # email
   m3o:emailMe: ma.souza.junior@gmail.com
   m3o:emailCatchAll: souza.marco@proton.me
+  cloudflare:apiToken:
+    secure: v1:jDceQw6c7TJQx7vb:u5ah9NkoPO/znVFJ3LSUBjsP1EvW8PmL6MYCL3hf5R0yolkOd2FQvpQRQyn44wF3vGkUd/VBldQ9MFpYtyobt34OricT
 encryptionsalt: v1:iYqEeVVSP14=:v1:obQjSgTEEw9d8SxX:w4n+V2URB4TIoK2kIdSFvwDGSMJ4TQ==
