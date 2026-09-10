@@ -27,7 +27,7 @@ const channelSchema = z.object({
       url: z.string(),
       quality: z.string().nullable(),
       format: z.string().nullable(),
-      label: z.string().nullable(),
+      labels: z.array(z.string()),
       referrer: z.string().nullable(),
       user_agent: z.string().nullable(),
     }),

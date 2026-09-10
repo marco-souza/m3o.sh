@@ -39,7 +39,7 @@ interface RawStream {
   title: string;
   url: string;
   quality: string | null;
-  label: string | null;
+  labels: string[];
   user_agent: string | null;
   referrer: string | null;
 }
@@ -76,7 +76,7 @@ export interface IptvStream {
   url: string;
   quality: string | null;
   format: string | null;
-  label: string | null;
+  labels: string[];
   referrer: string | null;
   user_agent: string | null;
 }
@@ -237,7 +237,7 @@ export async function fetchAndEnrichChannels(
         url: s.url,
         quality: s.quality,
         format: feed?.format ?? null,
-        label: s.label,
+        labels: s.labels ?? [],
         referrer: s.referrer,
         user_agent: s.user_agent,
       };

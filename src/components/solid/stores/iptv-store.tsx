@@ -45,7 +45,7 @@ export interface IptvChannel {
     url: string;
     quality: string | null;
     format: string | null;
-    label: string | null;
+    labels: string[];
     referrer: string | null;
     user_agent: string | null;
   }>;
