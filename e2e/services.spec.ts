@@ -133,7 +133,7 @@ test.describe("Mock Interview page", () => {
     await expect(
       page.getByRole("heading", { name: "Pricing", level: 2 }),
     ).toBeVisible();
-    await expect(page.getByText("$150 per 60-minute session")).toBeVisible();
+    await expect(page.getByText("$100 per 60-minute session")).toBeVisible();
     await expect(
       page.getByText(/PodCodar students receive a special discount/),
     ).toBeVisible();

@@ -23,7 +23,7 @@ export const ui = {
     "home.presentation.title":
       "Hi! I’m Marco, and I like to make software for humans - sometimes LLMs tools are involved.",
     "home.presentation.description":
-      "I’m Senior Software Development Engineer at <MongoDB>! Outside of that fancy title, I’m a social startup advisor and investor, open sourcerer, and beat-maker. I enjoy DJing, playing music, hanging out with my family and friends, and teaching at <PodCodar> in my free time.",
+      "I’m Senior Software Development Engineer at <MongoDB>! Outside of that fancy title, I’m a social startup advisor and investor, open sourcerer, and beat-maker. I enjoy DJing, hanging out with my family and friends, and mentoring at <PodCodar> in my free time.",
     "home.presentation.subscribe": "You should check my <lab>!",
 
     "footer.built-by": "© <year> Marco Souza. This site is <oss>! <3",
@@ -88,7 +88,7 @@ export const ui = {
       "Receive detailed feedback + an action plan",
     "mock-interview.pricing.heading": "Pricing",
     "mock-interview.pricing.text":
-      "$150 per 60-minute session. Package discounts available for 3+ sessions.",
+      "$100 per 60-minute session. Package discounts available for 3+ sessions.",
     "mock-interview.pricing.podcodar-note":
       "PodCodar students receive a special discount - mention PodCodar when booking so we can check the available discount for you!",
     "mock-interview.cta.book": "Book a Session",
