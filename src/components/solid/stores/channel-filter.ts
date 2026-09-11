@@ -77,6 +77,9 @@ function persistFilter(search: string, category: string | null) {
 // Public interface
 // ---------------------------------------------------------------------------
 
+/** Maximum number of channels rendered in the browser grid (FR-7). */
+export const MAX_GRID_CHANNELS = 300;
+
 export interface ChannelFilter {
   // ---- Signals (read) ----
   search: () => string;
@@ -87,6 +90,10 @@ export interface ChannelFilter {
   availableCategories: () => string[];
   filteredChannels: () => ChannelDTO[];
   filteredCount: () => number;
+  /** Full filtered count BEFORE the 300-entry grid cap is applied. */
+  totalFilteredCount: () => number;
+  /** True when `totalFilteredCount` exceeds the grid cap. */
+  isCapped: () => boolean;
   hasActiveFilters: () => boolean;
 
   // ---- Actions ----
@@ -132,25 +139,28 @@ export function createChannelFilter(
     return [...freq.entries()].sort((a, b) => b[1] - a[1]).map(([cat]) => cat);
   });
 
-  // ---- Derived: filtered channels ----
-  const filteredChannels = createMemo(() => {
+  // ---- Derived: filtered channels (search matches `name` only — FR-7) ----
+  const matchedChannels = createMemo(() => {
     const term = searchTerm().trim().toLowerCase();
     const cat = selectedCategory();
 
     return channels().filter((ch) => {
       if (cat && !ch.categories.includes(cat)) return false;
-      if (term.length > 0) {
-        const haystack = [ch.name, ...(ch.alt_names ?? []), ch.network ?? ""]
-          .filter(Boolean)
-          .join(" § ")
-          .toLowerCase();
-        if (!haystack.includes(term)) return false;
-      }
+      if (term.length > 0 && !ch.name.toLowerCase().includes(term))
+        return false;
       return true;
     });
   });
 
+  const totalFilteredCount = () => matchedChannels().length;
+
+  // ---- Derived: capped at MAX_GRID_CHANNELS for the grid render (FR-7) ----
+  const filteredChannels = createMemo(() =>
+    matchedChannels().slice(0, MAX_GRID_CHANNELS),
+  );
+
   const filteredCount = () => filteredChannels().length;
+  const isCapped = () => totalFilteredCount() > MAX_GRID_CHANNELS;
 
   const hasActiveFilters = () =>
     search().length > 0 || selectedCategory() !== null;
@@ -173,6 +183,8 @@ export function createChannelFilter(
     availableCategories,
     filteredChannels,
     filteredCount,
+    totalFilteredCount,
+    isCapped,
     hasActiveFilters,
     setSearch,
     toggleCategory,

@@ -6,6 +6,9 @@
  * all display formatting lives in `channel-display.ts`, and all filter
  * logic lives in `channel-filter.ts`.
  *
+ * Rendering is driven entirely by `store.state.view`
+ * (`Loading | Ready | Empty | Error`), replacing the old SSR plumbing.
+ *
  * UI chrome (overlay, buttons, player controls) stays mounted in the DOM
  * and uses opacity transitions for smooth Netflix-style fade in/out.
  */
@@ -15,20 +18,15 @@ import ChannelBrowser from "./ChannelBrowser";
 import { SkeletonCard } from "./ChannelCard";
 import IptvPlayer from "./IptvPlayer";
 import PlayerOverlay from "./IptvPlayer/Overlay";
-import {
-  type IptvAppProps,
-  IptvProvider,
-  useAppState,
-  useIptvStore,
-} from "./stores/iptv-store";
+import SettingsPanel from "./SettingsPanel";
+import { IptvProvider, useIptvStore } from "./stores/iptv-store";
 
 // ---------------------------------------------------------------------------
 // Inner view — uses the store context
 // ---------------------------------------------------------------------------
 
-function IptvAppView(props: IptvAppProps) {
+function IptvAppView() {
   const store = useIptvStore();
-  const app = useAppState(store, props.serverError);
 
   let containerRef: HTMLDivElement | undefined;
 
@@ -55,8 +53,8 @@ function IptvAppView(props: IptvAppProps) {
     store.actions.clearChromeTimer();
   });
 
-  // ---- Retry: reload the page so the Worker re-fetches ----
-  const handleRetry = () => window.location.reload();
+  // ---- Retry / refresh: re-fetch the current playlist (no page reload) ----
+  const handleRetry = () => store.actions.refresh();
 
   // ---- Player control callbacks ----
   function handleTogglePlayPause() {
@@ -93,8 +91,8 @@ function IptvAppView(props: IptvAppProps) {
   // ---- Render ----
   return (
     <div ref={containerRef} class="relative h-full w-full">
-      {/* Loading skeleton (SSR cold-start) */}
-      <Show when={app.isLoading()}>
+      {/* Loading (first-run auto-fetch, or a refresh in flight with no cache) */}
+      <Show when={store.state.view === "Loading"}>
         <div class="flex h-full flex-col items-center gap-4 sm:gap-6 overflow-y-auto px-3 sm:px-4 py-4 sm:py-6">
           <div class="grid w-full max-w-5xl grid-cols-3 gap-2 sm:gap-3">
             <For each={Array.from({ length: 6 })}>{() => <SkeletonCard />}</For>
@@ -105,8 +103,8 @@ function IptvAppView(props: IptvAppProps) {
         </div>
       </Show>
 
-      {/* Error (server-side fetch failed) */}
-      <Show when={app.hasError()}>
+      {/* Error (fetch failed and no channels to fall back on) */}
+      <Show when={store.state.view === "Error"}>
         <div class="flex h-full flex-col items-center justify-center gap-4 px-6">
           <svg
             class="h-16 w-16 text-error"
@@ -131,7 +129,11 @@ function IptvAppView(props: IptvAppProps) {
           </p>
 
           <p class="max-w-md text-center text-sm text-base-content/60">
-            {props.serverError}
+            {store.state.refreshError ?? "The playlist could not be loaded."}
+          </p>
+
+          <p class="max-w-md text-center text-xs text-base-content/40">
+            {store.state.errorKind ?? ""}
           </p>
 
           <button
@@ -144,8 +146,8 @@ function IptvAppView(props: IptvAppProps) {
         </div>
       </Show>
 
-      {/* Empty (API returned zero channels) */}
-      <Show when={app.isEmpty()}>
+      {/* Empty (no channels — first-run default failed, or empty playlist) */}
+      <Show when={store.state.view === "Empty"}>
         <div class="flex h-full flex-col items-center justify-center gap-4 px-6">
           <svg
             class="h-16 w-16 text-base-content/30"
@@ -169,7 +171,9 @@ function IptvAppView(props: IptvAppProps) {
           </p>
 
           <p class="max-w-md text-center text-sm text-base-content/60">
-            The IPTV data source may be unavailable.
+            {store.state.refreshError
+              ? "The playlist could not be loaded."
+              : "Add a playlist URL in Settings or refresh to try again."}
           </p>
 
           <button
@@ -177,15 +181,22 @@ function IptvAppView(props: IptvAppProps) {
             class="btn btn-outline btn-sm focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             onClick={handleRetry}
           >
-            Retry
+            Refresh
+          </button>
+
+          {/* CTA: open Settings programmatically (FR-5) */}
+          <button
+            type="button"
+            class="btn btn-primary btn-sm focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            onClick={store.actions.openSettings}
+          >
+            Open Settings
           </button>
         </div>
       </Show>
 
       {/* Ready — player + overlays */}
-      <Show
-        when={store.state.isHydrated && !app.hasError() && app.hasChannels()}
-      >
+      <Show when={store.state.view === "Ready"}>
         <IptvPlayer
           streamSource={store.streamSource()}
           showControls={store.state.showChrome}
@@ -212,6 +223,11 @@ function IptvAppView(props: IptvAppProps) {
           />
         </Show>
       </Show>
+
+      {/* ---- Settings modal: openable from any view (gear icon / Empty CTA) ---- */}
+      <Show when={store.state.isSettingsOpen}>
+        <SettingsPanel />
+      </Show>
     </div>
   );
 }
@@ -220,13 +236,10 @@ function IptvAppView(props: IptvAppProps) {
 // Public component — wraps the view in the store provider
 // ---------------------------------------------------------------------------
 
-export default function IptvApp(props: IptvAppProps): JSX.Element {
+export default function IptvApp(): JSX.Element {
   return (
-    <IptvProvider channels={props.channels} serverError={props.serverError}>
-      <IptvAppView {...props} />
+    <IptvProvider>
+      <IptvAppView />
     </IptvProvider>
   );
 }
-
-// Re-export types that consumers need for backward compatibility
-export type { IptvAppProps, IptvChannel } from "./stores/iptv-store";

@@ -5,10 +5,6 @@
 /** Stream source configuration for the player */
 export interface StreamSource {
   url: string;
-  /** Optional Referer header required by the stream server */
-  referrer?: string | null;
-  /** Optional User-Agent header required by the stream server */
-  user_agent?: string | null;
 }
 
 export interface IptvPlayerProps {

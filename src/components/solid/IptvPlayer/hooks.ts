@@ -97,17 +97,7 @@ export function initHls(
     return null;
   }
 
-  const hls = new Hls({
-    // xhrSetup injects required headers before each xhr request
-    xhrSetup: (xhr, _url) => {
-      if (source.referrer) {
-        xhr.setRequestHeader("Referer", source.referrer);
-      }
-      if (source.user_agent) {
-        xhr.setRequestHeader("User-Agent", source.user_agent);
-      }
-    },
-  });
+  const hls = new Hls();
 
   hls.on(Events.ERROR, (_event, data) => {
     if (!isFatalError(data)) return;

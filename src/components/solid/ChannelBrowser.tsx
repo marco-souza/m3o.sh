@@ -17,6 +17,7 @@ import {
   Show,
 } from "solid-js";
 import ChannelCard from "./ChannelCard";
+import { categoryColor } from "./channel-display";
 import { createChannelFilter } from "./stores/channel-filter";
 import { useIptvStore } from "./stores/iptv-store";
 
@@ -212,7 +213,7 @@ export default function ChannelBrowser(props: ChannelBrowserProps) {
             <button
               type="button"
               class="btn btn-ghost btn-sm btn-circle focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-              onClick={() => store.actions.refreshChannels()}
+              onClick={() => store.actions.refresh()}
               disabled={store.state.isRefreshing}
               aria-label="Refresh channels"
               title="Refresh channels"
@@ -307,8 +308,9 @@ export default function ChannelBrowser(props: ChannelBrowserProps) {
                       type="button"
                       class={`rounded-full px-2.5 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs font-semibold uppercase transition-colors outline-none ${
                         isActive()
-                          ? "bg-primary text-primary-content"
-                          : "bg-base-200 text-base-content/70 hover:bg-base-300"
+                          ? "ring-2 ring-primary ring-offset-2 ring-offset-base-100 " +
+                            categoryColor(cat)
+                          : categoryColor(cat)
                       } focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2`}
                       onClick={() => filter.toggleCategory(cat)}
                       aria-pressed={isActive()}
@@ -372,6 +374,16 @@ export default function ChannelBrowser(props: ChannelBrowserProps) {
               </div>
             }
           >
+            <Show when={filter.isCapped()}>
+              <div
+                class="mb-3 rounded-lg bg-warning/10 px-3 py-2 text-xs text-warning"
+                role="status"
+                aria-live="polite"
+              >
+                Showing {filter.filteredCount()} of{" "}
+                {filter.totalFilteredCount()} — refine your search
+              </div>
+            </Show>
             <div
               ref={gridRef}
               class="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(160px,1fr))] gap-2 sm:gap-3"
