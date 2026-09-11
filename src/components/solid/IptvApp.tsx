@@ -90,7 +90,7 @@ function IptvAppView() {
 
   // ---- Render ----
   return (
-    <div ref={containerRef} class="relative h-full w-full">
+    <div ref={containerRef} class="relative h-full w-full rounded">
       {/* Loading (first-run auto-fetch, or a refresh in flight with no cache) */}
       <Show when={store.state.view === "Loading"}>
         <div class="flex h-full flex-col items-center gap-4 sm:gap-6 overflow-y-auto px-3 sm:px-4 py-4 sm:py-6">

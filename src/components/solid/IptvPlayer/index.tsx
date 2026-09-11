@@ -144,7 +144,7 @@ export default function IptvPlayer(props: IptvPlayerProps): JSX.Element {
   // ---- Render ----
   return (
     <div
-      class={`relative h-full w-full overflow-hidden bg-black ${!isVideoShowing() && "py-24"}`}
+      class={`relative h-full rounded w-full overflow-hidden bg-black ${!isVideoShowing() && "py-24"}`}
     >
       {/* Placeholder when no channel is selected */}
       <Show when={!hasSource() && !hasError()}>
