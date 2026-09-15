@@ -44,13 +44,18 @@ Next steps
 
 ## Feature: App Center
 
-- [ ] Open TV: Open-source IPTV Web player
+- [x] Open TV: Open-source IPTV Web player
 - [ ] Link Shortener: Link shotener with QR code generator and Analytics
 - [ ] Feed: RSS feed reader
 - [ ] Web Clip: Web
 
 ## Feature: Cat tamagoshi
 
+- [ ] [WIP] study odin
+  - [ ] get screen size
+  - [ ] draw something to the screen
+  - [ ] run a game loop for updating it
+  - [ ] set a tray icon to run it in bg
 - [ ] svg cat walking on the page
 - [ ] Interactions: play, pet, feed, trash poop, give food, give a name.
 - [ ] Cat Actions: walk, sleep, meow, scratch, eat, drink, poop, jump.
