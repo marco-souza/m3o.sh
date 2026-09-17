@@ -13,7 +13,9 @@ hunger := 100.0
 
 start :: proc() {
   raylib.SetConfigFlags({
-    .WINDOW_UNDECORATED, .WINDOW_TOPMOST, .WINDOW_TRANSPARENT
+    .WINDOW_UNDECORATED, .WINDOW_TOPMOST, .WINDOW_TRANSPARENT,
+    // INFO : idea to have a full screen game and wall the cat
+    // .WINDOW_MOUSE_PASSTHROUGH
   })
 
   raylib.InitWindow(w, h, title)
@@ -27,7 +29,8 @@ start :: proc() {
 @(private)
 loop :: proc() {
   for !raylib.WindowShouldClose() {
-    hunger -= f64(raylib.GetFrameTime() * 0.5) // slowly starves over time
+    delta := raylib.GetFrameTime() * 2.0 // quickly starves over time
+    hunger -= f64(delta)
 
     // interactions
     if raylib.IsMouseButtonPressed(.LEFT) {
@@ -42,8 +45,22 @@ loop :: proc() {
     raylib.ClearBackground(raylib.BLANK)
 
     // Draw pet (placeholder)
-    raylib.DrawRectangle(100, 100, 100, 100, raylib.ORANGE)
-    raylib.DrawText("Maaw", 120, 140, 20, raylib.WHITE)
+    if i32(hunger) % 10 == 0 {
+      fmt.println("hunger=", hunger)
+      fmt.println("delta=", delta)
+    }
+
+    switch {
+    case hunger <= 30:
+      raylib.DrawRectangle(60, 60, 180, 180, raylib.RED)
+      raylib.DrawText("Maaaaaaaaaaaw 🤬", 120, 140, 20, raylib.WHITE)
+    case hunger <= 60:
+      raylib.DrawRectangle(80, 80, 140, 140, raylib.ORANGE)
+      raylib.DrawText("Maaaaaaw 😤", 120, 140, 20, raylib.WHITE)
+    case:
+      raylib.DrawRectangle(100, 100, 100, 100, raylib.ORANGE)
+      raylib.DrawText("Maaw", 120, 140, 20, raylib.WHITE)
+    }
 
     // HP bar
     raylib.DrawRectangle(100, 80, i32(hunger), 10, raylib.GREEN)
