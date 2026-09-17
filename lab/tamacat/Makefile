@@ -3,3 +3,4 @@ run: main.odin
 
 build: main.odin
 	@odin build .
+
