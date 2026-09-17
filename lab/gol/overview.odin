@@ -1,5 +1,6 @@
 package main
 
+import "vendor:curl"
 import "core:fmt"
 
 /*
@@ -68,4 +69,37 @@ constants :: proc() {
   z :: (y + 7) * 2
 
   fmt.println(y, z)
+}
+
+fetch :: proc() {
+  // Initialize libCURL
+  curl.global_init(curl.GLOBAL_ALL)
+  defer curl.global_cleanup()
+
+  handle := curl.easy_init()
+  if handle != nil {
+    defer curl.easy_cleanup(handle)
+
+    // Set the target URL
+    curl.easy_setopt(handle, .URL, "https://api.github.com/users/marco-souza")
+
+    // Follow redirects if necessary
+    curl.easy_setopt(handle, .FOLLOWLOCATION, i64(1))
+
+    // Headers
+    headers: ^curl.slist = nil
+
+    headers = curl.slist_append(headers, "User-Agent: Odin-Curl-Client/1.0")
+    headers = curl.slist_append(headers, "Content-Type: application/json")
+
+    defer curl.slist_free_all(headers)
+
+    curl.easy_setopt(handle, .HTTPHEADER, headers)
+
+    // Perform the request
+    res := curl.easy_perform(handle)
+    if res != .E_OK {
+      fmt.printf("CURL Error: %s\n", curl.easy_strerror(res))
+    }
+  }
 }
