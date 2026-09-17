@@ -6,7 +6,7 @@ import "game"
 main :: proc() {
   fmt.println("Starting tamacat...")
 
-  game.loop()
+  game.start()
 
   fmt.println("Exiting tamacat...")
 }
