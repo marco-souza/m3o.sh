@@ -23,7 +23,7 @@ export const ui = {
     "social.podcodar": "PodCodar",
     "social.discord": "Discord",
 
-    "socials.meta.title": "Socials",
+    "socials.meta.title": "Marco's social media links",
     "socials.meta.description": "Where to find me on the internet",
     "socials.heading": "Where to find me on the internet",
     "socials.intro":
