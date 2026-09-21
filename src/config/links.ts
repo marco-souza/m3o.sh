@@ -8,7 +8,7 @@ export type Link = {
 const t = useTranslations(defaultLang);
 
 export const navLinks: Link[] = [
-  { url: "/blog", label: t("nav.blog") },
+  // { url: "/blog", label: t("nav.blog") },
   { url: "/lab", label: t("nav.lab") },
   { url: "/socials", label: t("nav.socials") },
   { url: "/mock-interview", label: t("nav.mock-interview") },
@@ -32,7 +32,7 @@ const EnvSchema = z.object({
   RESUME_URL: z.string().default("/resume"),
 });
 
-const env = EnvSchema.parse(import.meta.env);
+const env = EnvSchema.parse(import.meta.env ?? {});
 
 export const links = {
   contactEmail: env.CONTACT_EMAIL,
