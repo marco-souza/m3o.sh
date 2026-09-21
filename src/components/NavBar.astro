@@ -1,34 +1,16 @@
 ---
-import { navLinks, serviceLinks, socialLinks } from "@/config/links";
+import { navLinks } from "@/config/links";
 
-import Logo from "./Logo.astro";
+const { pathname } = Astro.url;
 ---
 
-<nav class="top-2 flex md:flex-row flex-col gap-4 p-2 m-[-0.5rem] items-center sticky top-0 z-10 backdrop-blur-md bg-base-100/60 rounded-xl border border-base-300/30 shadow-sm transition-all duration-300">
-  <Logo wordmark />
-
-  <div class="nav-links flex flex-row gap-4">
-    {navLinks.map(({ label, url }) => (
-      <a href={url} class="btn btn-ghost hover:btn-outline btn-xs">
-        {label}
-      </a>
-    ))}
-    {socialLinks.map(({ label, url }) => (
-      <a href={url} class="btn btn-ghost hover:btn-outline btn-xs" target="_blank">
-        {label}
-      </a>
-    ))}
-  </div>
-
-  <div class="spacer flex-1"></div>
-
-  <div class="service-links flex flex-row gap-4">
-    {serviceLinks.map(({ label, url }, idx) => (
-    <a href={url} class={`btn btn-sm ${
-       (idx == serviceLinks.length - 1) ? "btn-primary" : "btn-ghost"}`
-      }>
-        {label}
-      </a>
-    ))}
-  </div>
+<nav class="top-2 p-2 text-center sticky z-10 backdrop-blur-md bg-base-100/30 rounded-xl shadow-sm">
+  {navLinks.map(({ label, url }) => (
+    <a
+      href={url}
+      class={`btn btn-ghost btn-xs ${pathname == url ? "underline" : ""}`}
+    >
+      {label}
+    </a>
+  ))}
 </nav>

@@ -18,14 +18,14 @@ const lang = getLangFromUrl(Astro.url);
 const {
   image,
   title = "Marco Souza ",
-  subtitle = "Solutions Architect in Brazil 🇧🇷",
+  subtitle = "Solutions Architect remote to the World 🌎",
 } = Astro.props;
 ---
 <!doctype html>
 <html lang={lang}>
   <Head title={title} description={subtitle} image={image} />
 
-  <body class="p-4 max-w-2xl mx-auto gap-8 font-mono py-8 grid md:pt-32">
+  <body class="p-8 py-12 max-w-2xl mx-auto gap-8 font-mono grid md:pt-32">
     <Background />
 
     <Hero title={title} subtitle={subtitle} {image} />

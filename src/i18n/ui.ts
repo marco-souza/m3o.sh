@@ -11,6 +11,7 @@ export const ui = {
       "I've been building different products in finances, healthcare, e-commerce, and leading development in the last two decade. I've failed more times than I can remember, so I know what pitfalls to avoid. If you need an interim CTO, I can help you.",
 
     "nav.newsletter": "Newsletter",
+    "nav.socials": "Socials",
     "nav.blog": "Blog",
     "nav.lab": "Lab",
 
@@ -29,7 +30,7 @@ export const ui = {
     "footer.built-by": "© <year> Marco Souza. This site is <oss>! <3",
 
     "work-with-me.meta.title": "Work with Me",
-    "work-with-me.meta.description": "tech lead that understands you",
+    "work-with-me.meta.description": "find a Tech Lead that understands you",
 
     "work-with-me.fte.heading": "Full-Time Roles",
     "work-with-me.fte.elevator-pitch":
