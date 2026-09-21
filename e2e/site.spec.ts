@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { navLinks } from "../src/config/links.ts";
 
 // ──────────────────────────────────────────────────────────────────────────────
 // Homepage
@@ -36,13 +37,10 @@ test.describe("Homepage", () => {
 
     const nav = page.locator("nav");
     await expect(nav).toBeVisible();
-    await expect(nav.getByRole("link", { name: "Lab" })).toBeVisible();
-    await expect(nav.getByRole("link", { name: "GitHub" })).toBeVisible();
-    await expect(nav.getByRole("link", { name: "LinkedIn" })).toBeVisible();
-    await expect(
-      nav.getByRole("link", { name: "Mock Interview" }),
-    ).toBeVisible();
-    await expect(nav.getByRole("link", { name: "Work with Me" })).toBeVisible();
+
+    for (const { label } of navLinks) {
+      await expect(nav.getByRole("link", { name: label })).toBeVisible();
+    }
   });
 
   test("renders footer with copyright and OSS link", async ({ page }) => {
