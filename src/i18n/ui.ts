@@ -20,6 +20,18 @@ export const ui = {
 
     "social.github": "GitHub",
     "social.linkedin": "LinkedIn",
+    "social.podcodar": "PodCodar",
+    "social.discord": "Discord",
+
+    "socials.meta.title": "Socials",
+    "socials.meta.description": "Where to find me on the internet",
+    "socials.heading": "Where to find me on the internet",
+    "socials.intro":
+      "I'm not on every social network, but the best way to reach me is via GitHub, LinkedIn, or the PodCodar community where I mentor. Here's where I roam:",
+    "socials.note":
+      "PodCodar is a free coding community that democratizes access to a software engineering career in Brazil — where quality education is usually expensive and out of reach.",
+    "socials.cta.discord": "Join the Discord",
+    "socials.cta.page": "Visit PodCodar",
 
     "home.presentation.title":
       "Hi! I’m Marco, and I like to make software for humans - sometimes LLMs tools are involved.",
