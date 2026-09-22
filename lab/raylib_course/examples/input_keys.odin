@@ -10,12 +10,10 @@ input_keys_loop :: proc() {
   for !raylib.WindowShouldClose() {
     // Update
     //--------------------------------------------------------------------------------
-    switch {
-    case raylib.IsKeyDown(.RIGHT): ballPosition.x += 2.0;
-    case raylib.IsKeyDown(.LEFT): ballPosition.x -= 2.0;
-    case raylib.IsKeyDown(.UP): ballPosition.y -= 2.0;
-    case raylib.IsKeyDown(.DOWN): ballPosition.y += 2.0;
-    }
+    if raylib.IsKeyDown(.RIGHT) { ballPosition.x += 2.0 }
+    if raylib.IsKeyDown(.LEFT) { ballPosition.x -= 2.0 }
+    if raylib.IsKeyDown(.UP) { ballPosition.y -= 2.0 }
+    if raylib.IsKeyDown(.DOWN) { ballPosition.y += 2.0 }
 
     // Draw
     //--------------------------------------------------------------------------------
