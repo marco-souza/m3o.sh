@@ -4,6 +4,7 @@ import "vendor:raylib"
 
 input_keys_loop :: proc() {
   raylib.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "raylib [core] example - input keys")
+  defer raylib.CloseWindow()
 
   ballPosition := Vector2{ SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 }
 
