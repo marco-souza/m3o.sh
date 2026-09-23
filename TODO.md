@@ -1,7 +1,5 @@
 # Tasks
 
-WIP:
-
 ## Groundwork
 
 - [x] [i18n] set up text constants - <https://docs.astro.build/en/recipes/i18n/>
@@ -34,13 +32,19 @@ WIP:
   - [x] Check my Linkedin // View resume
   - [x] Get it Touch!
 
-Next steps
+## Blog
 
-- [ ] Blog
-  - [ ] [ui] Set blog page & content
-  - [ ] [ui] Recent posts or random
-  - [ ] [ui] Newsletter
-  - [ ] [ui] Post Tags
+- [x] [ui] Set blog page & content
+  - [x] Create blog listing page
+- [~] Blog post view
+  - [x] implement entry fetching logic
+  - [x] implement page rendering
+  - [x] add back button
+  - [ ] add metadata for post
+    - [ ] dates
+    - [ ] tags
+  - [ ] add metadata for author
+- [ ] clean up `console.log`
 
 ## Feature: App Center
 
@@ -51,11 +55,23 @@ Next steps
 
 ## Feature: Cat tamagoshi
 
-- [ ] [WIP] study odin
-  - [ ] get screen size
-  - [ ] draw something to the screen
-  - [ ] run a game loop for updating it
+- [~] [WIP] study game dev
+  - [ ] core concepts
+  - [ ] primitives
+  - [ ] organizaation
+- [~] [WIP] study odin
+  - [x] get screen size
+  - [x] draw something to the screen
+  - [x] run a game loop for updating it
   - [ ] set a tray icon to run it in bg
-- [ ] svg cat walking on the page
-- [ ] Interactions: play, pet, feed, trash poop, give food, give a name.
-- [ ] Cat Actions: walk, sleep, meow, scratch, eat, drink, poop, jump.
+
+- [ ] Draw a cat
+  - [ ] svg cat walking on the page/screen
+  - [ ] Interactions: play, pet, feed, trash poop, give food, give a name.
+  - [ ] Cat Actions: walk, sleep, meow, scratch, eat, drink, poop, jump.
+
+## Next steps
+
+- [ ] [ui] custom 404 page
+- [ ] [ui] Recent posts or random
+- [ ] [ui] Post Tags search
