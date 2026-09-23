@@ -7,7 +7,6 @@ const t = ui[defaultLang];
 const socials = [
   { label: t["social.github"], url: m3o.github },
   { label: t["social.linkedin"], url: m3o.linkedin },
-  { label: t["social.discord"], url: m3o.discord },
 ] as const;
 
 // ──────────────────────────────────────────────────────────────────────────────

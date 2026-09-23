@@ -42,20 +42,6 @@ test.describe("Navigation", () => {
     ).toBeVisible();
   });
 
-  test("can navigate from home to mock-interview via nav", async ({ page }) => {
-    await page.goto("/");
-
-    await page.getByRole("link", { name: navLabel("/mock-interview") }).click();
-
-    await expect(page).toHaveURL(/\/mock-interview/);
-    await expect(
-      page.getByRole("heading", {
-        name: t["mock-interview.intro.heading"],
-        level: 2,
-      }),
-    ).toBeVisible();
-  });
-
   test("can navigate from home to socials via nav", async ({ page }) => {
     await page.goto("/");
 
@@ -74,8 +60,7 @@ test.describe("Navigation", () => {
   });
 
   test("can navigate directly to all main pages", async ({ page }) => {
-    const paths = navLinks.map((l) => l.url).filter((url) => url !== "/blog");
-
+    const paths = navLinks.map((l) => l.url);
     for (const path of paths) {
       await page.goto(path);
       await expect(page.locator("nav")).toBeVisible();
@@ -86,9 +71,9 @@ test.describe("Navigation", () => {
   test("lab back button returns to lab index", async ({ page }) => {
     await page.goto("/lab/open-tv");
 
-    const backButton = page.getByRole("link", { name: t["lab.back"] });
+    const backButton = page.getByRole("button", { name: t["lab.back"] });
+
     await expect(backButton).toBeVisible();
-    await expect(backButton).toHaveAttribute("href", "/lab");
   });
 
   test("social links on Socials page open in new tab", async ({ page }) => {

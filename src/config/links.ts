@@ -18,7 +18,6 @@ export const navLinks: Link[] = [
 export const m3o = {
   linkedin: "https://linkedin.com/in/masouzajunior",
   github: "https://github.com/marco-souza",
-  discord: "https://discord.com/users/488746421944582154",
   avatar: "https://github.com/marco-souza.png",
 };
 
