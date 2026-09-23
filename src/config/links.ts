@@ -8,10 +8,10 @@ export type Link = {
 const t = useTranslations(defaultLang);
 
 export const navLinks: Link[] = [
-  // { url: "/blog", label: t("nav.blog") },
+  { url: "/", label: t("nav.home") },
+  { url: "/blog", label: t("nav.blog") },
   { url: "/lab", label: t("nav.lab") },
   { url: "/socials", label: t("nav.socials") },
-  { url: "/mock-interview", label: t("nav.mock-interview") },
   { url: "/work-with-me", label: t("nav.work-with-me") },
 ];
 

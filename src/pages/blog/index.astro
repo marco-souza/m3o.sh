@@ -1,7 +1,15 @@
 ---
 import { getCollection } from "astro:content";
-
 import Layout from "@/layouts/Layout.astro";
+
+import { getLangFromUrl } from "@/i18n/ui";
+import { useTranslations } from "@/i18n/ui";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const title = t("blog.meta.title");
+const description = t("blog.meta.description");
 
 const allBlogPosts = await getCollection("blog");
 
@@ -10,7 +18,8 @@ console.log({
 });
 ---
 
-<Layout title="Marco's blog" subtitle="My rant place">
+<Layout title={title} subtitle={description}>
+  <main class="gap-8 p-4 flex flex-col">
   <ul class="grid gap-12">
     {allBlogPosts.map((post) => (
       <a href={`/blog/${post.id}`} >
@@ -21,11 +30,12 @@ console.log({
 
           <p class="tags text-xs flex gap-2">
             {post.data.tags.map(tab => (
-              <span>#{tab}</span>
+              <span class="group-hover/post:underline">#{tab}</span>
             ))}
           </p>
         </li>
       </a>
     ))}
   </ul>
+  </main>
 </Layout>

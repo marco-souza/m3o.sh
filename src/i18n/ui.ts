@@ -10,7 +10,7 @@ export const ui = {
     "layout.description":
       "I've been building different products in finances, healthcare, e-commerce, and leading development in the last two decade. I've failed more times than I can remember, so I know what pitfalls to avoid. If you need an interim CTO, I can help you.",
 
-    "nav.newsletter": "Newsletter",
+    "nav.home": "Home",
     "nav.socials": "Socials",
     "nav.blog": "Blog",
     "nav.lab": "Lab",
@@ -23,7 +23,10 @@ export const ui = {
     "social.podcodar": "PodCodar",
     "social.discord": "Discord",
 
-    "socials.meta.title": "Marco's social media links",
+    "blog.meta.title": "Marco Souza",
+    "blog.meta.description": "Where I rant to no audience",
+
+    "socials.meta.title": "Marco Souza",
     "socials.meta.description": "Where to find me on the internet",
     "socials.heading": "Where to find me on the internet",
     "socials.intro":
