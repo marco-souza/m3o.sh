@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 
-import Layout from "@/layouts/LabLayout.astro";
+import Layout from "@/layouts/Layout.astro";
 
 const allBlogPosts = await getCollection("blog");
 
@@ -11,9 +11,21 @@ console.log({
 ---
 
 <Layout title="Marco's blog" subtitle="My rant place">
-  <main>
-    <code>
-      {JSON.stringify(allBlogPosts)}
-    </code>
-  </main>
+  <ul class="grid gap-12">
+    {allBlogPosts.map((post) => (
+      <a href={`/blog/${post.id}`} >
+        <li class="grid gap-2 group/post">
+          <h3 class="group-hover/post:underline"># {post.data.title} - <span class="italic">{post.data.publishedAt.toLocaleDateString()}</span></h3>
+
+          <p>{post.data.description}</p>
+
+          <p class="tags text-xs flex gap-2">
+            {post.data.tags.map(tab => (
+              <span>#{tab}</span>
+            ))}
+          </p>
+        </li>
+      </a>
+    ))}
+  </ul>
 </Layout>
