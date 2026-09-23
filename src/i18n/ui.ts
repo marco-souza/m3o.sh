@@ -25,6 +25,7 @@ export const ui = {
 
     "blog.meta.title": "Marco Souza",
     "blog.meta.description": "Where I rant to no audience",
+    "blog.back": "Back to Blog",
 
     "socials.meta.title": "Marco Souza",
     "socials.meta.description": "Where to find me on the internet",

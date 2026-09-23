@@ -1,6 +1,7 @@
 ---
 import BackButton from "@/components/BackButton.astro";
 import WipBanner from "@/components/WipBanner.astro";
+import { getLangFromUrl, useTranslations } from "@/i18n/ui";
 import Layout from "@/layouts/Layout.astro";
 
 interface Props {
@@ -10,11 +11,14 @@ interface Props {
   image?: string;
 }
 
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
 const { title, subtitle, status = "wip", image } = Astro.props;
 ---
 
 <Layout {title} {subtitle} {image}>
-  <BackButton />
+  <BackButton text={t("lab.back")}/>
   {status === "wip" && <WipBanner />}
   <slot />
 </Layout>

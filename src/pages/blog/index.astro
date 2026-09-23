@@ -1,9 +1,7 @@
 ---
 import { getCollection } from "astro:content";
+import { getLangFromUrl, useTranslations } from "@/i18n/ui";
 import Layout from "@/layouts/Layout.astro";
-
-import { getLangFromUrl } from "@/i18n/ui";
-import { useTranslations } from "@/i18n/ui";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -19,7 +17,6 @@ console.log({
 ---
 
 <Layout title={title} subtitle={description}>
-  <main class="gap-8 p-4 flex flex-col">
   <ul class="grid gap-12">
     {allBlogPosts.map((post) => (
       <a href={`/blog/${post.id}`} >
@@ -37,5 +34,4 @@ console.log({
       </a>
     ))}
   </ul>
-  </main>
 </Layout>
