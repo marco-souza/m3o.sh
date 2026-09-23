@@ -1,0 +1,19 @@
+---
+import { getCollection } from "astro:content";
+
+import Layout from "@/layouts/LabLayout.astro";
+
+const allBlogPosts = await getCollection("blog");
+
+console.log({
+  data: allBlogPosts.map(({ data }) => data.author),
+});
+---
+
+<Layout title="Marco's blog" subtitle="My rant place">
+  <main>
+    <code>
+      {JSON.stringify(allBlogPosts)}
+    </code>
+  </main>
+</Layout>
