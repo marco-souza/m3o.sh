@@ -1,7 +1,7 @@
 # Marco Souza
 
-> 👨‍💻 Software Engineer & Solutions Architect - [@MongoDB](https://mongodb.com) <br>
-> 🎨 Community Lead & Mentor - [@PodCodar](https://podcodar.org) <br>
+> 👨‍💻 Software Engineer & Solutions Architect - [@MongoDB](https://mongodb.com) <br />
+> 🎨 Community Lead & Mentor - [@PodCodar](https://podcodar.org) <br />
 > 🐈‍⬛ Cat daddy & DJ - [@home](https://github.com/marco-souza)
 
 ## About me
@@ -20,7 +20,7 @@ I'm also the founder and director of [PodCodar](https://podcodar.org) - a nonpro
 
 ## Most Impactful experiences
 
-### Sr Software Development Engineer and Software Architect - [@MongoDB](https://mongodb.com)
+### Sr Software Engineer & Software Architect - [@MongoDB](https://mongodb.com)
 
 > ~3y - Apr/2024 – present | NY, Remote from Brazil
 
@@ -40,18 +40,17 @@ I'm also the founder and director of [PodCodar](https://podcodar.org) - a nonpro
 
 ### Notable Experiences
 
-- **2.5y (Jan/2021 – May/2023)** - Tech Lead & Software Engineer - [@Paradigm](https://paradigm.co) · _New York, NY, Remote from Brazil_
+- **2.5y - Tech Lead & Software Engineer** - [@Paradigm](https://paradigm.co) · _New York, NY, Remote from Brazil_
   - **Led team of 6 engineers** (web, mobile, desktop), collaborating with backend and infra teams on cross-team architecture, planning, and implementation
   - **Reduced Desktop App memory usage from 80MB to 15MB per user session** (80% improvement) by architecting and reimplementing client stores using DDD principles
   - **Reduced Mobile App time-to-market by 50%** by architecting and extracting shared Redux data layer into monorepo
   - **Automated Mobile App build & deploy pipeline**, reducing deployment time from 4 hours (manual, error-prone) to 26 minutes
 
-- **11m (Jun/2023 – Apr/2024)** - Sr Software Engineer at [@Able](https://able.co)
-  - Built internal CRM for client and project management, improving operational efficiency and team communication
+- **11m - Sr Software Engineer** at [@Able](https://able.co)
   - **Integrated Twilio VoIP service**, automating 82% of 10k support calls/month (only 1,800 required human assistance)
   - Developed healthcare facility mapping platform (clinics, nursing homes, healthcare services) for easy health service discovery
 
-- **4y (Nov/2015 – Sep/2019)** - Software Engineer & Tech Lead at [@SmarttBot](https://smarttbot.com)
+- **4y - Software Engineer & Tech Lead** at [@SmarttBot](https://smarttbot.com)
   - Developed web and mobile applications for algorithmic stock trading platform
   - Served as Scrum Master for Web Development Team
   - Led team of 4 engineers on platform development and delivery
