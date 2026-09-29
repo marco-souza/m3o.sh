@@ -18,21 +18,6 @@ We are used to seeing companies' values used to evaluate future employees. This 
 
 With this post I'm establishing the values I evaluate to decide whether I should stay or should I go.
 
-Those values are:
-
-- Build for Humans
-- Remote Work
-- Outcomes over story points
-- Growth Perspective
-- Small, Async, and Focused
-- Diversity, Equity, Inclusion
-- Work-life Balance
-- Autonomy and Trust
-- Mission
-- Engineering Practices
-
-And here is why
-
 ### 1. Build for Humans
 
 Since I started my career, I've been building for humans. Websites, web applications, mobile applications, APIs, services - all for humans. Artificial Intelligence is a useful tool to scale delivery and helps small teams deliver faster, but it's not a solution that should put humans out of the loop!
