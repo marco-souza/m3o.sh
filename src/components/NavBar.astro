@@ -2,13 +2,22 @@
 import { navLinks } from "@/config/links";
 
 const { pathname } = Astro.url;
+
+function isActive(url: string): boolean {
+  if (pathname === url) return true;
+  if (url === "/") return false;
+
+  if (pathname.startsWith(url)) return true;
+
+  return false;
+}
 ---
 
 <nav class="top-2 p-2 text-center sticky z-10 backdrop-blur-md bg-base-100/30 rounded-xl shadow-sm">
   {navLinks.map(({ label, url }) => (
     <a
       href={url}
-      class={`btn btn-ghost btn-xs ${pathname == url ? "underline" : ""}`}
+      class={`btn btn-ghost btn-md ${isActive(url) ? "underline" : ""}`}
     >
       {label}
     </a>
