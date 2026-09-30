@@ -33,9 +33,9 @@ const { Content } = await render(post);
 <Layout title={title} subtitle={description}>
   <div><BackButton text={t("blog.back")} /></div>
 
-  <header>
+  <header class="grid gap-2">
     <h1 class="text-3xl">{post.data.title}</h1>
-    <p class="italic">{formatedDate}</p>
+    <p class="italic text-base-400">{formatedDate}</p>
 
     <p class="text-xm flex gap-4">
       {post.data.tags.map(t => (
