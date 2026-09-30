@@ -20,12 +20,34 @@ if (post === undefined) {
   return Astro.redirect("/404");
 }
 
+const date = post.data.updatedAt ?? post.data.publishedAt;
+const formatedDate = date.toLocaleDateString("en-US", {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+});
+
 const { Content } = await render(post);
 ---
 
 <Layout title={title} subtitle={description}>
-  <BackButton text={t("blog.back")} />
+  <div><BackButton text={t("blog.back")} /></div>
+
+  <header>
+    <h1 class="text-3xl">{post.data.title}</h1>
+    <p class="italic">{formatedDate}</p>
+
+    <p class="text-xm flex gap-4">
+      {post.data.tags.map(t => (
+        <a href="#" class="link">#{t}</a>
+      ))}
+    </p>
+  </header>
+
+  <div class="divider" />
 
   <Content />
+
+  <div class="divider" />
 </Layout>
 

@@ -9,15 +9,15 @@ const t = useTranslations(lang);
 const title = t("blog.meta.title");
 const description = t("blog.meta.description");
 
-const allBlogPosts = await getCollection("blog");
-
-console.log({
-  data: allBlogPosts.map(({ data }) => data.author),
-});
+const allBlogPosts = await getCollection("blog").then((posts) =>
+  posts.sort(
+    (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf(),
+  ),
+);
 ---
 
 <Layout title={title} subtitle={description}>
-  <hr />
+  <div class="divider" />
 
   <ul class="grid gap-12">
     {allBlogPosts.map((post) => (
@@ -37,5 +37,5 @@ console.log({
     ))}
   </ul>
 
-  <hr />
+  <div class="divider" />
 </Layout>

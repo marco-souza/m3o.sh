@@ -17,7 +17,7 @@ function isActive(url: string): boolean {
   {navLinks.map(({ label, url }) => (
     <a
       href={url}
-      class={`btn btn-ghost btn-md ${isActive(url) ? "underline" : ""}`}
+      class={`btn btn-ghost btn-sm ${isActive(url) ? "underline" : ""}`}
     >
       {label}
     </a>
