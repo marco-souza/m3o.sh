@@ -19,6 +19,7 @@ export const m3o = {
   linkedin: "https://linkedin.com/in/masouzajunior",
   github: "https://github.com/marco-souza",
   avatar: "https://github.com/marco-souza.png",
+  podcodar: "https://podcodar.org",
 };
 
 export const podcodar = {

@@ -17,6 +17,8 @@ console.log({
 ---
 
 <Layout title={title} subtitle={description}>
+  <hr />
+
   <ul class="grid gap-12">
     {allBlogPosts.map((post) => (
       <a href={`/blog/${post.id}`} >
@@ -34,4 +36,6 @@ console.log({
       </a>
     ))}
   </ul>
+
+  <hr />
 </Layout>

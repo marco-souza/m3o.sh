@@ -4,7 +4,7 @@ import Footer from "@/components/Footer.astro";
 import Head from "@/components/Head.astro";
 import Hero from "@/components/Hero.astro";
 import NavBar from "@/components/NavBar.astro";
-import { getLangFromUrl } from "@/i18n/ui";
+import { getLangFromUrl, useTranslations } from "@/i18n/ui";
 import "@/styles/global.css";
 
 interface Props {
@@ -14,18 +14,19 @@ interface Props {
 }
 
 const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 
 const {
   image,
-  title = "Marco Souza ",
-  subtitle = "Solutions Architect remote to the World 🌎",
+  title = t("layout.name"),
+  subtitle = t("layout.subtitle"),
 } = Astro.props;
 ---
 <!doctype html>
 <html lang={lang}>
   <Head title={title} description={subtitle} image={image} />
 
-  <body class="p-4 md:p-8 py-12 max-w-2xl mx-auto gap-8 font-mono grid md:pt-32">
+  <body class="p-4 md:p-8 py-12 max-w-2xl mx-auto gap-8 font-mono grid md:pt-16 lg:pt-32">
     <Background />
 
     <Hero title={title} subtitle={subtitle} {image} />
