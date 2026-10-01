@@ -1,5 +1,5 @@
 ---
-title: My values for the next employer
+title: My values for future employers
 description: What I value when considering a new job, aside from the paycheck
 author: marco.souza
 
@@ -9,10 +9,10 @@ tags:
   - values
 
 publishedAt: 2026-09-28
-updatedAt: 2026-09-28
+updatedAt: 2026-10-01
 ---
 
-## My values for the next employer
+## My values for future employers
 
 We are used to seeing companies' values used to evaluate future employees. This is important to ensure the candidate fits the company culture.
 
