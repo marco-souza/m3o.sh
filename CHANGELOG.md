@@ -5,9 +5,16 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.9] — 2026-10-01
+
+### 🦡 Posthog Setup
+
+- Set up posthog with wizard <3
+- Set up infra secrets for Posthog
+
 ## [0.0.8] — 2026-08-29
 
-### 💅 UI/UX Enhancements
+### 💅 Layout Enhancements
 
 - Update pages layout
 - Update blog layout
