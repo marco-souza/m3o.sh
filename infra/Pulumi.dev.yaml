@@ -7,4 +7,8 @@ config:
   # emails
   cloudflare:apiToken:
     secure: v1:gSb8vnDFJ0DHOIJh:yZKcdtIARwG+vo/YMpeM9M7A/l34yEC8jEeXX9U6cRXdiXLoWh6D+XduwKsrOu1xq+U/V+noVbxICno3cunIvaJ0qqgp
+  m3o:posthogHost:
+    secure: v1:Q7kFiet2JL+4685B:MRThw76dffkBYEYSlOIvNxi/OTbEWwyphTytvM5+u/lczIM39CPiig==
+  m3o:posthogProjectToken:
+    secure: v1:UhpXwcaHTAXACM2B:9NHh0OlbBEjqw/vbZm9X982ApvCe6Qfv6LVemlhm8nGAWqQeRb9Ps0cdnPPEYxhA65VV6jplm5eMREvKKjUCcw==
 encryptionsalt: v1:/csbPYFwV0Q=:v1:nfO6DpC4lGvVZmh7:/ky0LKs3HYlqbKif+L7ynDCt8Id74g==

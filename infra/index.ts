@@ -19,6 +19,8 @@ const builder = new command.local.Command("m3o-builder", {
     NODE_ENV: "production",
     CONTACT_EMAIL: config.contactEmail,
     RESUME_URL: config.resumeUrl,
+    PUBLIC_POSTHOG_HOST: config.posthog.host,
+    PUBLIC_POSTHOG_PROJECT_TOKEN: config.posthog.projectToken,
   },
   triggers: [gitCommitHash(process.env.FORCE === "true")],
 });
@@ -99,6 +101,18 @@ const workerVersion = new cloudflare.WorkerVersion(
         name: "RESUME_URL",
         type: "plain_text",
         text: config.resumeUrl,
+      },
+
+      {
+        name: "PUBLIC_POSTHOG_HOST",
+        type: "plain_text",
+        text: config.posthog.host,
+      },
+
+      {
+        name: "PUBLIC_POSTHOG_PROJECT_TOKEN",
+        type: "plain_text",
+        text: config.posthog.projectToken,
       },
     ],
 

@@ -9,4 +9,8 @@ config:
   m3o:emailCatchAll: souza.marco@proton.me
   cloudflare:apiToken:
     secure: v1:jDceQw6c7TJQx7vb:u5ah9NkoPO/znVFJ3LSUBjsP1EvW8PmL6MYCL3hf5R0yolkOd2FQvpQRQyn44wF3vGkUd/VBldQ9MFpYtyobt34OricT
+  m3o:posthogHost:
+    secure: v1:aWxt+kbZieFymQYZ:/OwVs9UjT64dvd1UiX8RedyzalaxwDKjJLxemEFoN7yTzgSMCPEB8g==
+  m3o:posthogProjectToken:
+    secure: v1:d00r57sXy2tyzFvI:xbNR4mdJBvn8PPteVCjfcjioohhLahwV7l1W+Sa8k5OlzIQrjIYmwXXc9TIooze+/3TMtt76InxEY3Ct0AH8NQ==
 encryptionsalt: v1:iYqEeVVSP14=:v1:obQjSgTEEw9d8SxX:w4n+V2URB4TIoK2kIdSFvwDGSMJ4TQ==

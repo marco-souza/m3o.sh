@@ -16,3 +16,9 @@ export const isProd = environment === "production";
 export const domain = isProd
   ? pulumi.interpolate`m3o.sh`
   : pulumi.interpolate`dev.m3o.sh`;
+
+// posthog
+export const posthog = {
+  host: config.requireSecret("posthogHost"),
+  projectToken: config.requireSecret("posthogProjectToken"),
+};
