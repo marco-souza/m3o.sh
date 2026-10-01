@@ -26,6 +26,7 @@
  */
 
 import { createSignal, type JSX, onCleanup, onMount, Show } from "solid-js";
+import { openTvPostHogLogger } from "@/lib/posthog-logs";
 import { useIptvStore } from "./stores/iptv-store";
 
 // ---------------------------------------------------------------------------
@@ -113,17 +114,23 @@ export default function SettingsPanel(): JSX.Element {
     // saveUrl always calls fetchAndParse — so an unchanged URL still
     // triggers a refresh (FR-5 edge case).
     await store.actions.saveUrl(trimmed);
+    window.posthog?.capture("playlist_saved");
+    openTvPostHogLogger.info("playlist save completed");
     store.actions.closeSettings();
   }
 
   /** Re-fetch the active playlist (not the draft); keep modal open. */
   async function handleRefreshNow() {
     await store.actions.refresh();
+    window.posthog?.capture("playlist_refreshed");
+    openTvPostHogLogger.info("playlist refresh completed");
   }
 
   /** Reset to the default playlist; fetch it; close. */
   async function handleResetToDefault() {
     await store.actions.resetToDefault();
+    window.posthog?.capture("playlist_reset_to_default");
+    openTvPostHogLogger.info("playlist reset to default completed");
     // Reflect the reset in the input draft and close.
     setDraft(store.state.playlistUrl);
     store.actions.closeSettings();

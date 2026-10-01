@@ -1,6 +1,7 @@
 ---
 import { Font } from "astro:assets";
 import OpenGraph from "@/components/OpenGraph.astro";
+import PostHog from "@/components/posthog.astro";
 import { getLangFromUrl, useTranslations } from "@/i18n/ui";
 
 interface Props {
@@ -33,4 +34,6 @@ const {
   <Font cssVariable="--font-fira-mono" preload />
 
   <meta name="generator" content={Astro.generator} />
+
+  <PostHog />
 </head>

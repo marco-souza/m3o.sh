@@ -53,14 +53,19 @@ export default function ChannelCard(props: ChannelCardProps) {
   const primaryCategory = () => props.channel.categories[0] ?? "";
   const badge = () => qualityLabel(props.channel.quality);
 
-  function handleClick() {
+  function selectChannel() {
+    window.posthog?.capture("channel_selected");
     props.onClick(props.channel.id);
+  }
+
+  function handleClick() {
+    selectChannel();
   }
 
   function handleKeyDown(e: KeyboardEvent) {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
-      props.onClick(props.channel.id);
+      selectChannel();
     }
   }
 

@@ -97,6 +97,7 @@ export default function IptvPlayer(props: IptvPlayerProps): JSX.Element {
 
     const source = props.streamSource;
     if (source && videoRef) {
+      window.posthog?.capture("playback_retried", { retry_number: next });
       destroyHls();
       setState(
         produce((s: PlayerState) => {

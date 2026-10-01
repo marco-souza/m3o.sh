@@ -28,6 +28,8 @@
     "@tailwindcss/vite": "^4.3.3",
     "astro": "7.3.2",
     "hls.js": "^1.7.2",
+    "posthog-js": "^1.435.3",
+    "posthog-node": "^5.54.1",
     "solid-js": "^1.9.15",
     "tailwindcss": "^4.3.3",
     "wrangler": "^4.130.0"
