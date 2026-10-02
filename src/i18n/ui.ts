@@ -25,7 +25,7 @@ export const ui = {
     "social.podcodar": "PodCodar",
     "social.discord": "Discord",
 
-    "blog.meta.title": "Marco Souza",
+    "blog.meta.title": "Marco's Blog",
     "blog.meta.description": "Where I rant to no audience",
     "blog.back": "Back to Blog",
 
@@ -47,12 +47,13 @@ export const ui = {
 
     "footer.built-by": "© <year> Marco Souza. This site is <oss>! <3",
 
-    "work-with-me.meta.title": "Work with Me",
-    "work-with-me.meta.description": "find a Tech Lead that understands you",
+    "work-with-me.meta.title": "Marco Souza",
+    "work-with-me.meta.description":
+      "A Tech Lead who empowers teams with ownership",
 
-    "work-with-me.fte.heading": "Full-Time Roles",
+    "work-with-me.fte.heading": "But.. who are you?",
     "work-with-me.fte.elevator-pitch":
-      "I'm a Senior Software Development Engineer at MongoDB with over a decade of experience shipping products across fintech, healthcare, and e-commerce. I've led teams of 6+ engineers, reduced CI/CD times by 5x, and built systems serving 11M+ users. If you're looking for a technical leader who can drive impact from day one, let's connect.",
+      "Senior Software Engineer and Solutions Architect at MongoDB with nearly two decades of experience delivering solutions across fintech, healthcare, and e-commerce. Currently leading a 22-person cross-functional team, driving platform enhancements for systems serving over 14 million monthly active users. I am a technical leader who delivers measurable impact from day one - let’s connect.",
     "work-with-me.fte.cta.linkedin": "View LinkedIn",
     "work-with-me.fte.cta.resume": "View Resume",
 
