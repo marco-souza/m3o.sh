@@ -1,4 +1,8 @@
 import { expect, test } from "@playwright/test";
+import { m3o } from "../src/config/links.ts";
+import { defaultLang, ui } from "../src/i18n/ui.ts";
+
+const t = ui[defaultLang];
 
 // ──────────────────────────────────────────────────────────────────────────────
 // Work with Me page
@@ -8,9 +12,14 @@ test.describe("Work with Me page", () => {
   test("has correct title and hero", async ({ page }) => {
     await page.goto("/work-with-me");
 
-    await expect(page).toHaveTitle(/Work with Me/i);
+    await expect(page).toHaveTitle(
+      new RegExp(t["work-with-me.meta.title"], "i"),
+    );
     await expect(
-      page.getByRole("heading", { name: "Work with Me", level: 1 }),
+      page.getByRole("heading", {
+        name: t["work-with-me.meta.title"],
+        level: 1,
+      }),
     ).toBeVisible();
   });
 
@@ -18,41 +27,63 @@ test.describe("Work with Me page", () => {
     await page.goto("/work-with-me");
 
     await expect(
-      page.getByRole("heading", { name: "Full-Time Roles", level: 2 }),
+      page.getByRole("heading", {
+        name: t["work-with-me.fte.heading"],
+        level: 2,
+      }),
     ).toBeVisible();
-    await expect(page.getByRole("link", { name: "View Resume" })).toBeVisible();
     await expect(
-      page.locator("#fte").getByRole("link", { name: "View LinkedIn" }),
-    ).toHaveAttribute("href", "https://linkedin.com/in/masouzajunior");
+      page.getByRole("link", { name: t["work-with-me.fte.cta.resume"] }),
+    ).toBeVisible();
+    await expect(
+      page.locator("#fte").getByRole("link", {
+        name: t["work-with-me.fte.cta.linkedin"],
+      }),
+    ).toHaveAttribute("href", m3o.linkedin);
   });
 
   test("renders consulting services grid", async ({ page }) => {
     await page.goto("/work-with-me");
 
     await expect(
-      page.getByRole("heading", { name: "Consulting", level: 2 }),
+      page.getByRole("heading", {
+        name: t["work-with-me.consulting.heading"],
+        level: 2,
+      }),
     ).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: "Interim CTO" }),
+      page.getByRole("heading", {
+        name: t["work-with-me.consulting.services.interim-cto.title"],
+      }),
     ).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: "Architecture Review" }),
+      page.getByRole("heading", {
+        name: t["work-with-me.consulting.services.architecture-review.title"],
+      }),
     ).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: "Team Coaching" }),
+      page.getByRole("heading", {
+        name: t["work-with-me.consulting.services.team-coaching.title"],
+      }),
     ).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: "1:1 Advisory" }),
+      page.getByRole("heading", {
+        name: t["work-with-me.consulting.services.advisory.title"],
+      }),
     ).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: "Mock Interview" }),
+      page.getByRole("heading", {
+        name: t["work-with-me.consulting.services.mock-interview.title"],
+      }),
     ).toBeVisible();
   });
 
   test("has booking CTA with mailto link", async ({ page }) => {
     await page.goto("/work-with-me");
 
-    const bookButton = page.getByRole("link", { name: "Book a Call" }).first();
+    const bookButton = page
+      .getByRole("link", { name: t["work-with-me.consulting.cta.book-call"] })
+      .first();
     await expect(bookButton).toBeVisible();
     await expect(bookButton).toHaveAttribute("href", /mailto:.*Consulting/);
   });
@@ -63,7 +94,10 @@ test.describe("Work with Me page", () => {
     await page.goto("/work-with-me");
 
     await expect(
-      page.getByRole("heading", { name: "Contact", level: 2 }),
+      page.getByRole("heading", {
+        name: t["work-with-me.contact.heading"],
+        level: 2,
+      }),
     ).toBeVisible();
 
     const emailLink = page.locator('a[href^="mailto:"]').first();
@@ -91,9 +125,14 @@ test.describe("Mock Interview page", () => {
   test("has correct title and intro", async ({ page }) => {
     await page.goto("/mock-interview");
 
-    await expect(page).toHaveTitle(/Marco Souza/i);
+    await expect(page).toHaveTitle(
+      new RegExp(t["mock-interview.meta.title"], "i"),
+    );
     await expect(
-      page.getByRole("heading", { name: "Mock Interview", level: 2 }),
+      page.getByRole("heading", {
+        name: t["mock-interview.intro.heading"],
+        level: 2,
+      }),
     ).toBeVisible();
   });
 
@@ -101,14 +140,25 @@ test.describe("Mock Interview page", () => {
     await page.goto("/mock-interview");
 
     await expect(
-      page.getByRole("heading", { name: "What We Cover", level: 2 }),
+      page.getByRole("heading", {
+        name: t["mock-interview.types.heading"],
+        level: 2,
+      }),
     ).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Coding" })).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: "System Design" }),
+      page.getByRole("heading", {
+        name: t["mock-interview.types.coding.title"],
+      }),
     ).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: "Behavioral" }),
+      page.getByRole("heading", {
+        name: t["mock-interview.types.system-design.title"],
+      }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", {
+        name: t["mock-interview.types.behavioral.title"],
+      }),
     ).toBeVisible();
   });
 
@@ -116,14 +166,19 @@ test.describe("Mock Interview page", () => {
     await page.goto("/mock-interview");
 
     await expect(
-      page.getByRole("heading", { name: "How It Works", level: 2 }),
+      page.getByRole("heading", {
+        name: t["mock-interview.process.heading"],
+        level: 2,
+      }),
     ).toBeVisible();
-    await expect(page.getByText("Book a 60-minute session")).toBeVisible();
     await expect(
-      page.getByText("Run a realistic interview simulation"),
+      page.getByText(t["mock-interview.process.step1"]),
     ).toBeVisible();
     await expect(
-      page.getByText("Receive detailed feedback + an action plan"),
+      page.getByText(t["mock-interview.process.step3"]),
+    ).toBeVisible();
+    await expect(
+      page.getByText(t["mock-interview.process.step4"]),
     ).toBeVisible();
   });
 
@@ -131,18 +186,25 @@ test.describe("Mock Interview page", () => {
     await page.goto("/mock-interview");
 
     await expect(
-      page.getByRole("heading", { name: "Pricing", level: 2 }),
+      page.getByRole("heading", {
+        name: t["mock-interview.pricing.heading"],
+        level: 2,
+      }),
     ).toBeVisible();
-    await expect(page.getByText("$100 per 60-minute session")).toBeVisible();
     await expect(
-      page.getByText(/PodCodar students receive a special discount/),
+      page.getByText(t["mock-interview.pricing.text"]),
+    ).toBeVisible();
+    await expect(
+      page.getByText(t["mock-interview.pricing.podcodar-note"]),
     ).toBeVisible();
   });
 
   test("has booking CTA with mailto link", async ({ page }) => {
     await page.goto("/mock-interview");
 
-    const bookButton = page.getByRole("link", { name: "Book a Session" });
+    const bookButton = page.getByRole("link", {
+      name: t["mock-interview.cta.book"],
+    });
     await expect(bookButton).toBeVisible();
     await expect(bookButton).toHaveAttribute(
       "href",
