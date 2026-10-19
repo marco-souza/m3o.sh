@@ -4,6 +4,8 @@ import BackButton from "@/components/BackButton.astro";
 import { getLangFromUrl, useTranslations } from "@/i18n/ui";
 import Layout from "@/layouts/Layout.astro";
 
+import stylesUrl from "../styles/markdown.css?url";
+
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
@@ -29,6 +31,8 @@ const formatedDate = date.toLocaleDateString("en-US", {
 
 const { Content } = await render(post);
 ---
+<link rel="preload" href={stylesUrl} as="style">
+<link rel="stylesheet" href={stylesUrl}>
 
 <Layout title={title} subtitle={description}>
   <div><BackButton text={t("blog.back")} /></div>
