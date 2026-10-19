@@ -1,6 +1,6 @@
 ---
-title: The best AI tools of September
-description: What are the best AI tools of this month?
+title: The best AI tools of September 2026
+description: What are the best AI tools of this month? Here is the definitive ranked list.
 author: marco.souza
 
 tags:
@@ -8,7 +8,7 @@ tags:
   - tools
 
 publishedAt: 2026-09-30
-updatedAt: 2026-09-30
+updatedAt: 2026-10-19
 ---
 
 It depends.
