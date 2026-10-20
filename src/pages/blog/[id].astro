@@ -1,10 +1,17 @@
 ---
-import { getEntry, render } from "astro:content";
+import { getCollection, getEntry, render } from "astro:content";
 import BackButton from "@/components/BackButton.astro";
 import { getLangFromUrl, useTranslations } from "@/i18n/ui";
 import Layout from "@/layouts/Layout.astro";
 
 import stylesUrl from "../styles/markdown.css?url";
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({ params: { id: post.id } }));
+}
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
