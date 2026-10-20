@@ -5,6 +5,34 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.13] — 2026-10-20
+
+### 🔎 Sitemap & content discovery
+
+- Add sitemap generation via `@astrojs/sitemap`, referenced from `robots.txt` and
+  the page `<head>`
+- Pass `BASE_URL` to the build in the infra pipeline — without it, the sitemap
+  integration was **silently skipped in CI**
+- Prerender blog posts so each post shows up in the sitemap and is served
+  from the asset cache instead of the Worker
+- Add RSS feed at `/rss.xml`
+
+### ✍️ Blog improvements
+
+- Add custom markdown styles for blog posts
+- New post: **Enjoyable things to build**
+- Fix typos across posts
+
+### ✨ Polish
+
+- Add view transitions (`ClientRouter`)
+- Bump Astro to 7.4.1 and related integrations
+
+## [0.0.12] — 2026-10-19
+
+- New post: **Deno is done**
+- Refresh encrypted environment secrets
+
 ## [0.0.11] — 2026-10-02
 
 - Update "Work with me" copy

@@ -40,11 +40,14 @@
   - [x] implement entry fetching logic
   - [x] implement page rendering
   - [x] add back button
-  - [ ] add metadata for post
-    - [ ] dates
-    - [ ] tags
-  - [ ] add metadata for author
-- [ ] clean up `console.log`
+  - [x] add metadata for post
+    - [x] dates
+    - [x] tags
+  - [x] add metadata for author
+- [x] clean up `console.log`
+- [ ] [ui] Recent posts or random
+- [ ] [ui] Post Tags search
+- [ ] [ui] custom 404 page
 
 ## Feature: App Center
 
@@ -69,9 +72,3 @@
   - [ ] svg cat walking on the page/screen
   - [ ] Interactions: play, pet, feed, trash poop, give food, give a name.
   - [ ] Cat Actions: walk, sleep, meow, scratch, eat, drink, poop, jump.
-
-## Next steps
-
-- [ ] [ui] custom 404 page
-- [ ] [ui] Recent posts or random
-- [ ] [ui] Post Tags search
