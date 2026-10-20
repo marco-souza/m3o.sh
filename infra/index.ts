@@ -17,6 +17,7 @@ const builder = new command.local.Command("m3o-builder", {
   update: workerBuilderCommand,
   environment: {
     NODE_ENV: "production",
+    BASE_URL: pulumi.interpolate`https://${config.domain}`,
     CONTACT_EMAIL: config.contactEmail,
     RESUME_URL: config.resumeUrl,
     PUBLIC_POSTHOG_HOST: config.posthog.host,
