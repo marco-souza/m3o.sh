@@ -29,11 +29,8 @@ export function discoverWorkerModules(serverDir: string): Array<{
     contentType: string;
   }> = [];
 
-  console.log({ serverDir });
-
   // The entry point is special - it's renamed to index.js
   const entryPath = path.join(serverDir, "entry.mjs");
-  console.log({ entryPath, exists: fs.existsSync(entryPath) });
   if (fs.existsSync(entryPath)) {
     modules.push({
       name: "index.js",
@@ -41,8 +38,6 @@ export function discoverWorkerModules(serverDir: string): Array<{
       contentType: "application/javascript+module",
     });
   }
-
-  console.log({ modules });
 
   // Discover other .mjs files in the server root (excluding entry.mjs)
   if (fs.existsSync(serverDir)) {
@@ -57,7 +52,6 @@ export function discoverWorkerModules(serverDir: string): Array<{
       }
     }
   }
-  console.log({ modules });
 
   // Discover all .mjs files in the chunks directory
   const chunksDir = path.join(serverDir, "chunks");
@@ -73,7 +67,6 @@ export function discoverWorkerModules(serverDir: string): Array<{
       }
     }
   }
-  console.log({ modules });
 
   return modules;
 }
