@@ -1,5 +1,6 @@
 import cloudflare from "@astrojs/cloudflare";
 import mdx from "@astrojs/mdx";
+import sitemap from "@astrojs/sitemap";
 import solid from "@astrojs/solid-js";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig, fontProviders } from "astro/config";
@@ -8,7 +9,8 @@ import { defineConfig, fontProviders } from "astro/config";
 export default defineConfig({
   output: "server",
   adapter: cloudflare(),
-  integrations: [mdx(), solid()],
+  site: process.env.BASE_URL,
+  integrations: [mdx(), solid(), sitemap()],
 
   fonts: [
     // monospace
