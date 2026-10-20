@@ -1,13 +1,21 @@
-h1,
-h2,
-h3 {
-  font-style: italic;
-
-  &:hover {
-    text-decoration: underline;
+#markdown-content {
+  ul {
+    list-style-type: disc;
+    padding-left: 2rem;
+    margin-bottom: 1rem;
   }
 
-  &::before {
-    content: "# ";
+  h1,
+  h2,
+  h3 {
+    font-style: italic;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &::before {
+      content: "# ";
+    }
   }
 }
