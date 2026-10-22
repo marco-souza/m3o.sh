@@ -1,0 +1,49 @@
+---
+import { getLangFromUrl, useTranslations } from "@/i18n/ui";
+import LabLayout from "@/layouts/LabLayout.astro";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+// const title = t()
+
+const feeds = ["hackernews"];
+
+// entities:
+// - feed (name, rss url)
+// - posts (title, description, url, tags, cover_img, source_id: feed)
+//
+// cron: fetch recent posts
+//
+//
+// Flow: add feed -> (cron) fetch feed posts -> fetch recent posts -> display
+---
+
+<LabLayout
+  title="Feed Reader"
+  subtitle="A terminal-based RSS feed reader built with Go."
+>
+  <div class="flex gap-4">
+    {feeds.map(f => (
+      <span class="badge rounded-full">{f}</span>
+    ))}
+    <span class="badge rounded-full">+</span>
+  </div>
+
+  <div class="card bg-base-100 image-full shadow-sm">
+    <figure>
+      <img
+        src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+        alt="Shoes" />
+    </figure>
+    <div class="card-body">
+      <h2 class="card-title">Card Title</h2>
+      <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
+
+      <div class="card-actions justify-end">
+        <div class="badge badge-outline">Fashion</div>
+        <div class="badge badge-outline">Products</div>
+      </div>
+    </div>
+  </div>
+</LabLayout>
