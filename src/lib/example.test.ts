@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 
-describe("test example", async () => {
+describe("test example", () => {
   test("2+2 = 4", () => {
     expect(2 + 2).toBe(4);
   });
