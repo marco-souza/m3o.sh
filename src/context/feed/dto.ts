@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "astro/zod";
 import { FeedSchema } from "./entity";
 
 export const CreateFeedReq = FeedSchema.omit({ id: true });
