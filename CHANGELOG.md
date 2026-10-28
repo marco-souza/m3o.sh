@@ -5,6 +5,31 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.14] — 2026-10-28
+
+### 🛠️ Backend & feed reader
+
+- Set up a Hono backend served through a custom Worker entrypoint, with `/api/v1/*`
+  and D1 (`DB`) bound in `wrangler.jsonc`
+- Add `feeds` table schema seeded with **m3o**, **HackerNews** and **Github Next**
+- Add feed routes (`GET`/`POST` feeds) plus a `/health` endpoint
+- Split feed business logic into `context/feed` (`dao`, `dto`, `entity`,
+  `exceptions`) so routes stay thin
+- Add cron triggers (`* * * * *`, `0 0 * * *`) with a midnight cleanup handler
+- Replace the feed-reader MDX page with an Astro page
+
+### 🔐 Site
+
+- Serve `/.well-known/atproto-did` and cover it with an e2e test
+
+### 🧰 Dependencies & tooling
+
+- Bump Astro to 7.4.2 and related integrations
+- Update Pulumi, Hono, Playwright, Biome, Wrangler, PostHog and Solid.js
+- Downgrade TypeScript to 6.x after 7.x broke the build
+- Import `zod` from `astro/zod` in the feed entity/DTO
+- Set up Node.js (`lts/*`) in the quality gateway workflow
+
 ## [0.0.13] — 2026-10-20
 
 ### 🔎 Sitemap & content discovery
