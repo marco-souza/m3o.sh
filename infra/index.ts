@@ -26,6 +26,27 @@ const builder = new command.local.Command("m3o-builder", {
   triggers: [gitCommitHash(process.env.FORCE === "true")],
 });
 
+const db = new cloudflare.D1Database(`m3o-database`, {
+  accountId: config.accountId,
+  name: `m3o-${config.environment}`,
+});
+
+const schemaFile = "./src/db/schema.sql";
+const migrationsCommand = pulumi.interpolate`bun run wrangler d1 execute ${db.name} --remote --file=${schemaFile}`;
+const runMigrations = new command.local.Command(
+  "m3o-run-migrations",
+  {
+    dir: absolutePath(".."),
+    create: migrationsCommand,
+    update: migrationsCommand,
+    environment: {
+      CLOUDFLARE_ACCOUNT_ID: config.accountId,
+    },
+    triggers: [schemaFile],
+  },
+  { dependsOn: [db] },
+);
+
 // worker setup
 const worker = new cloudflare.Worker(
   "m3o-worker",
@@ -57,6 +78,20 @@ const worker = new cloudflare.Worker(
   { dependsOn: [builder] },
 );
 
+// add cron trigger
+const cronTrigger = new cloudflare.WorkersCronTrigger(
+  `m3o-cron-trigger`,
+  {
+    accountId: config.accountId,
+    scriptName: worker.name,
+    schedules: [
+      // midnight clean up
+      { cron: "0 0 * * *" },
+    ],
+  },
+  { dependsOn: [worker] },
+);
+
 const workerVersion = new cloudflare.WorkerVersion(
   `m3o-worker-version`,
   {
@@ -84,6 +119,12 @@ const workerVersion = new cloudflare.WorkerVersion(
       {
         type: "assets",
         name: "ASSETS",
+      },
+
+      {
+        type: "d1",
+        name: "DB",
+        id: db.id,
       },
 
       {
@@ -121,7 +162,7 @@ const workerVersion = new cloudflare.WorkerVersion(
       discoverWorkerModules(absolutePath("../dist/server/")),
     ),
   },
-  { dependsOn: [worker] },
+  { dependsOn: [worker, db] },
 );
 
 const workerDeployment = new cloudflare.WorkersDeployment(
@@ -153,18 +194,24 @@ const customDomain = new cloudflare.WorkersCustomDomain(
 );
 
 type InfraOutput = {
-  id: pulumi.Output<string>;
-  name: pulumi.Output<string>;
-  versionId: pulumi.Output<string>;
-  deploymentId: pulumi.Output<string>;
+  domain: pulumi.Output<string>;
+  worker: pulumi.Output<string>;
+  workerVersion: pulumi.Output<string>;
+  database: pulumi.Output<string>;
+  cronTrigger: pulumi.Output<string>;
+  migrations: pulumi.Output<string>;
   emailRules: pulumi.Output<string>[];
 };
 
-export const output: InfraOutput = {
-  id: worker.id,
-  name: worker.name,
-  versionId: workerVersion.id,
-  deploymentId: workerDeployment.id,
+const output: InfraOutput = {
+  domain: pulumi.interpolate`https://${customDomain.hostname}`,
+  database: db.name,
+  migrations: runMigrations.stdout,
+
+  worker: worker.name,
+  workerVersion: workerVersion.id,
+
+  cronTrigger: cronTrigger.id,
   emailRules: [],
 };
 
@@ -205,5 +252,4 @@ if (config.emailCatchAll) {
 }
 
 // output
-
-export const domain = pulumi.interpolate`https://${customDomain.hostname}`;
+export default output;
